@@ -32,6 +32,10 @@
    - 프로젝트 시작 명령어: `npx expo start` / `npm start`
 
 ---
+## 스타일
+- styled-components, prop-types
+
+--
 
 ## 프론트엔드 팀원
 - 허윤수 [https://github.com/sugoring](https://github.com/sugoring)
