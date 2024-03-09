@@ -1,4 +1,4 @@
-## 리액트 네이티브 
+## [React-Native](https://reactnative.dev/docs/components-and-apis)
 - 하이브리드 앱에서 겪는 성능 문제를 최소화하기 위해 선택
 - 사용 기술: 자바스크립트, JSX(babel)
 
@@ -11,8 +11,7 @@
 
 ---
 
-## Expo 프로젝트 생성 및 실행 방법
-### [Expo 공식 홈페이지](https://expo.dev/)
+## [Expo](https://expo.dev/) 프로젝트 생성 및 실행 방법
 - 빠른 구현을 하고자 Expo를 선택함
 
 ### 설치 및 프로젝트 생성
