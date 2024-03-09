@@ -5,7 +5,7 @@
 - chore: 기타 작은 수정
 - ci: CI 설정 수정
 - docs: 문서 수정
-- tyle: 코드 스타일, 포맷 수정
+- style: 스타일 수정
 - refactor: 코드 리팩토링
 - test: 테스트 코드 수정
 - perf: 성능 개선
