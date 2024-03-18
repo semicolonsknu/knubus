@@ -15,7 +15,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Text>knubus</Text>
+        <Text>knubus test2</Text>
         <StatusBar style="auto" />
       </Container>
     </ThemeProvider>
