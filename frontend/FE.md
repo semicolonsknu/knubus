@@ -38,7 +38,7 @@
 - `Navbar.js`: 상단 네비게이션 바.
 - `Header.js` & `Footer.js`: 헤더 및 푸터.
 - `HomePage.js`: 메인 페이지, 현재 시각 표시.
-  - `Date.js`: 현재 날짜에 따른 휴일 여부를 표시. 이전 및 다음 날짜로 이동 가능.
+  - `DateComponent.js`: 현재 날짜에 따른 휴일 여부를 표시. 이전 및 다음 날짜로 이동 가능.
   - `Round.js`: 현재 회차와 해당 회차의 운행 시간표를 표시. 이전 및 다음 회차로 이동 가능.
 - `RoadMapPage.js`: 운행 노선도를 표시.
 - `TimeTablePage.js`: 운행 시간표를 표시.

@@ -4,7 +4,7 @@ KNUBusApp/
 │ │ ├─ Navbar.js
 │ │ ├─ Header.js
 │ │ ├─ Footer.js
-│ │ ├─ Date.js
+│ │ ├─ DateComponent.js
 │ │ └─ Round.js
 │ │
 │ ├─ pages/
