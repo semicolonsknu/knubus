@@ -1,42 +1,68 @@
-## [React-Native](https://reactnative.dev/docs/components-and-apis)
-- 하이브리드 앱에서 겪는 성능 문제를 최소화하기 위해 선택
-- 사용 기술: 자바스크립트, JSX(babel)
+# FE: KNUBus - 강원대학교 순환버스 정보 어플리케이션
 
-## 개발 환경 설정
-- **에디터(IDE, Code Editor):**
-  - VSCode
-- **필수 설치 소프트웨어:**
-  - Node.js(v16.16.0), npm (v9.6.7)
-  - Expo: iOS/Android 개발을 위함
+## 프로젝트 개요
+
+- 대상 사용자: 강원대학교 학생 및 교직원.
+- 프로젝트 목적: 순환버스 운행 정보의 접근성과 가시성 향상.
+- 기술 선택 이유: React Native를 사용하여 웹/iOS/Android 어떤 기기에서든 정보를 접할 수 있음.
+- 최종 배포 일정: 2024년 04월 01일. 이는 버스 운행 기간인 2024년 3월 4일부터 2024년 6월 24일에 맞춤.
+
+### 주요 기능
+
+- **날짜별 셔틀버스 운행 정보**: 사용자는 현재 날짜에 해당하는 순환버스 운행 정보를 확인할 수 있으며, 이전 및 다음 날짜를 변경하여 정보를 조회할 수 있습니다.
+- **현재 시각 기반 운행 상태 표시**: 현재 시각을 기준으로 셔틀버스의 운행 상태(운영 예정, 운영 중, 운영 종료)를 사용자에게 보여줍니다.
+- **휴일 및 회차별 운행 정보**: 휴일에는 안내 메시지를 표시하고, 휴일이 아닌 경우에는 현재 회차의 운행 시간표와 이전 및 다음 회차로의 이동 기능을 제공합니다.
+- **운행 노선도 및 시간표**: 운행 노선도와 운행 시간표를 확인할 수 있습니다.
 
 ---
 
-## [Expo](https://expo.dev/) 프로젝트 생성 및 실행 방법
-- 빠른 구현을 하고자 Expo를 선택함
+## 개발 환경 및 기술 스택
+
+### 개발 환경
+
+- **에디터(IDE):** Visual Studio Code
+- **Node.js:** v20.11.1 LTS
+- **npm:** v10.5.0
+- **Expo**
+
+### 기술 스택
+
+- **프론트엔드:**
+  - **React Native:** 자바스크립트 및 JSX.
+  - **React Hooks:** useState, useEffect, useCallback.
+  - **React Navigation:** 네비게이션 관리.
+  - **Redux:** 애플리케이션 상태 관리.
+
+### 프로젝트 구조
+
+- `Navbar.js`: 상단 네비게이션 바.
+- `Header.js` & `Footer.js`: 헤더 및 푸터.
+- `Home.js`: 메인 페이지, 현재 시각 표시.
+  - `Date.js`: 현재 날짜에 따른 휴일 여부를 표시. 이전 및 다음 날짜로 이동 가능.
+  - `Round.js`: 현재 회차와 해당 회차의 운행 시간표를 표시. 이전 및 다음 회차로 이동 가능.
+- `RoadMap.js`: 운행 노선도를 표시.
+- `TimeTable.js`: 운행 시간표를 표시.
+
+---
 
 ### 설치 및 프로젝트 생성
-1. **터미널에서 Expo CLI (6.3.10) 설치:**
-   - `npm install -g expo-cli`
-   - 설치 위치: 최상위 폴더 혹은 frontend 폴더
-2. **Expo 프로젝트 생성:**
-   - VS 터미널에서 실행
-   - 프로젝트 생성 명령어: `npx expo init “폴더명”`
-   - 작업 디렉토리: **knubus\frontend\project**
-   - 템플릿 사용: `npx create-expo-app --template`
+
+1. **Expo CLI 설치:**
+   - 터미널에서 `npm install -g expo-cli` 명령어로 Expo CLI 설치.
+2. **프로젝트 생성:**
+   - VSCode 터미널에서 `npx expo init KNUBusApp` 명령어로 Expo 프로젝트 생성.
 
 ### 프로젝트 실행
-1. **VS 터미널에서 프로젝트 실행:**
-   - Git에서 pull 한 후: `npx i` 혹은 `npm i`로 관련 모듈 재설치
-   - Expo 애플리케이션 실행: 플레이스토어에서 Expo 앱 다운로드
-   - 터미널에서 Expo 로그인
-   - 프로젝트 시작 명령어: `npx expo start` / `npm start`
+
+1. **모듈 설치:**
+   - 프로젝트 디렉토리에서 `npm install`을 실행하여 필요한 모듈 설치.
+2. **앱 실행:**
+   - `npm start` 혹은 `expo start` 명령어로 프로젝트 실행.
 
 ---
-## 스타일
-- styled-components, prop-types
-
---
 
 ## 프론트엔드 팀원
-- 허윤수 [https://github.com/sugoring](https://github.com/sugoring)
-- 최수영 [https://github.com/scove03](https://github.com/scove03)
+
+- **구희원:** UI/UX 디자인. [GitHub](https://github.com/HeHelee)
+- **최수영:** 컴포넌트 개발. [GitHub](https://github.com/scove03)
+- **허윤수:** 상태 관리 로직 설계. [GitHub](https://github.com/sugoring)

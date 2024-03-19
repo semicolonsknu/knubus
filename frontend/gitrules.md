@@ -1,14 +1,21 @@
 ## 커밋 타입
-- feat: 새 기능 추가
-- fix: 버그 수정
-- build: 빌드 파일, 모듈 설치/삭제
-- chore: 기타 작은 수정
-- ci: CI 설정 수정
-- docs: 문서 수정
-- style: 스타일 수정
-- refactor: 코드 리팩토링
-- test: 테스트 코드 수정
-- perf: 성능 개선
+
+### 기능 관련
+
+- build : 빌드에 관한 작업
+- **feat : 기능에 관한 작업**
+  - chore : 기타 수정
+- fix : 오류 및 버그 수정
+- refactor : 리팩토링
+  - form: 기능 변경 없는 경우 (세미콜론 추가, 정렬, 주석, 파일 이름 수정, 함수 이름 수)
+- ~~ci : CI (Continuous Integration) 설정 관련 작업~~
+  - ~~test : 테스트 코드 작성 및 관리~~
+
+### 문서 관련
+
+- docs : 문서화 작업 (README 파일)
+- remove: 파일 및 폴더 삭제 작업
+- **design: 사용자 UI 디자인 변경 (CSS 등)**
 
 ## 커밋 메시지 규칙
 
