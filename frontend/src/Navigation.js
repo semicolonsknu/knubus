@@ -26,6 +26,8 @@ const Navigation = () => {
             }
             return <Icon name={iconName} size={size} color={color} />
           },
+          headerShown: false,
+
           tabBarActiveTintColor: '#0047bb', // 메인 색상 for active icon
           tabBarInactiveTintColor: '#0f3c87', // 어두운 색상 for inactive icon
           tabBarLabelStyle: {
