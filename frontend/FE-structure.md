@@ -5,13 +5,12 @@ KNUBusApp/
 │ ├─ components/
 │ │ ├─ Header.js
 │ │ ├─ Footer.js
-│ │ ├─ DateComponent.js
 │ │ └─ Round.js
 │ │
 │ ├─ pages/
 │ │ ├─ HomeScreen.js
-│ │ ├─ RoadMapPage.js
-│ │ └─ TimeTablePage.js
+│ │ ├─ MapScreen.js
+│ │ └─ TimeScreen.js
 │ │
 │ └─ assets/
 │ └─ (images, icons, and other static resources)
