@@ -41,8 +41,8 @@
 
 ### 컴포넌트 내용
 
-- `App.js`: `Navigation.js`을 임포트함.
-- `Navigation.js`: react-navigation(tap screen)를 활용하여 애플리케이션 정의. (Header.js`, HomeScreen.js, MapScreen.js, TimeScreen.js)
+- `App.js`: Header.js`및`Navigation.js`을 임포트함.
+- `Navigation.js`: react-navigation(tap screen)를 활용하여 애플리케이션 정의. (HomeScreen.js, MapScreen.js, TimeScreen.js)
 - `Header.js` & `Footer.js`: 헤더 및 푸터.
 - `HomeScreen.js`: 메인 페이지, 현재 시각 표시.
   - `DateComponent.js`: 현재 날짜에 따른 휴일 여부를 표시. 이전 및 다음 날짜로 이동 가능.
