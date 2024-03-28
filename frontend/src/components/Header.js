@@ -1,47 +1,31 @@
 import React from 'react'
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 
-const Header = ({ onLogoPress, onMenuPress }) => {
+// 로고를 클릭하면 https://wwwk.kangwon.ac.kr/www/contents.do?key=2414& 링크가 인터넷 앱에서 열리도록 수정 @구희원
+// 로고 교체 @구희원
+const Header = () => {
   return (
-    <View style={styles.header}>
-      {/* 메뉴 아이콘 */}
-      <TouchableOpacity onPress={onMenuPress}>
-        <Image
-          source={require('../../assets/icon-menu.png')}
-          style={styles.menuIcon}
-        />
-      </TouchableOpacity>
-
-      {/* 로고 */}
-      <TouchableOpacity onPress={onLogoPress}>
-        <Image source={require('../../assets/Logo.png')} style={styles.logo} />
-      </TouchableOpacity>
-
-      {/* 우측 공간 비움 (레이아웃 조정을 위해) */}
-      <View style={styles.spacer} />
+    <View style={styles.headerContainer}>
+      <Image
+        source={require('../../assets/public/Logo.png')}
+        resizeMode="contain"
+        style={styles.logo}
+      />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
+  headerContainer: {
+    width: '100%',
+    height: 50,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
-  },
-  menuIcon: {
-    width: 30,
-    height: 30,
-    marginLeft: 10,
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   logo: {
-    flex: 1,
-    height: 50,
-    resizeMode: 'center',
-  },
-  spacer: {
-    width: 30, // 메뉴 아이콘과 동일한 크기로 우측에 공간을 만듭니다.
+    width: 100,
+    height: '100%',
   },
 })
 
