@@ -7,10 +7,8 @@ const { width, height } = Dimensions.get('window')
 
 const images = [
   {
-    // 이미지의 경로를 지정합니다. 로컬 이미지 대신 웹 이미지 URL도 사용할 수 있습니다.
     url: '',
     props: {
-      // 여기에 로컬 이미지를 require로 불러오세요
       source: require('../../assets/public/Map.png'),
     },
   },
