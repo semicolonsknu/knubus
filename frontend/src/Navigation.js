@@ -19,9 +19,9 @@ const Navigation = () => {
             let iconName
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline'
-            } else if (route.name === 'Map') {
+            } else if (route.name === '운행노선도') {
               iconName = focused ? 'map' : 'map-outline'
-            } else if (route.name === 'Time') {
+            } else if (route.name === '운행시간표') {
               iconName = focused ? 'time' : 'time-outline'
             }
             return <Icon name={iconName} size={size} color={color} />
@@ -41,8 +41,8 @@ const Navigation = () => {
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Map" component={MapScreen} />
-        <Tab.Screen name="Time" component={TimeScreen} />
+        <Tab.Screen name="운행노선도" component={MapScreen} />
+        <Tab.Screen name="운행시간표" component={TimeScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   )
