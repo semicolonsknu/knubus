@@ -17,8 +17,6 @@ const Navigation = () => {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
-
-            // Conditionally set the icon name based on the route and focus state
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline'
             } else if (route.name === 'Map') {
@@ -26,18 +24,17 @@ const Navigation = () => {
             } else if (route.name === 'Time') {
               iconName = focused ? 'time' : 'time-outline'
             }
-
-            // Return the icon component
             return <Icon name={iconName} size={size} color={color} />
           },
-          tabBarActiveTintColor: '#0000ff', // 메인 색상 for active icon
+          tabBarActiveTintColor: '#0047bb', // 메인 색상 for active icon
           tabBarInactiveTintColor: '#0f3c87', // 어두운 색상 for inactive icon
           tabBarLabelStyle: {
             marginBottom: 5,
           },
           tabBarStyle: {
             height: 65,
-            paddingVertical: 5,
+            paddingVertical: 10, // Increase padding for larger touch area
+            paddingBottom: 5,
           },
         })}
       >
