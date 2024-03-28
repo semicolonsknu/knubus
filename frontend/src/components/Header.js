@@ -1,77 +1,32 @@
-import React, {useState} from 'react'
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
-import Navbar from './Navbar'
+import React from 'react'
+import { View, Image, StyleSheet } from 'react-native'
 
-const HeaderComponent = () => {
- const [isNavbarVisible, setIsNavbarVisible] = useState(false);
- 
- const toggleNavbar = () => {
-  setIsNavbarVisible(!isNavbarVisible);
- }
-
+// 로고를 클릭하면 https://wwwk.kangwon.ac.kr/www/contents.do?key=2414& 링크가 인터넷 앱에서 열리도록 수정 @구희원
+// 로고 교체 @구희원
+const Header = () => {
   return (
-    <View style = {styles.container}>
-      <View style = {styles.header}>
-        <TouchableOpacity onPress={toggleNavbar}>
-          <Image
-            style = {styles.image}
-            source={require('../../assets/menu.png')}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.logoImage}
-            source={require('../../assets/Logo.png')}
-            resizeMode="contain"
-          />
-        </View>
-      </View>
-
-      {isNavbarVisible && (
-        <View style={styles.section}>
-          <Text>------------- Navbar 영역 -------------</Text>
-          <Navbar />
-        </View>
-      )}
+    <View style={styles.headerContainer}>
+      <Image
+        source={require('../../assets/public/Logo.png')}
+        resizeMode="contain"
+        style={styles.logo}
+      />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column', //세로로 배치
-    justifyContent: 'center',
-    marginTop: 20, // 필요에 따라 조정하세요
-  },
-  header: {
-    flexDirection: 'row', // 이미지를 가로로 나열
+  headerContainer: {
+    width: '100%',
+    height: 50,
     alignItems: 'center',
-    marginBottom: 10,
-    marginTop : 10, //헤더 영역과 이미지 간의 여백 설정
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
-  imagecontainer: {
-    flex : 1, //로고 이미지를 중앙에 배치하기 위해 flex 추가
-    justifyContent: 'center', //로고 이미지를 세로 중앙에 배치
-    marginHorizontal: 10,
-  },
-  image: {
-    width: 56,
-    height:56,
-  },
-  logoImage: {
+  logo: {
     width: 100,
-    height: 100,
-    alignSelf: 'center', //로고 이미지를 가로로 중앙에 배치
+    height: '100%',
   },
-  section: {
-    borderColor: 'red',
-    borderWidth: 5,
-    margin: 5,
-    padding: 5,
-    width: '90%',
-  },
+})
 
-});
-
-export default HeaderComponent;
+export default Header
