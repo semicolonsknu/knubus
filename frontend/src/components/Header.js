@@ -1,77 +1,48 @@
-import React, {useState} from 'react'
-import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
-import Navbar from './Navbar'
+import React from 'react'
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
 
-const HeaderComponent = () => {
- const [isNavbarVisible, setIsNavbarVisible] = useState(false);
- 
- const toggleNavbar = () => {
-  setIsNavbarVisible(!isNavbarVisible);
- }
-
+const Header = ({ onLogoPress, onMenuPress }) => {
   return (
-    <View style = {styles.container}>
-      <View style = {styles.header}>
-        <TouchableOpacity onPress={toggleNavbar}>
-          <Image
-            style = {styles.image}
-            source={require('../../assets/menu.png')}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.logoImage}
-            source={require('../../assets/Logo.png')}
-            resizeMode="contain"
-          />
-        </View>
-      </View>
+    <View style={styles.header}>
+      {/* 메뉴 아이콘 */}
+      <TouchableOpacity onPress={onMenuPress}>
+        <Image
+          source={require('../../assets/icon-menu.png')}
+          style={styles.menuIcon}
+        />
+      </TouchableOpacity>
 
-      {isNavbarVisible && (
-        <View style={styles.section}>
-          <Text>------------- Navbar 영역 -------------</Text>
-          <Navbar />
-        </View>
-      )}
+      {/* 로고 */}
+      <TouchableOpacity onPress={onLogoPress}>
+        <Image source={require('../../assets/Logo.png')} style={styles.logo} />
+      </TouchableOpacity>
+
+      {/* 우측 공간 비움 (레이아웃 조정을 위해) */}
+      <View style={styles.spacer} />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column', //세로로 배치
-    justifyContent: 'center',
-    marginTop: 20, // 필요에 따라 조정하세요
-  },
   header: {
-    flexDirection: 'row', // 이미지를 가로로 나열
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
-    marginTop : 10, //헤더 영역과 이미지 간의 여백 설정
+    justifyContent: 'space-between',
+    padding: 10,
   },
-  imagecontainer: {
-    flex : 1, //로고 이미지를 중앙에 배치하기 위해 flex 추가
-    justifyContent: 'center', //로고 이미지를 세로 중앙에 배치
-    marginHorizontal: 10,
+  menuIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 10,
   },
-  image: {
-    width: 56,
-    height:56,
+  logo: {
+    flex: 1,
+    height: 50,
+    resizeMode: 'center',
   },
-  logoImage: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center', //로고 이미지를 가로로 중앙에 배치
+  spacer: {
+    width: 30, // 메뉴 아이콘과 동일한 크기로 우측에 공간을 만듭니다.
   },
-  section: {
-    borderColor: 'red',
-    borderWidth: 5,
-    margin: 5,
-    padding: 5,
-    width: '90%',
-  },
+})
 
-});
-
-export default HeaderComponent;
+export default Header
