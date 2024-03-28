@@ -44,8 +44,8 @@
 - `App.js`: Header.js`및`Navigation.js`을 임포트함.
 - `Navigation.js`: react-navigation(tap screen)를 활용하여 애플리케이션 정의. (HomeScreen.js, MapScreen.js, TimeScreen.js)
 - `Header.js` & `Footer.js`: 헤더 및 푸터.
-- `HomeScreen.js`: 메인 페이지, 현재 시각 표시.
-  - `DateComponent.js`: 현재 날짜에 따른 휴일 여부를 표시. 이전 및 다음 날짜로 이동 가능.
+- `HomeScreen.js`: 메인 페이지, 현재 시각 표시. `Holiday.js`와 `Round.js`를 임포트하고, 상태를 넘겨줌.
+  - `Holiday.js`: 현재 날짜에 따른 휴일 여부를 표시. 이전 및 다음 날짜로 이동 가능.
   - `Round.js`: 현재 회차와 해당 회차의 운행 시간표를 표시. 이전 및 다음 회차로 이동 가능.
 - `MapScreen.js`: 전체 운행 노선도를 표시.
 - `TimeScreen.js`: 전체 운행 시간표를 표시.
