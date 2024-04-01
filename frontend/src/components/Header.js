@@ -12,7 +12,7 @@ const Header = () => {
     <View style={styles.headerContainer}>
       <TouchableOpacity onPress = {handleLogoPress}>
       <Image
-        source={require('../../assets/public/logo.png')}
+        source={require('../../assets/public/Logo.png')}
         resizeMode="contain"
         style={styles.logo}
       />
