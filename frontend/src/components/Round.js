@@ -1,89 +1,123 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Button, StyleSheet } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
+import scheduleData from '../data/schedule.json'
 
-// 1회차: 운영 예정[0:0 ~ 8:29] / 운영 중[8:30 ~ 8:53]
-// 2회차: 운영 예정[8:54 ~ 9:29] / 운영 중[9:30 ~ 9:53]
-// 3회차: 운영 예정[9:54 ~ 9:59] / 운영 중[10:00 ~ 10:23]
-// 4회차: 운영 예정[10:24 ~ 11:29] / 운영 중[11:30 ~ 11:53]
-// 5회차: 운영 예정[11:54] ~ [11:59] / 운영 중[12:00 ~ 12:23]
-// 6회차: 운영 예정[12:24 ~ 12:59] / 운영 중[13:00 ~ 13:23]
-// 7회차: 운영 예정[13:24 ~ 14:29] / 운영 중[14:30 ~ 14:53]
-// 8회차: 운영 예정[14:54 ~ 13:59] / 운영 중16:00 ~ 16:23]
-// 9회차: 운영 예정[14:24 ~ 16:29] / 운영 중[17:30 ~ 17:53]
-// 10회차: 운영 예정[17:54 ~ 17:59] / 운영 중[18:00 ~ 18:23]
-const roundTable = [
-  {
-    id: 1,
-    scheduledStart: '0:0',
-    scheduledEnd: '8:29',
-    operationStart: '8:30',
-    operationEnd: '8:53',
-  },
-  {
-    id: 2,
-    scheduledStart: '8:54',
-    scheduledEnd: '9:29',
-    operationStart: '9:30',
-    operationEnd: '9:53',
-  },
-]
+const Round = ({ isOperationDay }) => {
+  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentRoundIndex, setCurrentRoundIndex] = useState(0)
 
-const Round = ({ date }) => {
-  const [currentRound, setCurrentRound] = useState(null)
-  const [status, setStatus] = useState('')
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
 
-  const checkCurrentRound = () => {
-    const currentTime =
-      date.getHours() + ':' + date.getMinutes().toString().padStart(2, '0')
+    return () => clearInterval(timer)
+  }, [])
 
-    const foundRound = roundTable.find(
-      (round) =>
-        (currentTime >= round.scheduledStart &&
-          currentTime <= round.scheduledEnd) ||
-        (currentTime >= round.operationStart &&
-          currentTime <= round.operationEnd)
-    )
+  // Function to determine the index of the current round based on current time
+  const getCurrentRoundIndex = () => {
+    const currentHour = currentTime.getHours()
+    const currentMinute = currentTime.getMinutes()
 
-    if (foundRound) {
-      if (
-        currentTime >= foundRound.scheduledStart &&
-        currentTime <= foundRound.scheduledEnd
-      ) {
-        setStatus('운행 예정')
-      } else {
-        setStatus('운행 중')
+    for (let i = 0; i < scheduleData.schedule.length; i++) {
+      const { '운행 중': operationOngoing } = scheduleData.schedule[i]
+
+      if (operationOngoing) {
+        const [startHour, startMinute] = operationOngoing.start
+          .split(':')
+          .map(Number)
+        const [endHour, endMinute] = operationOngoing.end.split(':').map(Number)
+
+        if (
+          (currentHour > startHour ||
+            (currentHour === startHour && currentMinute >= startMinute)) &&
+          (currentHour < endHour ||
+            (currentHour === endHour && currentMinute <= endMinute))
+        ) {
+          return i
+        }
       }
-      setCurrentRound(foundRound.id)
-    } else {
-      setStatus('운행 정보 없음')
     }
+
+    return -1 // No round is currently active
   }
 
   useEffect(() => {
-    checkCurrentRound()
-  }, [date])
+    const roundIndex = getCurrentRoundIndex()
+    if (roundIndex !== -1) {
+      setCurrentRoundIndex(roundIndex)
+    }
+  }, [currentTime])
+
+  const handlePreviousRound = () => {
+    setCurrentRoundIndex((prevIndex) => Math.max(0, prevIndex - 1))
+  }
+
+  const handleNextRound = () => {
+    setCurrentRoundIndex((prevIndex) =>
+      Math.min(scheduleData.schedule.length - 1, prevIndex + 1)
+    )
+  }
+
+  const handleReturnToCurrentRound = () => {
+    const roundIndex = getCurrentRoundIndex()
+    if (roundIndex !== -1) {
+      setCurrentRoundIndex(roundIndex)
+    }
+  }
+
+  if (!isOperationDay) {
+    return (
+      <View>
+        <Image source={require('../../assets/public/Mascot.png')} />
+      </View>
+    )
+  }
+
+  const currentRound = scheduleData.schedule[currentRoundIndex]
+  const {
+    round,
+    '운행 예정': operationScheduled,
+    '운행 중': operationOngoing,
+    times,
+  } = currentRound
 
   return (
-    <View style={styles.container}>
-      {currentRound ? (
+    <View>
+      <Text>Current Round: {round}</Text>
+      {operationScheduled && (
         <Text>
-          {currentRound}회차: {status} [
-          {roundTable[currentRound - 1].scheduledStart} ~{' '}
-          {roundTable[currentRound - 1].scheduledEnd}] / 운행 중[
-          {roundTable[currentRound - 1].operationStart} ~{' '}
-          {roundTable[currentRound - 1].operationEnd}]
+          Operation Scheduled: {operationScheduled.start} -{' '}
+          {operationScheduled.end}
         </Text>
-      ) : (
-        <Text>{status}</Text>
       )}
+      {operationOngoing && (
+        <Text>
+          Operation Ongoing: {operationOngoing.start} - {operationOngoing.end}
+        </Text>
+      )}
+      {/* Display arrival times for each stop */}
+      {Object.entries(times).map(([stop, time]) => (
+        <Text key={stop}>
+          {stop}: {time}
+        </Text>
+      ))}
+      {/* Navigation buttons */}
+      <View>
+        <TouchableOpacity onPress={handlePreviousRound}>
+          <Text>Previous Round</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleNextRound}>
+          <Text>Next Round</Text>
+        </TouchableOpacity>
+        {currentRoundIndex !== getCurrentRoundIndex() && (
+          <TouchableOpacity onPress={handleReturnToCurrentRound}>
+            <Text>Return to Current Round</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: 10,
-  },
-})
 
 export default Round
