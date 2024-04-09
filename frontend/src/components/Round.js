@@ -3,12 +3,59 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import scheduleData from '../data/schedule.json'
 
 const Timeline = ({ roundData }) => {
+  // Helper function to determine if the stop time is in the past
+  const isPast = (stopTime) => {
+    const currentTime = new Date()
+    const [hours, minutes] = stopTime.split(':')
+    const stopDate = new Date(
+      currentTime.getFullYear(),
+      currentTime.getMonth(),
+      currentTime.getDate(),
+      hours,
+      minutes
+    )
+    return currentTime > stopDate
+  }
+
   return (
     <View style={styles.timelineContainer}>
       {roundData.map((stop, index) => (
         <View key={index} style={styles.stopContainer}>
-          <Text style={styles.stopTime}>{stop.time}</Text>
-          <Text style={styles.stopName}>{stop.name}</Text>
+          <View style={styles.lineAndCircle}>
+            {index !== 0 && (
+              <View
+                style={[
+                  styles.verticalLine,
+                  isPast(stop.time) ? styles.past : styles.future,
+                ]}
+              />
+            )}
+            <View
+              style={[
+                styles.circle,
+                isPast(stop.time) ? styles.past : styles.future,
+              ]}
+            />
+            {index !== roundData.length - 1 && (
+              <View
+                style={[
+                  styles.verticalLine,
+                  isPast(stop.time) ? styles.past : styles.future,
+                ]}
+              />
+            )}
+          </View>
+          <View style={styles.stopDetails}>
+            <Text
+              style={[
+                styles.stopTime,
+                isPast(stop.time) ? styles.pastText : styles.futureText,
+              ]}
+            >
+              {stop.time}
+            </Text>
+            <Text style={styles.stopName}>{stop.name}</Text>
+          </View>
         </View>
       ))}
     </View>
@@ -19,19 +66,11 @@ const Round = ({ isOperationDay }) => {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedIndex, setSelectedIndex] = useState(currentIndex)
-  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      // 현재 시간 업데이트
       setCurrentTime(new Date())
-
-      // 현재 시각과 비교한 인덱스 업데이트
-      let index = getCurrentIndex()
-      if (index === -1) index = 9
-      setCurrentIndex(index)
     }, 1000)
-
     return () => clearInterval(timer)
   }, [])
 
@@ -189,8 +228,27 @@ const styles = StyleSheet.create({
   stopContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
     marginBottom: 10,
+  },
+  lineAndCircle: {
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  verticalLine: {
+    width: 2,
+    backgroundColor: '#000',
+    flex: 1, // Take up available space
+  },
+  circle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#000',
+    marginBottom: 2, // Spacing between circle and line
+  },
+  stopDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   stopTime: {
     marginRight: 10,
@@ -199,6 +257,21 @@ const styles = StyleSheet.create({
   stopName: {
     fontSize: 16,
   },
+  past: {
+    backgroundColor: '#808080', // Gray for past times
+  },
+  future: {
+    backgroundColor: '#39FF14', // Fluorescent green for future times
+  },
+  pastText: {
+    color: '#808080', // Gray text for past times
+    fontWeight: 'bold',
+  },
+  futureText: {
+    color: '#39FF14', // Fluorescent green text for future times
+    fontWeight: 'bold',
+  },
+  // Include other existing styles here
 })
 
 export default Round
