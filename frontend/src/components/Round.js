@@ -3,10 +3,17 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import scheduleData from '../data/schedule.json'
 
 const Timeline = ({ roundData }) => {
-  // Helper function to determine if the stop time is in the past
+  const parseTime = (stopTime) => {
+    const [hours, minutes] = stopTime.split(':')
+    return {
+      hours: parseInt(hours),
+      minutes: parseInt(minutes),
+    }
+  }
+
   const isPast = (stopTime) => {
     const currentTime = new Date()
-    const [hours, minutes] = stopTime.split(':')
+    const { hours, minutes } = parseTime(stopTime)
     const stopDate = new Date(
       currentTime.getFullYear(),
       currentTime.getMonth(),
@@ -15,6 +22,34 @@ const Timeline = ({ roundData }) => {
       minutes
     )
     return currentTime > stopDate
+  }
+
+  const isCurrent = (stopTime, nextStopTime) => {
+    const currentTime = new Date()
+    const { hours, minutes } = parseTime(stopTime)
+    const stopDate = new Date(
+      currentTime.getFullYear(),
+      currentTime.getMonth(),
+      currentTime.getDate(),
+      hours,
+      minutes
+    )
+    if (!nextStopTime) {
+      // If there's no next stop time, revert to the original logic
+      const nextMinutes = new Date(stopDate.getTime() + 60000) // Adds 1 minute to stop time
+      return currentTime >= stopDate && currentTime < nextMinutes
+    } else {
+      const { hours: nextHours, minutes: nextMinutes } = parseTime(nextStopTime)
+      const nextStopDate = new Date(
+        currentTime.getFullYear(),
+        currentTime.getMonth(),
+        currentTime.getDate(),
+        nextHours,
+        nextMinutes
+      )
+      // Now checks if current time is before the next stop's time
+      return currentTime >= stopDate && currentTime < nextStopDate
+    }
   }
 
   return (
@@ -26,21 +61,33 @@ const Timeline = ({ roundData }) => {
               <View
                 style={[
                   styles.verticalLine,
-                  isPast(stop.time) ? styles.past : styles.future,
+                  isCurrent(stop.time, roundData[index + 1]?.time)
+                    ? styles.current
+                    : isPast(stop.time)
+                    ? styles.past
+                    : styles.future,
                 ]}
               />
             )}
             <View
               style={[
                 styles.circle,
-                isPast(stop.time) ? styles.past : styles.future,
+                isCurrent(stop.time, roundData[index + 1]?.time)
+                  ? styles.current
+                  : isPast(stop.time)
+                  ? styles.past
+                  : styles.future,
               ]}
             />
             {index !== roundData.length - 1 && (
               <View
                 style={[
                   styles.verticalLine,
-                  isPast(stop.time) ? styles.past : styles.future,
+                  isCurrent(stop.time, roundData[index + 1]?.time)
+                    ? styles.current
+                    : isPast(stop.time)
+                    ? styles.past
+                    : styles.future,
                 ]}
               />
             )}
@@ -49,7 +96,11 @@ const Timeline = ({ roundData }) => {
             <Text
               style={[
                 styles.stopTime,
-                isPast(stop.time) ? styles.pastText : styles.futureText,
+                isCurrent(stop.time, roundData[index + 1]?.time)
+                  ? styles.currentTime
+                  : isPast(stop.time)
+                  ? styles.pastText
+                  : styles.futureText,
               ]}
             >
               {stop.time}
@@ -90,13 +141,11 @@ const Round = ({ isOperationDay }) => {
     for (let i = 0; i < scheduleData.schedule.length; i++) {
       const tables = scheduleData.schedule[i].tables
 
-      const startHour = parseInt(tables['📍 운행예정'].split(':')[0])
-      const startMinute = parseInt(tables['📍 운행예정'].split(':')[1])
+      const startHour = parseInt(tables['운행예정'].split(':')[0])
+      const startMinute = parseInt(tables['운행예정'].split(':')[1])
 
-      const endHour = parseInt(tables['📍 운행종료(미래도서관)'].split(':')[0])
-      const endMinute = parseInt(
-        tables['📍 운행종료(미래도서관)'].split(':')[1]
-      )
+      const endHour = parseInt(tables['운행종료 [미래도서관]'].split(':')[0])
+      const endMinute = parseInt(tables['운행종료 [미래도서관]'].split(':')[1])
 
       if (
         (currentHour > startHour ||
