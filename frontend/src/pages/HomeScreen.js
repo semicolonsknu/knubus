@@ -37,19 +37,21 @@ const HomeScreen = () => {
     formatOperation(selectedDate)
   )
 
-  const goToPreviousDay = () => {
+  // 버튼 --------------------------------------------------------------
+
+  const goToPrevious = () => {
     let prevDay = new Date(selectedDate)
     prevDay.setDate(prevDay.getDate() - 1)
     setSelectedDate(prevDay)
   }
 
-  const goToNextDay = () => {
+  const goToNext = () => {
     let nextDay = new Date(selectedDate)
     nextDay.setDate(nextDay.getDate() + 1)
     setSelectedDate(nextDay)
   }
 
-  const goToToday = () => {
+  const goToNow = () => {
     setSelectedDate(new Date())
   }
 
@@ -62,15 +64,15 @@ const HomeScreen = () => {
         {isOperationDay ? '🚌 운행합니다. 🚌' : '운행하지 않습니다.'}
       </Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={goToPreviousDay}>
+        <TouchableOpacity style={styles.button} onPress={goToPrevious}>
           <Text style={styles.buttonText}>이전 날짜</Text>
         </TouchableOpacity>
         {formatDate(currentDate) !== formatDate(selectedDate) && (
-          <TouchableOpacity style={styles.buttonToToday} onPress={goToToday}>
+          <TouchableOpacity style={styles.buttonToToday} onPress={goToNow}>
             <Text style={styles.buttonText}>오늘 날짜로</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity style={styles.button} onPress={goToNextDay}>
+        <TouchableOpacity style={styles.button} onPress={goToNext}>
           <Text style={styles.buttonText}>다음 날짜</Text>
         </TouchableOpacity>
       </View>
@@ -90,17 +92,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#007AFF', // Apple blue color
   },
   operationText: {
     fontSize: 25,
     marginBottom: 20,
+    color: '#333333', // Default color
   },
   buttonContainer: {
     flexDirection: 'row',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#0047bb',
+    backgroundColor: '#007AFF', // Apple blue color
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 10,
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   buttonToToday: {
-    backgroundColor: '#0f3c87',
+    backgroundColor: '#007AFF', // Apple blue color
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 10,
@@ -126,14 +130,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   blueText: {
-    color: '#007BFF',
+    color: '#007AFF', // Apple blue color
   },
   redText: {
-    color: '#FF4136',
-  },
-  defaultText: {
-    color: '#333333',
+    color: '#FF3B30', // Apple red color
   },
 })
-
 export default HomeScreen
