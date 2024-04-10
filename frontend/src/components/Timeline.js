@@ -125,21 +125,20 @@ const styles = StyleSheet.create({
   stopContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
   },
   lineAndCircle: {
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: 12, // 여백 증가
   },
   verticalLine: {
-    width: 2,
-    backgroundColor: '#007AFF',
+    width: 3, // 선 두께 증가
+    backgroundColor: '#007AFF', // 기본 색상 유지
     flex: 1,
   },
   circle: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 12, // 원 크기 증가
+    height: 12, // 원 크기 증가
+    borderRadius: 6, // 반지름 조정
     backgroundColor: '#007AFF',
     marginBottom: 2,
   },
@@ -148,32 +147,36 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   stopTime: {
-    marginRight: 10,
-    fontWeight: 'bold',
+    marginTop: 15, // 여백 증가
+    marginBottom: 10, // 여백 증가
+    marginRight: 12, // 여백 증가
+    fontWeight: '500', // 굵기 조정
+    color: '#4A4A4A', // 색상 조정
   },
   stopName: {
     fontSize: 16,
+    color: '#333', // 색상 조정
   },
   past: {
-    backgroundColor: '#808080',
+    backgroundColor: '#CCCCCC', // 과거 색상 조정
   },
   future: {
-    backgroundColor: '#39FF14',
+    backgroundColor: '#4CAF50', // 미래 색상 조정
   },
   pastText: {
-    color: '#808080',
-    fontWeight: 'bold',
+    color: '#CCCCCC',
+    fontWeight: '500',
   },
   futureText: {
-    color: '#39FF14',
-    fontWeight: 'bold',
+    color: '#4CAF50',
+    fontWeight: '500',
   },
   current: {
-    backgroundColor: '#FFD700', // Gold color for current time
+    backgroundColor: '#FFCA28', // 현재 색상 조정
   },
   currentTime: {
-    color: '#FFD700', // Gold color for current time text
-    fontWeight: 'bold',
+    color: '#FFCA28',
+    fontWeight: '500',
   },
 })
 

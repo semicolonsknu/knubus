@@ -87,20 +87,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF', // 모던한 배경색으로 수정
+    backgroundColor: '#F5F5F5', // 부드러운 회색으로 모던한 배경
     paddingHorizontal: 20,
     paddingVertical: 40,
   },
   dateText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 22, // 조금 더 섬세한 크기 조정
+    fontWeight: '500', // 중간 굵기로 조정
     marginBottom: 20,
-    color: '#007AFF', // Apple blue color
+    color: '#333', // 모던한 다크 그레이
   },
   operationText: {
-    fontSize: 28,
+    fontSize: 24, // 크기 조정
     marginBottom: 20,
-    color: '#333333', // Default color
+    color: '#4A4A4A', // 조금 더 짙은 그레이
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -108,40 +108,42 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#007AFF', // Apple blue color
-    borderRadius: 8,
-    padding: 12,
+    backgroundColor: '#4A90E2', // 밝은 파란색으로 변경
+    borderRadius: 20, // 둥근 모서리 더욱 강조
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginHorizontal: 10,
-    elevation: 5,
+    elevation: 2, // 더 세밀한 그림자 효과
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   buttonToToday: {
-    backgroundColor: '#007AFF', // Apple blue color
-    borderRadius: 8,
-    padding: 12,
+    backgroundColor: '#50E3C2', // 모던한 민트색으로 변경
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginHorizontal: 10,
-    elevation: 5,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold', // 폰트 굵기 추가
+    fontSize: 16, // 적당한 크기 조정
+    fontWeight: 'bold',
   },
   blueText: {
-    color: '#007AFF', // Apple blue color
+    color: '#4A90E2',
   },
   redText: {
-    color: '#FF3B30', // Apple red color
+    color: '#FF2D55', // 더 선명한 빨간색으로 변경
   },
   defaultText: {
-    color: '#333333', // Default color
+    color: '#4A4A4A',
   },
   roundContainer: {
     flex: 1,

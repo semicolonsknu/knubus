@@ -115,43 +115,46 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FAFAFA', // 밝은 회색으로 배경색 변경
     padding: 20,
   },
   time: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: '#333333',
+    fontSize: 24, // 글자 크기 증가
+    marginBottom: 12, // 여백 조정
+    color: '#333333', // 강한 대비를 위한 색상 변경
   },
   heading: {
-    fontSize: 25,
-    marginBottom: 20,
-    fontWeight: 'bold',
-    color: '#007AFF',
+    fontSize: 28, // 제목 글자 크기 증가
+    marginBottom: 24, // 여백 증가
+    fontWeight: '600', // 중간 굵기로 변경
+    color: '#1B95E0', // 보다 밝은 파란색으로 변경
   },
   buttonContainer: {
     flexDirection: 'row',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    marginHorizontal: 10,
-    elevation: 5,
+    backgroundColor: '#1B95E0', // 버튼 색상 변경
+    borderRadius: 12, // 둥근 모서리 더 강조
+    paddingVertical: 10, // 패딩 조정
+    paddingHorizontal: 18, // 패딩 조정
+    marginHorizontal: 8, // 마진 조정
+    elevation: 3, // 그림자 효과 약간 감소
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2, // 그림자 불투명도 감소
+    shadowRadius: 2, // 그림자 반경 감소
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+    color: '#FFFFFF', // 버튼 내 텍스트 색상
+    fontSize: 18, // 글자 크기 증가
+    fontWeight: '500', // 중간 굵기로 변경
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 220, // 이미지 크기 조정
+    height: 220, // 이미지 크기 조정
+    borderRadius: 110, // 이미지 둥근 모서리 처리
+    overflow: 'hidden', // 이미지 둥근 처리에 맞게 조정
   },
 })
 
