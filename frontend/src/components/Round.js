@@ -47,8 +47,6 @@ const Round = ({ isOperationDay }) => {
     return -1
   }
 
-  // 버튼 --------------------------------------------------------------
-
   const goToPrevious = () => {
     setSelectedIndex((prevIndex) => Math.max(0, prevIndex - 1))
   }
@@ -62,8 +60,6 @@ const Round = ({ isOperationDay }) => {
   const goToNow = () => {
     setSelectedIndex(currentIndex)
   }
-
-  // 운행 안하면 --------------------------------------------------------------
 
   if (!isOperationDay) {
     return (
@@ -103,7 +99,6 @@ const Round = ({ isOperationDay }) => {
       </View>
 
       <View style={styles.container}>
-        {/* 다른 코드 생략 */}
         <Timeline
           roundData={Object.entries(tables).map(([name, time]) => ({
             name,
@@ -121,41 +116,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F5F5',
+    padding: 20,
   },
   time: {
     fontSize: 20,
     marginBottom: 10,
-    color: '#333333', // Default color
+    color: '#333333',
   },
   heading: {
     fontSize: 25,
     marginBottom: 20,
     fontWeight: 'bold',
-    color: '#007AFF', // Apple blue color
+    color: '#007AFF',
   },
   buttonContainer: {
     flexDirection: 'row',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#007AFF', // Apple blue color
-    borderRadius: 5,
-    padding: 10,
+    backgroundColor: '#007AFF',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     marginHorizontal: 10,
-    elevation: 3,
+    elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
-  },
-  text: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: '#333333', // Default color
   },
   image: {
     width: 200,

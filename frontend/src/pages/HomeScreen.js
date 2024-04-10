@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, Pressable, StyleSheet } from 'react-native'
 import operationDates from '../data/operation.json'
 import Round from '../components/Round'
 
 const HomeScreen = () => {
-  const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   const formatDate = (date) => {
@@ -64,19 +63,21 @@ const HomeScreen = () => {
         {isOperationDay ? '🚌 운행합니다. 🚌' : '운행하지 않습니다.'}
       </Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={goToPrevious}>
+        <Pressable style={styles.button} onPress={goToPrevious}>
           <Text style={styles.buttonText}>이전 날짜</Text>
-        </TouchableOpacity>
-        {formatDate(currentDate) !== formatDate(selectedDate) && (
-          <TouchableOpacity style={styles.buttonToToday} onPress={goToNow}>
+        </Pressable>
+        {formatDate(new Date()) !== formatDate(selectedDate) && (
+          <Pressable style={styles.buttonToToday} onPress={goToNow}>
             <Text style={styles.buttonText}>오늘 날짜로</Text>
-          </TouchableOpacity>
+          </Pressable>
         )}
-        <TouchableOpacity style={styles.button} onPress={goToNext}>
+        <Pressable style={styles.button} onPress={goToNext}>
           <Text style={styles.buttonText}>다음 날짜</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
-      <Round isOperationDay={isOperationDay} />
+      <View style={styles.roundContainer}>
+        <Round isOperationDay={isOperationDay} />
+      </View>
     </View>
   )
 }
@@ -86,48 +87,52 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFF', // 모던한 배경색으로 수정
+    paddingHorizontal: 20,
+    paddingVertical: 40,
   },
   dateText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#007AFF', // Apple blue color
   },
   operationText: {
-    fontSize: 25,
+    fontSize: 28,
     marginBottom: 20,
     color: '#333333', // Default color
   },
   buttonContainer: {
     flexDirection: 'row',
     marginBottom: 20,
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: '#007AFF', // Apple blue color
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 8,
+    padding: 12,
     marginHorizontal: 10,
-    elevation: 3,
+    elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   buttonToToday: {
     backgroundColor: '#007AFF', // Apple blue color
-    borderRadius: 5,
-    padding: 10,
+    borderRadius: 8,
+    padding: 12,
     marginHorizontal: 10,
-    elevation: 3,
+    elevation: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold', // 폰트 굵기 추가
   },
   blueText: {
     color: '#007AFF', // Apple blue color
@@ -135,5 +140,14 @@ const styles = StyleSheet.create({
   redText: {
     color: '#FF3B30', // Apple red color
   },
+  defaultText: {
+    color: '#333333', // Default color
+  },
+  roundContainer: {
+    flex: 1,
+    marginTop: 20,
+    width: '100%',
+  },
 })
+
 export default HomeScreen

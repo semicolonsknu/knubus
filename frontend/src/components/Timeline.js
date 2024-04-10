@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, StyleSheet } from 'react-native'
 
 const Timeline = ({ roundData }) => {
   const parseTime = (stopTime) => {
@@ -34,7 +34,6 @@ const Timeline = ({ roundData }) => {
       minutes
     )
     if (!nextStopTime) {
-      // If there's no next stop time, revert to the original logic
       const nextMinutes = new Date(stopDate.getTime() + 60000) // Adds 1 minute to stop time
       return currentTime >= stopDate && currentTime < nextMinutes
     } else {
@@ -46,20 +45,31 @@ const Timeline = ({ roundData }) => {
         nextHours,
         nextMinutes
       )
-      // Now checks if current time is before the next stop's time
       return currentTime >= stopDate && currentTime < nextStopDate
     }
   }
 
   return (
-    <View style={styles.timelineContainer}>
-      {roundData.map((stop, index) => (
-        <View key={index} style={styles.stopContainer}>
-          <View style={styles.lineAndCircle}>
-            {index !== 0 && (
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View style={styles.timelineContainer}>
+        {roundData.map((stop, index) => (
+          <View key={index} style={styles.stopContainer}>
+            <View style={styles.lineAndCircle}>
+              {index !== 0 && (
+                <View
+                  style={[
+                    styles.verticalLine,
+                    isCurrent(stop.time, roundData[index + 1]?.time)
+                      ? styles.current
+                      : isPast(stop.time)
+                      ? styles.past
+                      : styles.future,
+                  ]}
+                />
+              )}
               <View
                 style={[
-                  styles.verticalLine,
+                  styles.circle,
                   isCurrent(stop.time, roundData[index + 1]?.time)
                     ? styles.current
                     : isPast(stop.time)
@@ -67,58 +77,50 @@ const Timeline = ({ roundData }) => {
                     : styles.future,
                 ]}
               />
-            )}
-            <View
-              style={[
-                styles.circle,
-                isCurrent(stop.time, roundData[index + 1]?.time)
-                  ? styles.current
-                  : isPast(stop.time)
-                  ? styles.past
-                  : styles.future,
-              ]}
-            />
-            {index !== roundData.length - 1 && (
-              <View
+              {index !== roundData.length - 1 && (
+                <View
+                  style={[
+                    styles.verticalLine,
+                    isCurrent(stop.time, roundData[index + 1]?.time)
+                      ? styles.current
+                      : isPast(stop.time)
+                      ? styles.past
+                      : styles.future,
+                  ]}
+                />
+              )}
+            </View>
+            <View style={styles.stopDetails}>
+              <Text
                 style={[
-                  styles.verticalLine,
+                  styles.stopTime,
                   isCurrent(stop.time, roundData[index + 1]?.time)
-                    ? styles.current
+                    ? styles.currentTime
                     : isPast(stop.time)
-                    ? styles.past
-                    : styles.future,
+                    ? styles.pastText
+                    : styles.futureText,
                 ]}
-              />
-            )}
+              >
+                {stop.time}
+              </Text>
+              <Text style={styles.stopName}>{stop.name}</Text>
+            </View>
           </View>
-          <View style={styles.stopDetails}>
-            <Text
-              style={[
-                styles.stopTime,
-                isCurrent(stop.time, roundData[index + 1]?.time)
-                  ? styles.currentTime
-                  : isPast(stop.time)
-                  ? styles.pastText
-                  : styles.futureText,
-              ]}
-            >
-              {stop.time}
-            </Text>
-            <Text style={styles.stopName}>{stop.name}</Text>
-          </View>
-        </View>
-      ))}
-    </View>
+        ))}
+      </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    paddingHorizontal: 20,
+  },
   timelineContainer: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginTop: 20,
-    marginLeft: 20,
   },
   stopContainer: {
     flexDirection: 'row',
@@ -131,15 +133,15 @@ const styles = StyleSheet.create({
   },
   verticalLine: {
     width: 2,
-    backgroundColor: '#000',
-    flex: 1, // Take up available space
+    backgroundColor: '#007AFF',
+    flex: 1,
   },
   circle: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#000',
-    marginBottom: 2, // Spacing between circle and line
+    backgroundColor: '#007AFF',
+    marginBottom: 2,
   },
   stopDetails: {
     flexDirection: 'row',
@@ -153,17 +155,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   past: {
-    backgroundColor: '#808080', // Gray for past times
+    backgroundColor: '#808080',
   },
   future: {
-    backgroundColor: '#39FF14', // Fluorescent green for future times
+    backgroundColor: '#39FF14',
   },
   pastText: {
-    color: '#808080', // Gray text for past times
+    color: '#808080',
     fontWeight: 'bold',
   },
   futureText: {
-    color: '#39FF14', // Fluorescent green text for future times
+    color: '#39FF14',
+    fontWeight: 'bold',
+  },
+  current: {
+    backgroundColor: '#FFD700', // Gold color for current time
+  },
+  currentTime: {
+    color: '#FFD700', // Gold color for current time text
     fontWeight: 'bold',
   },
 })
