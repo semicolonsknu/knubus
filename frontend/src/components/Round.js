@@ -157,13 +157,20 @@ const Round = ({ isOperation }) => {
           </View>
           <View style={styles.circleContainer}>
             <View style={[styles.circle, { backgroundColor: '#FF5757' }]} />
-            <Text style={styles.circleText}>운행 중</Text>
+            <Text style={styles.circleText}>현재 운행</Text>
           </View>
           <View style={styles.circleContainer}>
             <View style={[styles.circle, { backgroundColor: '#38B6FF' }]} />
             <Text style={styles.circleText}>운행 예정</Text>
           </View>
         </View>
+
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>
+            실제 운행과 약간의 오차가 존재 할 수 있음
+          </Text>
+        </View>
+
         <Timeline
           roundData={Object.entries(tables).map(([name, time]) => ({
             name,
@@ -185,13 +192,13 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   timeText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '500',
-    marginBottom: 10,
+    marginBottom: 3,
     color: '#4A4A4A',
   },
   roundText: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: '700',
     marginBottom: 15,
     color: '#4A90E2',
@@ -237,8 +244,10 @@ const styles = StyleSheet.create({
 
   // 이미지 --------------------------------------------------------------
   image: {
-    width: 220,
-    overflow: 'hidden',
+    flex: 1,
+    resizeMode: 'contain',
+    width: '100%',
+    height: '100%',
   },
 
   // timelineContainer --------------------------------------------------------------
@@ -265,6 +274,20 @@ const styles = StyleSheet.create({
   },
   circleText: {
     marginLeft: 5,
+  },
+
+  // 안내 문구 --------------------------------------------------------------
+  infoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
+    padding: 7,
+    borderRadius: 5,
+    marginBottom: 5,
+  },
+  infoText: {
+    color: '#4A4A4A',
+    fontSize: 12,
   },
 })
 

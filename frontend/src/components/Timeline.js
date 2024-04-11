@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, ScrollView, StyleSheet, Animated } from 'react-native'
 
 const Timeline = ({ roundData }) => {
@@ -53,6 +53,42 @@ const Timeline = ({ roundData }) => {
   }
 
   // 깜빡임 효과 --------------------------------------------------------------
+  const [fadeAnim] = useState(new Animated.Value(0.3))
+
+  useEffect(() => {
+    let animation
+
+    const startAnimation = () => {
+      animation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.3,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+        ])
+      )
+      animation.start()
+    }
+
+    startAnimation()
+
+    const interval = setInterval(() => {
+      startAnimation()
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+      if (animation) {
+        animation.stop()
+      }
+    }
+  }, [fadeAnim])
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -62,11 +98,11 @@ const Timeline = ({ roundData }) => {
             <View style={styles.line}>
               {/* 1회차 ------------------------------------------------ */}
               {index !== 0 && (
-                <View
+                <Animated.View
                   style={[
                     styles.circleLine,
                     isCurrent(stop.time, roundData[index + 1]?.time)
-                      ? styles.current
+                      ? [styles.current, { opacity: fadeAnim }]
                       : isPast(stop.time)
                       ? styles.past
                       : styles.future,
@@ -75,11 +111,11 @@ const Timeline = ({ roundData }) => {
               )}
 
               {/* 중간 회차 ------------------------------------------------ */}
-              <View
+              <Animated.View
                 style={[
                   styles.circle,
                   isCurrent(stop.time, roundData[index + 1]?.time)
-                    ? styles.current
+                    ? [styles.current, { opacity: fadeAnim }]
                     : isPast(stop.time)
                     ? styles.past
                     : styles.future,
@@ -88,11 +124,11 @@ const Timeline = ({ roundData }) => {
 
               {/* 마지막 회차 ------------------------------------------------ */}
               {index !== roundData.length - 1 && (
-                <View
+                <Animated.View
                   style={[
                     styles.circleLine,
                     isCurrent(stop.time, roundData[index + 1]?.time)
-                      ? styles.current
+                      ? [styles.current, { opacity: fadeAnim }]
                       : isPast(stop.time)
                       ? styles.past
                       : styles.future,
@@ -103,6 +139,7 @@ const Timeline = ({ roundData }) => {
 
             <View style={styles.stopInfo}>
               {/* 정류장 정보 스타일 조정 ------------------------------------------------ */}
+
               <Text
                 style={[
                   styles.stopTime,
