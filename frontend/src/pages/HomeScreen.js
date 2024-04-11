@@ -1,5 +1,12 @@
-import React, { useState } from 'react'
-import { View, Text, Pressable, StyleSheet, Vibration } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Vibration,
+  Animated,
+} from 'react-native'
 import operation from '../data/operation.json'
 import Round from '../components/Round'
 
@@ -40,23 +47,54 @@ const HomeScreen = () => {
 
   // 버튼 --------------------------------------------------------------
   const goToPrevious = () => {
-    Vibration.vibrate(50)
+    Vibration.vibrate(100)
     let prevDay = new Date(selectedDate)
     prevDay.setDate(prevDay.getDate() - 1)
     setSelectedDate(prevDay)
   }
 
   const goToNext = () => {
-    Vibration.vibrate(50)
+    Vibration.vibrate(100)
     let nextDay = new Date(selectedDate)
     nextDay.setDate(nextDay.getDate() + 1)
     setSelectedDate(nextDay)
   }
 
   const goToNow = () => {
-    Vibration.vibrate(200)
+    Vibration.vibrate(300)
     setSelectedDate(new Date())
   }
+
+  // 깜빡임 효과 --------------------------------------------------------------
+  const [fadeAnim] = useState(new Animated.Value(0.5))
+
+  useEffect(() => {
+    let animation
+
+    if (new Date().toDateString() !== selectedDate.toDateString()) {
+      animation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.5,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ])
+      )
+      animation.start()
+    }
+
+    return () => {
+      if (animation) {
+        animation.stop()
+      }
+    }
+  }, [selectedDate, fadeAnim])
 
   return (
     <View style={styles.container}>
@@ -71,11 +109,15 @@ const HomeScreen = () => {
         <Pressable style={styles.button} onPress={goToPrevious}>
           <Text style={styles.buttonText}>이전 날짜</Text>
         </Pressable>
-        {formatDate(new Date()) !== formatDate(selectedDate) && (
-          <Pressable style={styles.buttonToToday} onPress={goToNow}>
-            <Text style={styles.buttonText}>오늘 날짜로</Text>
-          </Pressable>
+
+        {new Date().toDateString() !== selectedDate.toDateString() && (
+          <Animated.View style={[styles.buttonTo, { opacity: fadeAnim }]}>
+            <Pressable onPress={goToNow}>
+              <Text style={styles.buttonText}>오늘 날짜로</Text>
+            </Pressable>
+          </Animated.View>
         )}
+
         <Pressable style={styles.button} onPress={goToNext}>
           <Text style={styles.buttonText}>다음 날짜</Text>
         </Pressable>
@@ -130,7 +172,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
   },
-  buttonToToday: {
+  buttonTo: {
     backgroundColor: '#50E3C2',
     borderRadius: 20,
     paddingVertical: 10,

@@ -3,9 +3,10 @@ import {
   View,
   Text,
   Pressable,
+  StyleSheet,
   Image,
   Vibration,
-  StyleSheet,
+  Animated,
 } from 'react-native'
 import scheduleData from '../data/schedule.json'
 import Timeline from './Timeline'
@@ -77,6 +78,37 @@ const Round = ({ isOperation }) => {
     setSelectedIndex(currentIndex)
   }
 
+  // 깜빡임 효과 --------------------------------------------------------------
+  const [fadeAnim] = useState(new Animated.Value(0.5))
+
+  useEffect(() => {
+    let animation
+
+    if (selectedIndex !== currentIndex) {
+      animation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.5,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ])
+      )
+      animation.start()
+    }
+
+    return () => {
+      if (animation) {
+        animation.stop()
+      }
+    }
+  }, [selectedIndex, fadeAnim])
+
   // !isOperation --------------------------------------------------------------
   if (!isOperation) {
     return (
@@ -104,9 +136,11 @@ const Round = ({ isOperation }) => {
           </Pressable>
         )}
         {selectedIndex !== currentIndex && (
-          <Pressable onPress={goToNow} style={styles.buttonTo}>
-            <Text style={styles.buttonText}>현재 회차로</Text>
-          </Pressable>
+          <Animated.View style={[styles.buttonTo, { opacity: fadeAnim }]}>
+            <Pressable onPress={goToNow}>
+              <Text style={styles.buttonText}>현재 회차로</Text>
+            </Pressable>
+          </Animated.View>
         )}
         {selectedIndex < scheduleData.schedule.length - 1 && (
           <Pressable onPress={goToNext} style={styles.button}>
