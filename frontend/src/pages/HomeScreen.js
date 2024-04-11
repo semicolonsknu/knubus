@@ -96,14 +96,63 @@ const HomeScreen = () => {
     }
   }, [selectedDate, fadeAnim])
 
+  // 휴일 정보 --------------------------------------------------------------
+  const [holidays, setHolidays] = useState([])
+  const [dateName, setDateName] = useState('')
+  const [isHoliday, setIsHoliday] = useState('')
+
+  const formatHoliday = (date) => {
+    const year = date.getFullYear()
+    const month = `0${date.getMonth() + 1}`.slice(-2)
+    return { year, month }
+  }
+
+  useEffect(() => {
+    const fetchHolidays = async () => {
+      const { year, month } = formatHoliday(selectedDate)
+      const serviceKey =
+        'ZvYPMHcdP5th36amVoHJGtlGw7hwp%2B8HPSBiZJRe2OzO0t6Bh3iqj5UE15%2Fn5LBpkYYILdb3XQ4ElOFgMWha6A%3D%3D'
+      try {
+        const response = await fetch(
+          `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
+        )
+        const data = await response.json()
+
+        const items = data.response.body.items?.item
+        setHolidays(Array.isArray(items) ? items : items ? [items] : [])
+      } catch (error) {
+        console.error('Failed to fetch holidays', error)
+      }
+    }
+
+    fetchHolidays()
+  }, [selectedDate])
+
+  useEffect(() => {
+    const checkHoliday = () => {
+      const formatDate = selectedDate
+        .toISOString()
+        .split('T')[0]
+        .replace(/-/g, '')
+
+      const holiday = holidays.find((holiday) => holiday.locdate == formatDate)
+      setDateName(holiday ? holiday.dateName : '')
+      setIsHoliday(holiday ? holiday.isHoliday : '')
+    }
+
+    checkHoliday()
+  }, [selectedDate, holidays])
+
   return (
     <View style={styles.container}>
       <Text style={[styles.dateText, textColor()]}>
         {formatDate(selectedDate)}
       </Text>
-      <Text style={[styles.operationText, !isOperation && styles.grayText]}>
-        {isOperation ? '🚌 운행 🚌' : '🛌 휴일 🛌'}
-      </Text>
+      {dateName ? (
+        <Text>Today is a holiday: {dateName}</Text>
+      ) : (
+        <Text>Today is not a holiday.</Text>
+      )}
 
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={goToPrevious}>
