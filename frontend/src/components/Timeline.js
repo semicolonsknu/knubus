@@ -1,15 +1,17 @@
 import React from 'react'
-import { View, Text, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Animated } from 'react-native'
 
 const Timeline = ({ roundData }) => {
+  // 시간 파싱 --------------------------------------------------------------
   const parseTime = (stopTime) => {
     const [hours, minutes] = stopTime.split(':')
     return {
-      hours: parseInt(hours),
-      minutes: parseInt(minutes),
+      hours: parseInt(hours, 10),
+      minutes: parseInt(minutes, 10),
     }
   }
 
+  // 과거 여부 확인 --------------------------------------------------------------
   const isPast = (stopTime) => {
     const currentTime = new Date()
     const { hours, minutes } = parseTime(stopTime)
@@ -23,7 +25,8 @@ const Timeline = ({ roundData }) => {
     return currentTime > stopDate
   }
 
-  const isCurrent = (stopTime, nextStopTime) => {
+  // 현재 여부 확인 --------------------------------------------------------------
+  const isCurrent = (stopTime, nextTime) => {
     const currentTime = new Date()
     const { hours, minutes } = parseTime(stopTime)
     const stopDate = new Date(
@@ -33,11 +36,11 @@ const Timeline = ({ roundData }) => {
       hours,
       minutes
     )
-    if (!nextStopTime) {
-      const nextMinutes = new Date(stopDate.getTime() + 60000) // Adds 1 minute to stop time
+    if (!nextTime) {
+      const nextMinutes = new Date(stopDate.getTime() + 60000)
       return currentTime >= stopDate && currentTime < nextMinutes
     } else {
-      const { hours: nextHours, minutes: nextMinutes } = parseTime(nextStopTime)
+      const { hours: nextHours, minutes: nextMinutes } = parseTime(nextTime)
       const nextStopDate = new Date(
         currentTime.getFullYear(),
         currentTime.getMonth(),
@@ -49,16 +52,19 @@ const Timeline = ({ roundData }) => {
     }
   }
 
+  // 깜빡임 효과 --------------------------------------------------------------
+
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <View style={styles.timelineContainer}>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <View style={styles.container}>
         {roundData.map((stop, index) => (
           <View key={index} style={styles.stopContainer}>
-            <View style={styles.lineAndCircle}>
+            <View style={styles.line}>
+              {/* 1회차 ------------------------------------------------ */}
               {index !== 0 && (
                 <View
                   style={[
-                    styles.verticalLine,
+                    styles.circleLine,
                     isCurrent(stop.time, roundData[index + 1]?.time)
                       ? styles.current
                       : isPast(stop.time)
@@ -67,6 +73,8 @@ const Timeline = ({ roundData }) => {
                   ]}
                 />
               )}
+
+              {/* 중간 회차 ------------------------------------------------ */}
               <View
                 style={[
                   styles.circle,
@@ -77,10 +85,12 @@ const Timeline = ({ roundData }) => {
                     : styles.future,
                 ]}
               />
+
+              {/* 마지막 회차 ------------------------------------------------ */}
               {index !== roundData.length - 1 && (
                 <View
                   style={[
-                    styles.verticalLine,
+                    styles.circleLine,
                     isCurrent(stop.time, roundData[index + 1]?.time)
                       ? styles.current
                       : isPast(stop.time)
@@ -90,7 +100,9 @@ const Timeline = ({ roundData }) => {
                 />
               )}
             </View>
-            <View style={styles.stopDetails}>
+
+            <View style={styles.stopInfo}>
+              {/* 정류장 정보 스타일 조정 ------------------------------------------------ */}
               <Text
                 style={[
                   styles.stopTime,
@@ -113,70 +125,74 @@ const Timeline = ({ roundData }) => {
 }
 
 const styles = StyleSheet.create({
-  scrollViewContent: {
-    paddingHorizontal: 20,
+  // 컨테이너 --------------------------------------------------------------
+  scrollViewContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  timelineContainer: {
+  container: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginTop: 20,
+    marginTop: 24,
   },
+
+  // stop 컨테이너 --------------------------------------------------------------
   stopContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  lineAndCircle: {
+  line: {
     alignItems: 'center',
-    marginRight: 12, // 여백 증가
+    marginRight: 16,
   },
-  verticalLine: {
-    width: 3, // 선 두께 증가
-    backgroundColor: '#007AFF', // 기본 색상 유지
+  circleLine: {
+    width: 3,
     flex: 1,
   },
   circle: {
-    width: 12, // 원 크기 증가
-    height: 12, // 원 크기 증가
-    borderRadius: 6, // 반지름 조정
-    backgroundColor: '#007AFF',
-    marginBottom: 2,
+    width: 12,
+    height: 14,
+    borderRadius: 10,
   },
-  stopDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
+
+  stopInfo: {
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   stopTime: {
-    marginTop: 15, // 여백 증가
-    marginBottom: 10, // 여백 증가
-    marginRight: 12, // 여백 증가
-    fontWeight: '500', // 굵기 조정
-    color: '#4A4A4A', // 색상 조정
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 2,
   },
   stopName: {
     fontSize: 16,
-    color: '#333', // 색상 조정
+    fontWeight: 'normal',
+    color: '#4A4A4A',
+    marginBottom: 15,
   },
+
+  // 색상 --------------------------------------------------------------
   past: {
-    backgroundColor: '#CCCCCC', // 과거 색상 조정
-  },
-  future: {
-    backgroundColor: '#4CAF50', // 미래 색상 조정
-  },
-  pastText: {
-    color: '#CCCCCC',
-    fontWeight: '500',
-  },
-  futureText: {
-    color: '#4CAF50',
-    fontWeight: '500',
+    backgroundColor: '#B0BEC5',
   },
   current: {
-    backgroundColor: '#FFCA28', // 현재 색상 조정
+    backgroundColor: '#FF5757',
+  },
+  future: {
+    backgroundColor: '#38B6FF',
+  },
+  pastText: {
+    color: '#B0BEC5',
+    fontWeight: 'bold',
   },
   currentTime: {
-    color: '#FFCA28',
-    fontWeight: '500',
+    color: '#FF5757',
+    fontWeight: 'bold',
+  },
+  futureText: {
+    color: '#38B6FF',
+    fontWeight: 'bold',
   },
 })
 

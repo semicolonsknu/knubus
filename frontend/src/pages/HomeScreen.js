@@ -1,11 +1,24 @@
 import React, { useState } from 'react'
-import { View, Text, Pressable, StyleSheet } from 'react-native'
-import operationDates from '../data/operation.json'
+import { View, Text, Pressable, StyleSheet, Vibration } from 'react-native'
+import operation from '../data/operation.json'
 import Round from '../components/Round'
 
 const HomeScreen = () => {
+  // 선택한 날짜를 관리 --------------------------------------------------------------
   const [selectedDate, setSelectedDate] = useState(new Date())
 
+  const formatOperation = (date) => {
+    const year = date.getFullYear()
+    const month = `0${date.getMonth() + 1}`.slice(-2)
+    const day = `0${date.getDate()}`.slice(-2)
+    return `${year}-${month}-${day}`
+  }
+
+  const isOperation = operation.operations.includes(
+    formatOperation(selectedDate)
+  )
+
+  // 요일 계산 --------------------------------------------------------------
   const formatDate = (date) => {
     const weekDays = ['일', '월', '화', '수', '목', '금', '토']
     const year = date.getFullYear()
@@ -16,7 +29,7 @@ const HomeScreen = () => {
     return `${year}년 ${month}월 ${day}일 (${weekDay})`
   }
 
-  const dateTextColor = () => {
+  const textColor = () => {
     const weekDay = selectedDate.getDay()
     return weekDay === 6
       ? styles.blueText
@@ -25,43 +38,35 @@ const HomeScreen = () => {
       : styles.defaultText
   }
 
-  const formatOperation = (date) => {
-    const year = date.getFullYear()
-    const month = `0${date.getMonth() + 1}`.slice(-2)
-    const day = `0${date.getDate()}`.slice(-2)
-    return `${year}-${month}-${day}`
-  }
-
-  const isOperationDay = operationDates.operations.includes(
-    formatOperation(selectedDate)
-  )
-
   // 버튼 --------------------------------------------------------------
-
   const goToPrevious = () => {
+    Vibration.vibrate(50)
     let prevDay = new Date(selectedDate)
     prevDay.setDate(prevDay.getDate() - 1)
     setSelectedDate(prevDay)
   }
 
   const goToNext = () => {
+    Vibration.vibrate(50)
     let nextDay = new Date(selectedDate)
     nextDay.setDate(nextDay.getDate() + 1)
     setSelectedDate(nextDay)
   }
 
   const goToNow = () => {
+    Vibration.vibrate(200)
     setSelectedDate(new Date())
   }
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.dateText, dateTextColor()]}>
+      <Text style={[styles.dateText, textColor()]}>
         {formatDate(selectedDate)}
       </Text>
-      <Text style={styles.operationText}>
-        {isOperationDay ? '🚌 운행합니다. 🚌' : '운행하지 않습니다.'}
+      <Text style={[styles.operationText, !isOperation && styles.grayText]}>
+        {isOperation ? '🚌 운행 🚌' : '🛌 휴일 🛌'}
       </Text>
+
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={goToPrevious}>
           <Text style={styles.buttonText}>이전 날짜</Text>
@@ -76,55 +81,62 @@ const HomeScreen = () => {
         </Pressable>
       </View>
       <View style={styles.roundContainer}>
-        <Round isOperationDay={isOperationDay} />
+        <Round isOperation={isOperation} />
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  // 컨테이너 --------------------------------------------------------------
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F5F5F5', // 부드러운 회색으로 모던한 배경
-    paddingHorizontal: 20,
-    paddingVertical: 40,
+    backgroundColor: '#F5F5F5',
+    paddingHorizontal: 30,
+    paddingVertical: 20,
+    color: '#4A4A4A',
   },
   dateText: {
-    fontSize: 22, // 조금 더 섬세한 크기 조정
-    fontWeight: '500', // 중간 굵기로 조정
-    marginBottom: 20,
-    color: '#333', // 모던한 다크 그레이
+    fontSize: 20,
+    fontWeight: '500',
+    marginBottom: 10,
+    color: '#4A4A4A',
   },
   operationText: {
-    fontSize: 24, // 크기 조정
-    marginBottom: 20,
-    color: '#4A4A4A', // 조금 더 짙은 그레이
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 15,
+    color: '#4A4A4A',
   },
+
+  // 버튼 --------------------------------------------------------------
   buttonContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 10,
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#4A90E2', // 밝은 파란색으로 변경
-    borderRadius: 20, // 둥근 모서리 더욱 강조
+    backgroundColor: '#4A90E2',
+    borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginHorizontal: 10,
-    elevation: 2, // 더 세밀한 그림자 효과
+    marginLeft: 5,
+    marginRight: 5,
+    elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
   },
   buttonToToday: {
-    backgroundColor: '#50E3C2', // 모던한 민트색으로 변경
+    backgroundColor: '#50E3C2',
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginHorizontal: 10,
+    marginLeft: 5,
+    marginRight: 5,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -133,21 +145,28 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16, // 적당한 크기 조정
+    fontSize: 16,
     fontWeight: 'bold',
   },
+
+  // 색상 --------------------------------------------------------------
   blueText: {
     color: '#4A90E2',
   },
   redText: {
-    color: '#FF2D55', // 더 선명한 빨간색으로 변경
+    color: '#FF2D55',
+  },
+  grayText: {
+    color: '#808080',
   },
   defaultText: {
     color: '#4A4A4A',
   },
+
+  // roundContainer --------------------------------------------------------------
   roundContainer: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
     width: '100%',
   },
 })
