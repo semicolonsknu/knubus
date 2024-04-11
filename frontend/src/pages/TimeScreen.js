@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 
@@ -30,8 +31,10 @@ export default class TimeScreen extends Component {
   render() {
     const { tableHead, tableTitle, tableData, widthArr } = this.state;
     return (
+
       <View style={styles.container}>
          <Text style={styles.header}>{'<운행 시간표>'}</Text>
+
       <ScrollView horizontal={true} contentContainerStyle={{ justifyContent: 'center' }}>
         <View style={styles.container}>
           <Table borderStyle={{ borderWidth: 1 }}>
@@ -42,7 +45,9 @@ export default class TimeScreen extends Component {
                   key={index}
                   data={[tableTitle[index], ...rowData]}
                   widthArr={widthArr}
+
                   style={[styles.row, { backgroundColor: index % 2 ? '#CEECF5' : 'transparent' }]}
+
                   textStyle={styles.text}
                 />
               ))
@@ -51,6 +56,7 @@ export default class TimeScreen extends Component {
         </View>
       </ScrollView>
       </View>
+
     );
   }
 }
@@ -59,6 +65,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff', justifyContent: 'center' },//표 배경색, 위치 지정
   header: { textAlign: 'center', fontSize: 20, marginTop: 30 },
   head: { height: 40, backgroundColor: '#58D3F7' }, //헤드의 칸의 세로크기 및 배경색
+
   row: { height: 40 }, //칸의 세로 크기
   text: { textAlign: 'center', fontSize: 16 } //폰트 사이즈와 위치 지정
 });
