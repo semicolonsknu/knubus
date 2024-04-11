@@ -159,7 +159,7 @@ const HomeScreen = () => {
     return `${year}년 ${month}월 ${day}일 (${weekDay})`
   }
 
-  const textColor = () => {
+  const dateColor = () => {
     const weekDay = selectedDate.getDay()
     return weekDay === 6
       ? styles.blueText
@@ -168,9 +168,14 @@ const HomeScreen = () => {
       : styles.defaultText
   }
 
+  const textColor = () => {
+    const weekDay = selectedDate.getDay()
+    return isHoliday == 'Y' ? styles.redText : styles.defaultText
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={[styles.dateText, textColor()]}>
+      <Text style={[styles.dateText, dateColor()]}>
         {formatDate(selectedDate)}
       </Text>
       {dateName ? (

@@ -53,7 +53,7 @@ const Timeline = ({ roundData }) => {
   }
 
   // 깜빡임 효과 --------------------------------------------------------------
-  const [fadeAnim] = useState(new Animated.Value(0.3))
+  const [fadeAnim] = useState(new Animated.Value(0.2))
 
   useEffect(() => {
     let animation
@@ -67,7 +67,7 @@ const Timeline = ({ roundData }) => {
             useNativeDriver: true,
           }),
           Animated.timing(fadeAnim, {
-            toValue: 0.3,
+            toValue: 0.2,
             duration: 500,
             useNativeDriver: true,
           }),
@@ -90,27 +90,14 @@ const Timeline = ({ roundData }) => {
     }
   }, [fadeAnim])
 
+  // 움직임 효과 --------------------------------------------------------------
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
         {roundData.map((stop, index) => (
           <View key={index} style={styles.stopContainer}>
             <View style={styles.line}>
-              {/* 1회차 ------------------------------------------------ */}
-              {index !== 0 && (
-                <Animated.View
-                  style={[
-                    styles.circleLine,
-                    isCurrent(stop.time, roundData[index + 1]?.time)
-                      ? [styles.current, { opacity: fadeAnim }]
-                      : isPast(stop.time)
-                      ? styles.past
-                      : styles.future,
-                  ]}
-                />
-              )}
-
-              {/* 중간 회차 ------------------------------------------------ */}
               <Animated.View
                 style={[
                   styles.circle,
@@ -122,8 +109,9 @@ const Timeline = ({ roundData }) => {
                 ]}
               />
 
-              {/* 마지막 회차 ------------------------------------------------ */}
-              {index !== roundData.length - 1 && (
+              {index == roundData.length - 1 ? (
+                <Animated.View style={[styles.circleLine]} />
+              ) : (
                 <Animated.View
                   style={[
                     styles.circleLine,
@@ -138,8 +126,6 @@ const Timeline = ({ roundData }) => {
             </View>
 
             <View style={styles.stopInfo}>
-              {/* 정류장 정보 스타일 조정 ------------------------------------------------ */}
-
               <Text
                 style={[
                   styles.stopTime,
