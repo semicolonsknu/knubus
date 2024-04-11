@@ -25,26 +25,6 @@ const HomeScreen = () => {
     formatOperation(selectedDate)
   )
 
-  // 요일 계산 --------------------------------------------------------------
-  const formatDate = (date) => {
-    const weekDays = ['일', '월', '화', '수', '목', '금', '토']
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    const weekDay = weekDays[date.getDay()]
-
-    return `${year}년 ${month}월 ${day}일 (${weekDay})`
-  }
-
-  const textColor = () => {
-    const weekDay = selectedDate.getDay()
-    return weekDay === 6
-      ? styles.blueText
-      : weekDay === 0
-      ? styles.redText
-      : styles.defaultText
-  }
-
   // 버튼 --------------------------------------------------------------
   const goToPrevious = () => {
     Vibration.vibrate(100)
@@ -112,19 +92,36 @@ const HomeScreen = () => {
       const { year, month } = formatHoliday(selectedDate)
       const serviceKey =
         'ZvYPMHcdP5th36amVoHJGtlGw7hwp%2B8HPSBiZJRe2OzO0t6Bh3iqj5UE15%2Fn5LBpkYYILdb3XQ4ElOFgMWha6A%3D%3D'
-      try {
-        const response = await fetch(
-          `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
-        )
-        const data = await response.json()
 
-        const items = data.response.body.items?.item
-        setHolidays(Array.isArray(items) ? items : items ? [items] : [])
+      const holidayUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
+      const anniversaryUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
+
+      try {
+        const responses = await Promise.all([
+          fetch(holidayUrl),
+          fetch(anniversaryUrl),
+        ])
+        const data = await Promise.all(
+          responses.map((response) => response.json())
+        )
+
+        const holidays = data[0].response.body.items?.item
+        const anniversaries = data[1].response.body.items?.item
+
+        const combinedItems = [
+          ...(Array.isArray(holidays) ? holidays : holidays ? [holidays] : []),
+          ...(Array.isArray(anniversaries)
+            ? anniversaries
+            : anniversaries
+            ? [anniversaries]
+            : []),
+        ]
+
+        setHolidays(combinedItems)
       } catch (error) {
-        console.error('Failed to fetch holidays', error)
+        console.error('Failed to fetch holidays and anniversaries', error)
       }
     }
-
     fetchHolidays()
   }, [selectedDate])
 
@@ -138,10 +135,38 @@ const HomeScreen = () => {
       const holiday = holidays.find((holiday) => holiday.locdate == formatDate)
       setDateName(holiday ? holiday.dateName : '')
       setIsHoliday(holiday ? holiday.isHoliday : '')
+
+      if (formatDate == 20240614) {
+        setDateName('개교개념일')
+        setIsHoliday('Y')
+      }
+      if (formatDate == 19990730) {
+        setDateName('윤수생일')
+      }
     }
 
     checkHoliday()
   }, [selectedDate, holidays])
+
+  // 요일 계산 --------------------------------------------------------------
+  const formatDate = (date) => {
+    const weekDays = ['일', '월', '화', '수', '목', '금', '토']
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const weekDay = weekDays[date.getDay()]
+
+    return `${year}년 ${month}월 ${day}일 (${weekDay})`
+  }
+
+  const textColor = () => {
+    const weekDay = selectedDate.getDay()
+    return weekDay === 6
+      ? styles.blueText
+      : weekDay === 0 || isHoliday == 'Y'
+      ? styles.redText
+      : styles.defaultText
+  }
 
   return (
     <View style={styles.container}>
@@ -149,9 +174,9 @@ const HomeScreen = () => {
         {formatDate(selectedDate)}
       </Text>
       {dateName ? (
-        <Text>Today is a holiday: {dateName}</Text>
+        <Text style={[styles.dateNameText, textColor()]}>{dateName}</Text>
       ) : (
-        <Text>Today is not a holiday.</Text>
+        ''
       )}
 
       <View style={styles.buttonContainer}>
@@ -194,16 +219,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: '#4A4A4A',
   },
-  operationText: {
+  dateNameText: {
     fontSize: 23,
     fontWeight: '700',
-    marginBottom: 15,
     color: '#4A4A4A',
   },
 
   // 버튼 --------------------------------------------------------------
   buttonContainer: {
     flexDirection: 'row',
+    marginTop: 10,
     marginBottom: 10,
     justifyContent: 'center',
   },
