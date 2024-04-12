@@ -1,84 +1,34 @@
-import React from 'react';
-import { View, Dimensions, TouchableOpacity, Image, Modal, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Dimensions, TouchableOpacity, Image, Modal, Animated, StyleSheet, Text } from 'react-native';
 
 // 화면의 너비와 높이를 구합니다.
 const { width, height } = Dimensions.get('window');
 
 const MapScreen = () => {
+  const [animation] = React.useState(new Animated.Value(0)); // 애니메이션 값
   const [showPopup, setShowPopup] = React.useState(false);
   const [popupImage, setPopupImage] = React.useState(null);
+  const [isClicked, setIsClicked] = React.useState(false);
+  
 
-  // 미도1.png를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup1Press = () => {
-    if (showPopup && popupImage === require('../../assets/public/미도1.jpg')) {
+  // 뷰를 눌렀을 때 팝업을 표시하도록 수정
+  const handleGroupPress = (image) => {
+    if (showPopup && popupImage === image) {
       setShowPopup(false);
       setShowPopupImage(null);
     } else {
-      // 새로운 이미지를 표시합니다.
-      setPopupImage(require('../../assets/public/미도1.jpg'));
+      setIsClicked(true);
+      setPopupImage(image);
       setShowPopup(true);
+  
+      // 애니메이션 시작
+      Animated.sequence([
+        Animated.timing(animation, { toValue: 1, duration: 0, useNativeDriver: false }),
+        Animated.timing(animation, { toValue: 0, duration: 500, useNativeDriver: false }),
+      ]).start(() => setIsClicked(false)); // 애니메이션 완료 후 클릭 상태 변경
     }
   };
-
-  // 동생대1.png를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup2Press = () => {
-    setPopupImage(require('../../assets/public/의생대1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 경영1.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup3Press = () => {
-    setPopupImage(require('../../assets/public/경영1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 미광1.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup4Press = () => {
-    setPopupImage(require('../../assets/public/미광1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 백록관1.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup5Press = () => {
-    setPopupImage(require('../../assets/public/백록관1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 함인섭1.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup6Press = () => {
-    setPopupImage(require('../../assets/public/함인섭1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 동생대1.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup7Press = () => {
-    setPopupImage(require('../../assets/public/동생대1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 미광2.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup8Press = () => {
-    setPopupImage(require('../../assets/public/미광2.jpg'));
-    setShowPopup(true);
-  };
-
-  // 경영2.jpg를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup9Press = () => {
-    setPopupImage(require('../../assets/public/경영2.jpg'));
-    setShowPopup(true);
-  };
-
-  // 기숙사1.png를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup10Press = () => {
-    setPopupImage(require('../../assets/public/기숙사1.jpg'));
-    setShowPopup(true);
-  };
-
-  // 미도2.png를 눌렀을 때 팝업을 표시합니다.
-  const handleGroup11Press = () => {
-    setPopupImage(require('../../assets/public/미도2.jpg'));
-    setShowPopup(true);
-  };
+  
 
   // 팝업을 닫습니다.
   const closePopup = () => {
@@ -86,89 +36,54 @@ const MapScreen = () => {
     setPopupImage(null); // 팝업 닫을 때 이미지 초기화
   };
 
-
-
-
   return (
-    <View style={{ flex: 1, width: width, height: height }}>
-      {/* Group1.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group1, position: 'absolute', top: 379, left: 249, zIndex: 1 }}
-        onPress={handleGroup1Press}
-      >
-      </TouchableOpacity>
+  <View style={{ flex: 1, width: width, height: height }}>
+  {/* Group1.png 이미지 */}
+  <TouchableOpacity
+  style={{ ...styles.group1, position: 'absolute', top: 379, left: 249, zIndex: 1 }}
+  onPress={() => handleGroupPress(require('../../assets/public/미도1.jpg'))}
+>
+  {/* 작은 동그라미 */}
+  <Animated.View
+  style={{
+    ...styles.circle1,
+    opacity: animation, // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
+    transform: [
+      {
+        scale: animation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
+        }),
+      },
+    ],
+  }}
+/>
+</TouchableOpacity>
+
+<TouchableOpacity
+  style={{ ...styles.group2, position: 'absolute', top: 255, left: 200, zIndex: 1 }}
+  onPress={() => handleGroupPress(require('../../assets/public/경영2.jpg'))}
+>
+  {/* 작은 동그라미 */}
+  <Animated.View
+    style={{
+      ...styles.circle2,
+      opacity: animation, // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
+      transform: [
+        {
+          scale: animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
+          }),
+        },
+      ],
+    }}
+  />
+</TouchableOpacity>
 
 
-      {/* Group2.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group2, position: 'absolute', top: 305, left: 278, zIndex: 1 }}
-        onPress={handleGroup2Press}
-      >
-      </TouchableOpacity>
 
-      {/* Group3.png 이미지 */}
-      <TouchableOpacity
-        style={{...styles.group3, position: 'absolute', top: 259, left: 175, zIndex: 1 }}
-        onPress={handleGroup3Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group4.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group4,position: 'absolute', top: 204, left: 60, zIndex: 1 }}
-        onPress={handleGroup4Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group5.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group5, position: 'absolute', top: 268, left: 20, zIndex: 1 }}
-        onPress={handleGroup5Press}
-      >
-      </TouchableOpacity>
-
-
-      {/* Group6.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group6,position: 'absolute', top: 298, left: 62, zIndex: 1 }}
-        onPress={handleGroup6Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group7.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group7,position: 'absolute', top: 283, left: 237, zIndex: 1 }}
-        onPress={handleGroup7Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group8.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group8,position: 'absolute', top: 233, left: 114, zIndex: 1 }}
-        onPress={handleGroup8Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group9.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group9,position: 'absolute', top: 230, left: 198, zIndex: 1 }}
-        onPress={handleGroup9Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group10.png 이미지 */}
-      <TouchableOpacity
-        style={{ ...styles.group10 , position: 'absolute', top: 350, left: 20, zIndex: 1 }}
-        onPress={handleGroup10Press}
-      >
-      </TouchableOpacity>
-
-      {/* Group11.png 이미지 */}
-      <TouchableOpacity
-        style={{...styles.group11, position: 'absolute', top: 349, left: 190, zIndex: 1 }}
-        onPress={handleGroup11Press}
-      >
-      </TouchableOpacity>
+      {/* 나머지 그룹들에 대해서도 TouchableOpacity로 감싸고 onPress 이벤트 추가 */}
 
       {/* 지도 이미지 */}
       <Image
@@ -208,69 +123,32 @@ const styles = StyleSheet.create({
   group1: {
     width: 80,
     height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor : 'transparent',
   },
   group2: {
     width: 80,
     height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor: 'transparent',
   },
-  group3: {
-    width: 50,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
+  circle1: {
+    position: 'absolute',
+    width: 5,
+    height: 5,
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
+    top: 0, // 동그라미를 원하는 위치로 조정
+    left: 5, // 동그라미를 원하는 위치로 조정
   },
-  group4: {
-    width: 80,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
+  circle2: {
+    position: 'absolute',
+    width: 5,
+    height: 5,
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
+    top: 0, // 동그라미를 원하는 위치로 조정
+    left: 5, // 동그라미를 원하는 위치로 조정
   },
-  group5: {
-    width: 50,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  group6: {
-    width: 80,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  group7: {
-    width: 40,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  group8: {
-    width: 50,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  group9: {
-    width: 80,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  group10: {
-    width: 80,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
-  group11: {
-    width: 80,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-  },
+  // 나머지 그룹들의 스타일 정의
 
   modalContainer: {
     flex: 1,
@@ -283,7 +161,6 @@ const styles = StyleSheet.create({
     top: 20,
     right: 20,
   },
-
   bottomTextContainer: {
     position: 'absolute',
     bottom: 20,
