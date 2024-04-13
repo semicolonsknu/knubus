@@ -8,29 +8,97 @@ const MapScreen = () => {
   const [animation] = React.useState(new Animated.Value(0)); // 애니메이션 값
   const [showPopup, setShowPopup] = React.useState(false);
   const [popupImage, setPopupImage] = React.useState(null);
-  const [isClicked, setIsClicked] = React.useState(false);
   const [selectedGroup, setSelectedGroup] = React.useState(null);
-  
 
-  // 뷰를 눌렀을 때 팝업을 표시하도록 수정
-  const handleGroupPress = (image,group) => {
-    if (showPopup && popupImage === image) {
-      setShowPopup(false);
-      setShowPopupImage(null);
-    } else {
-      setIsClicked(true);
-      setPopupImage(image);
-      setSelectedGroup(group);
-      setShowPopup(true);
-  
-      // 애니메이션 시작
+    // 애니메이션 처리
+    const animate = (isSelected) => {
       Animated.sequence([
         Animated.timing(animation, { toValue: 1, duration: 0, useNativeDriver: false }),
         Animated.timing(animation, { toValue: 0, duration: 500, useNativeDriver: false }),
-      ]).start(() => setIsClicked(false)); // 애니메이션 완료 후 클릭 상태 변경
-    }
-  };
+      ]).start();
+    };
   
+  // 그룹 버튼 정보
+  const groupButtons = [
+    {
+      image: require('../../assets/public/미도1.jpg'),
+      group: 'group1',
+      style: { ...styles.group1, top: 379, left: 249 },
+      circleStyle: { ...styles.circle1 },
+    },
+    {
+      image: require('../../assets/public/의생대1.jpg'),
+      group: 'group2',
+      style: { ...styles.group2, top: 310, left: 278 },
+      circleStyle: { ...styles.circle2 },
+    },
+    {
+      image: require('../../assets/public/경영1.jpg'),
+      group: 'group3',
+      style: { ...styles.group3, top: 259, left: 175 },
+      circleStyle: { ...styles.circle3 },
+    },
+    {
+      image: require('../../assets/public/미광1.jpg'),
+      group: 'group4',
+      style: { ...styles.group4, top: 204, left: 60 },
+      circleStyle: { ...styles.circle4 },
+    },
+    {
+      image: require('../../assets/public/백록관1.jpg'),
+      group: 'group5',
+      style: { ...styles.group5, top: 268, left: 20 },
+      circleStyle: { ...styles.circle5 },
+    },
+    {
+      image: require('../../assets/public/함인섭1.jpg'),
+      group: 'group6',
+      style: { ...styles.group6, top: 298, left: 62 },
+      circleStyle: { ...styles.circle6 },
+    },
+    {
+      image: require('../../assets/public/동생대1.jpg'),
+      group: 'group7',
+      style: { ...styles.group7, top: 283, left: 237 },
+      circleStyle: { ...styles.circle7 },
+    },
+    {
+      image: require('../../assets/public/미광2.jpg'),
+      group: 'group8',
+      style: { ...styles.group8, top: 233, left: 114 },
+      circleStyle: { ...styles.circle8 },
+    },
+    {
+      image: require('../../assets/public/경영2.jpg'),
+      group: 'group9',
+      style: { ...styles.group9, top: 230, left: 198 },
+      circleStyle: { ...styles.circle9 },
+    },
+    {
+      image: require('../../assets/public/기숙사1.jpg'),
+      group: 'group10',
+      style: { ...styles.group10, top: 350, left: 20 },
+      circleStyle: { ...styles.circle10 },
+    },
+    {
+      image: require('../../assets/public/미도2.jpg'),
+      group: 'group11',
+      style: { ...styles.group11, top: 349, left: 190 },
+      circleStyle: { ...styles.circle11 },
+    },
+    
+    // 나머지 그룹 정보 추가
+  ];
+
+  // 그룹 버튼을 눌렀을 때의 처리
+  const handleGroupPress = (image, group) => {
+    const isSelected = selectedGroup === group;
+    setShowPopup(!isSelected || !showPopup);
+    setPopupImage(!isSelected || !showPopup ? image : null);
+    setSelectedGroup(!isSelected || !showPopup ? group : null);
+    animate(isSelected); // 애니메이션 처리
+  };
+
 
   // 팝업을 닫습니다.
   const closePopup = () => {
@@ -40,295 +108,40 @@ const MapScreen = () => {
   };
 
   return (
-  <View style={{ flex: 1, width: width, height: height }}>
-  {/* 미도1.png 이미지 */}
-  <TouchableOpacity
-  style={{ ...styles.group1, position: 'absolute', top: 379, left: 249, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/미도1.jpg'),'group1')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-  style={{
-    ...styles.circle1,
-    opacity: animation.interpolate ({
-      inputRange: [0,1],
-      outputRange: selectedGroup === 'group1' ? [0, 1] : [0, 0], 
-      // 선택된 그룹에만 동그라미가 보이도록 함
-    }),
-    // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-    transform: [
-      {
-        scale: animation.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-        }),
-      },
-    ],
-  }}
-/>
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group2, position: 'absolute', top: 310, left: 278, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/의생대1.jpg'),'group2')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle2,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group2' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group3, position: 'absolute', top: 259, left: 175, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/경영1.jpg'),'group3')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle3,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group3' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group4, position: 'absolute', top: 204, left: 60, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/미광1.jpg'),'group4')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle4,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group4' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group5, position: 'absolute', top: 268, left: 20, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/백록관1.jpg'),'group5')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle5,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group5' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group6, position: 'absolute', top: 298, left: 62, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/함인섭1.jpg'),'group6')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle6,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group6' ? [0, 1] : [0, 0], 
-          // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group7, position: 'absolute', top: 283, left: 237, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/동생대1.jpg'),'group7')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle7,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group7' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group8, position: 'absolute', top: 233, left: 114, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/미광2.jpg'),'group8')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle8,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group8' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group9, position: 'absolute', top: 230, left: 198, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/경영2.jpg'),'group9')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle9,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group9' ? [0, 1] : [0, 0], 
-          // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group10, position: 'absolute', top: 350, left: 20, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/기숙사1.jpg'),'group10')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle10,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group10' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={{ ...styles.group11, position: 'absolute', top: 349, left: 190, zIndex: 1 }}
-  onPress={() => handleGroupPress(require('../../assets/public/미도2.jpg'),'group11')}
->
-  {/* 작은 동그라미 */}
-  <Animated.View
-    style={{
-      ...styles.circle11,
-      opacity: animation.interpolate({
-        inputRange: [0,1],
-        outputRange: selectedGroup === 'group11' ? [0, 1] : [0, 0], 
-        // 선택된 그룹에만 동그라미가 보이도록 함
-      }), // 터치하기 전에는 투명도를 0으로 설정하여 동그라미가 보이지 않도록 함
-      transform: [
-        {
-          scale: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 3], // 터치 시 동그라미가 확대되는 애니메이션 효과
-          }),
-        },
-      ],
-    }}
-  />
-</TouchableOpacity>
-
-
-
-
-      {/* 나머지 그룹들에 대해서도 TouchableOpacity로 감싸고 onPress 이벤트 추가 */}
-
+    <View style={{ flex: 1, width: width, height: height }}>
+      {/* 그룹 버튼 */}
+      {groupButtons.map((button, index) => (
+        <TouchableOpacity
+          key={index}
+          style={{ ...button.style, position: 'absolute', zIndex: 1 }}
+          onPress={() => handleGroupPress(button.image, button.group)}
+        >
+          {/* 작은 동그라미 */}
+          <Animated.View
+            style={{
+              ...button.circleStyle,
+              opacity: animation.interpolate({
+                inputRange: [0, 1],
+                outputRange: selectedGroup === button.group ? [0, 1] : [0, 0],
+              }),
+              transform: [
+                {
+                  scale: animation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 3],
+                  }),
+                },
+              ],
+            }}
+          />
+        </TouchableOpacity>
+      ))}
       {/* 지도 이미지 */}
-      <Image
+        <Image
         source={require('../../assets/public/Map.png')}
         style={{ width: '100%', height: '100%', alignSelf: 'center', resizeMode: 'contain', marginTop: 'auto', marginBottom: 'auto' }}
       />
+
 
       {/* 팝업 모달 */}
       <Modal
@@ -362,13 +175,14 @@ const styles = StyleSheet.create({
   group1: {
     width: 80,
     height: 30,
-    backgroundColor : 'transparent',
+    backgroundColor: 'transparent',
   },
   group2: {
     width: 80,
     height: 30,
-    backgroundColor : 'transparent',
+    backgroundColor: 'transparent',
   },
+  // 나머지 그룹 스타일 정의
   group3: {
     width: 50,
     height: 30,
@@ -514,9 +328,6 @@ const styles = StyleSheet.create({
     left: 60, // 동그라미를 원하는 위치로 조정
   },
   // 나머지 그룹들의 스타일 정의
-
-
-
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
