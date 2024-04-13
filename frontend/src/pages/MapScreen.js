@@ -86,8 +86,6 @@ const MapScreen = () => {
       style: { ...styles.group11, top: 349, left: 190 },
       circleStyle: { ...styles.circle11 },
     },
-    
-    // 나머지 그룹 정보 추가
   ];
 
   // 그룹 버튼을 눌렀을 때의 처리
@@ -98,7 +96,6 @@ const MapScreen = () => {
     setSelectedGroup(!isSelected || !showPopup ? group : null);
     animate(isSelected); // 애니메이션 처리
   };
-
 
   // 팝업을 닫습니다.
   const closePopup = () => {
@@ -142,7 +139,6 @@ const MapScreen = () => {
         style={{ width: '100%', height: '100%', alignSelf: 'center', resizeMode: 'contain', marginTop: 'auto', marginBottom: 'auto' }}
       />
 
-
       {/* 팝업 모달 */}
       <Modal
         visible={showPopup}
@@ -170,162 +166,81 @@ const MapScreen = () => {
     </View>
   );
 };
+const groupStyle = {
+  width : 80,
+  height: 30,
+  backgroundColor : 'transparent',
+}
+
+const circleStyle = {
+  position: 'absolute',
+  width : 5,
+  height : 5,
+  borderRadius: 5,
+  backgroundColor : 'rgba(0, 255, 255, 0.5)',
+  top : 0,
+  left: 0,
+}
 
 const styles = StyleSheet.create({
-  group1: {
-    width: 80,
-    height: 30,
-    backgroundColor: 'transparent',
-  },
-  group2: {
-    width: 80,
-    height: 30,
-    backgroundColor: 'transparent',
-  },
-  // 나머지 그룹 스타일 정의
-  group3: {
-    width: 50,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group4: {
-    width: 80,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group5: {
-    width: 50,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group6: {
-    width: 80,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group7: {
-    width: 40,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group8: {
-    width: 50,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group9: {
-    width: 80,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group10: {
-    width: 80,
-    height: 30,
-    backgroundColor : 'transparent',
-  },
-  group11: {
-    width: 80,
-    height: 30,
-    backgroundColor : 'transparent',
-  }, 
-  circle1: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
-    top: 0, // 동그라미를 원하는 위치로 조정
-    left: 0, // 동그라미를 원하는 위치로 조정
-  },
-  circle2: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', // 투명도 있는 흰색
-    top: 0, // 동그라미를 원하는 위치로 조정
-    left: 0, // 동그라미를 원하는 위치로 조정
-  },
-  circle3: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', // 투명도 있는 흰색
-    top: 0, // 동그라미를 원하는 위치로 조정
-    left: 25, // 동그라미를 원하는 위치로 조정
+  group1: {...groupStyle},
+  group2: {...groupStyle},
+  group3: {...groupStyle, width:50},
+  group4: {...groupStyle},
+  group5: {...groupStyle, width:50},
+  group6: {...groupStyle},
+  group7: {...groupStyle, width:40},
+  group8: {...groupStyle, width:50},
+  group9: {...groupStyle},
+  group10: {...groupStyle},
+  group11: {...groupStyle}, 
+
+  circle1: {...circleStyle},
+  circle2: {...circleStyle,
+    backgroundColor: 'rgba(255, 0, 0, 0.5)'},
+  circle3: {...circleStyle, 
+    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+    left: 25,
   },
   circle4: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
-    top: 25, // 동그라미를 원하는 위치로 조정
-    left: 50, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    top: 25, 
+    left: 50, 
   },
   circle5: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
-    top: 24, // 동그라미를 원하는 위치로 조정
-    left: 36, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    top: 24, 
+    left: 36, 
   },
   circle6: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', // 투명도 있는 흰색
-    top: 0, // 동그라미를 원하는 위치로 조정
-    left: 0, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    backgroundColor: 'rgba(255, 0, 0, 0.5)', 
   },
   circle7: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
-    top: 22, // 동그라미를 원하는 위치로 조정
-    left: 30, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    top: 22, 
+    left: 30, 
   },
   circle8: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', // 투명도 있는 흰색
-    top: 0, // 동그라미를 원하는 위치로 조정
-    left: 0, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    backgroundColor: 'rgba(255, 0, 0, 0.5)',
   },
   circle9: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 255, 255, 0.5)', // 투명도 있는 흰색
-    top: 25, // 동그라미를 원하는 위치로 조정
-    left: 7, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    top: 25, 
+    left: 7, 
   },
   circle10: {
-    position: 'absolute',
-    width: 5,
-    height: 5,
-    borderRadius: 5,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 투명도 있는 흰색
-    top: 7, // 동그라미를 원하는 위치로 조정
-    left: 45, // 동그라미를 원하는 위치로 조정
+    ...circleStyle,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    top: 7, 
+    left: 45, 
   },
   circle11: {
-    position: 'absolute',
-    width: 3,
-    height: 3,
-    borderRadius: 5,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', // 투명도 있는 흰색
-    top: 25, // 동그라미를 원하는 위치로 조정
-    left: 60, // 동그라미를 원하는 위치로 조정
+   ...circleStyle,
+    backgroundColor: 'rgba(255, 0, 0, 0.5)', 
+    top: 25, 
+    left: 60, 
   },
   // 나머지 그룹들의 스타일 정의
   modalContainer: {
