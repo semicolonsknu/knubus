@@ -15,6 +15,7 @@ const Round = ({ isOperation }) => {
   // 현재 시간과 인덱스 관리 --------------------------------------------------------------
   const [currentTime, setCurrentTime] = useState(new Date())
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   // 현재 시간 갱신 --------------------------------------------------------------
   useEffect(() => {
@@ -56,9 +57,6 @@ const Round = ({ isOperation }) => {
     }
     return -1
   }
-
-  const initialIndex = getCurrentIndex()
-  const [selectedIndex, setSelectedIndex] = useState(initialIndex)
 
   // 버튼 --------------------------------------------------------------
   const goToPrevious = () => {
