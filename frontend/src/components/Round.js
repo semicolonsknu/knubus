@@ -1,88 +1,293 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Button, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+  Vibration,
+  Animated,
+} from 'react-native'
+import scheduleData from '../data/schedule.json'
+import Timeline from './Timeline'
 
-// 1회차: 운영 예정[0:0 ~ 8:29] / 운영 중[8:30 ~ 8:53]
-// 2회차: 운영 예정[8:54 ~ 9:29] / 운영 중[9:30 ~ 9:53]
-// 3회차: 운영 예정[9:54 ~ 9:59] / 운영 중[10:00 ~ 10:23]
-// 4회차: 운영 예정[10:24 ~ 11:29] / 운영 중[11:30 ~ 11:53]
-// 5회차: 운영 예정[11:54] ~ [11:59] / 운영 중[12:00 ~ 12:23]
-// 6회차: 운영 예정[12:24 ~ 12:59] / 운영 중[13:00 ~ 13:23]
-// 7회차: 운영 예정[13:24 ~ 14:29] / 운영 중[14:30 ~ 14:53]
-// 8회차: 운영 예정[14:54 ~ 13:59] / 운영 중16:00 ~ 16:23]
-// 9회차: 운영 예정[14:24 ~ 16:29] / 운영 중[17:30 ~ 17:53]
-// 10회차: 운영 예정[17:54 ~ 17:59] / 운영 중[18:00 ~ 18:23]
-const roundTable = [
-  {
-    id: 1,
-    scheduledStart: '0:0',
-    scheduledEnd: '8:29',
-    operationStart: '8:30',
-    operationEnd: '8:53',
-  },
-  {
-    id: 2,
-    scheduledStart: '8:54',
-    scheduledEnd: '9:29',
-    operationStart: '9:30',
-    operationEnd: '9:53',
-  },
-]
+const Round = ({ isOperation }) => {
+  // 현재 시간과 인덱스 관리 --------------------------------------------------------------
+  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-const Round = ({ date }) => {
-  const [currentRound, setCurrentRound] = useState(null)
-  const [status, setStatus] = useState('')
+  // 현재 시간 갱신 --------------------------------------------------------------
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
 
-  const checkCurrentRound = () => {
-    const currentTime =
-      date.getHours() + ':' + date.getMinutes().toString().padStart(2, '0')
+  // 현재 인덱스 갱신 --------------------------------------------------------------
+  useEffect(() => {
+    let index = getCurrentIndex()
+    if (index === -1) index = 9
+    setCurrentIndex(index)
+  }, [currentTime])
 
-    const foundRound = roundTable.find(
-      (round) =>
-        (currentTime >= round.scheduledStart &&
-          currentTime <= round.scheduledEnd) ||
-        (currentTime >= round.operationStart &&
-          currentTime <= round.operationEnd)
-    )
+  // 인덱스 계산 --------------------------------------------------------------
+  const getCurrentIndex = () => {
+    const currentHour = currentTime.getHours()
+    const currentMinute = currentTime.getMinutes()
 
-    if (foundRound) {
+    for (let i = 0; i < scheduleData.schedule.length; i++) {
+      const { tables } = scheduleData.schedule[i]
+
+      const startHour = parseInt(tables['운행예정'].split(':')[0])
+      const startMinute = parseInt(tables['운행예정'].split(':')[1])
+
+      const endHour = parseInt(tables['운행종료 [미래도서관]'].split(':')[0])
+      const endMinute = parseInt(tables['운행종료 [미래도서관]'].split(':')[1])
+
       if (
-        currentTime >= foundRound.scheduledStart &&
-        currentTime <= foundRound.scheduledEnd
+        (currentHour > startHour ||
+          (currentHour === startHour && currentMinute >= startMinute)) &&
+        (currentHour < endHour ||
+          (currentHour === endHour && currentMinute <= endMinute))
       ) {
-        setStatus('운행 예정')
-      } else {
-        setStatus('운행 중')
+        return i
       }
-      setCurrentRound(foundRound.id)
-    } else {
-      setStatus('운행 정보 없음')
     }
+    return -1
   }
 
+  const initialIndex = getCurrentIndex()
+  const [selectedIndex, setSelectedIndex] = useState(initialIndex)
+
+  // 버튼 --------------------------------------------------------------
+  const goToPrevious = () => {
+    Vibration.vibrate(50)
+    setSelectedIndex((prevIndex) => Math.max(0, prevIndex - 1))
+  }
+
+  const goToNext = () => {
+    Vibration.vibrate(50)
+    setSelectedIndex((prevIndex) =>
+      Math.min(scheduleData.schedule.length - 1, prevIndex + 1)
+    )
+  }
+
+  const goToNow = () => {
+    Vibration.vibrate(200)
+    setSelectedIndex(currentIndex)
+  }
+
+  // 깜빡임 효과 --------------------------------------------------------------
+  const [fadeAnim] = useState(new Animated.Value(0.5))
+
   useEffect(() => {
-    checkCurrentRound()
-  }, [date])
+    let animation
+
+    if (selectedIndex !== currentIndex) {
+      animation = Animated.loop(
+        Animated.sequence([
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.5,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ])
+      )
+      animation.start()
+    }
+
+    return () => {
+      if (animation) {
+        animation.stop()
+      }
+    }
+  }, [selectedIndex, fadeAnim])
+
+  // !isOperation --------------------------------------------------------------
+  if (!isOperation) {
+    return (
+      <View style={styles.container}>
+        <Image
+          source={require('../../assets/public/Mascot.png')}
+          style={styles.image}
+        />
+      </View>
+    )
+  }
+
+  const currentRound = scheduleData.schedule[selectedIndex]
+  const { round, tables } = currentRound
 
   return (
     <View style={styles.container}>
-      {currentRound ? (
-        <Text>
-          {currentRound}회차: {status} [
-          {roundTable[currentRound - 1].scheduledStart} ~{' '}
-          {roundTable[currentRound - 1].scheduledEnd}] / 운행 중[
-          {roundTable[currentRound - 1].operationStart} ~{' '}
-          {roundTable[currentRound - 1].operationEnd}]
-        </Text>
-      ) : (
-        <Text>{status}</Text>
-      )}
+      <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
+      <Text style={styles.roundText}>{round}</Text>
+
+      <View style={styles.buttonContainer}>
+        {selectedIndex > 0 && (
+          <Pressable onPress={goToPrevious} style={styles.button}>
+            <Text style={styles.buttonText}>이전 회차</Text>
+          </Pressable>
+        )}
+        {selectedIndex !== currentIndex && (
+          <Animated.View style={[styles.buttonTo, { opacity: fadeAnim }]}>
+            <Pressable onPress={goToNow}>
+              <Text style={styles.buttonText}>현재 회차로</Text>
+            </Pressable>
+          </Animated.View>
+        )}
+        {selectedIndex < scheduleData.schedule.length - 1 && (
+          <Pressable onPress={goToNext} style={styles.button}>
+            <Text style={styles.buttonText}>다음 회차</Text>
+          </Pressable>
+        )}
+      </View>
+
+      <View style={styles.timelineContainer}>
+        <View style={styles.buttonContainer}>
+          <View style={styles.circleContainer}>
+            <View style={[styles.circle, { backgroundColor: '#B0BEC5' }]} />
+            <Text style={styles.circleText}>운영 종료</Text>
+          </View>
+          <View style={styles.circleContainer}>
+            <View style={[styles.circle, { backgroundColor: '#FF5757' }]} />
+            <Text style={styles.circleText}>현재 운행</Text>
+          </View>
+          <View style={styles.circleContainer}>
+            <View style={[styles.circle, { backgroundColor: '#38B6FF' }]} />
+            <Text style={styles.circleText}>운행 예정</Text>
+          </View>
+        </View>
+
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>
+            실제 운행과 약간의 오차가 존재 할 수 있음
+          </Text>
+        </View>
+
+        <Timeline
+          roundData={Object.entries(tables).map(([name, time]) => ({
+            name,
+            time,
+          }))}
+        />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  timeText: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginBottom: 3,
+    color: '#4A4A4A',
+  },
+  roundText: {
+    fontSize: 25,
+    fontWeight: '700',
+    marginBottom: 15,
+    color: '#4A90E2',
+  },
+
+  // 버튼 --------------------------------------------------------------
+  buttonContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: '#4A90E2',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginLeft: 5,
+    marginRight: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  buttonTo: {
+    backgroundColor: '#50E3C2',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginLeft: 5,
+    marginRight: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  // 이미지 --------------------------------------------------------------
+  image: {
+    flex: 1,
+    resizeMode: 'contain',
+    width: '100%',
+    height: '100%',
+  },
+
+  // timelineContainer --------------------------------------------------------------
+  timelineContainer: {
+    flex: 1,
+    marginTop: 5,
+    height: '100%',
+    width: '100%',
+  },
+
+  // timelineContainer --------------------------------------------------------------
+  circleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  circle: {
+    width: 10,
+    height: 15,
+    borderRadius: 10,
+    marginHorizontal: 5,
+  },
+  circleText: {
+    marginLeft: 5,
+  },
+
+  // 안내 문구 --------------------------------------------------------------
+  infoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
+    padding: 7,
+    borderRadius: 5,
+    marginBottom: 5,
+  },
+  infoText: {
+    color: '#4A4A4A',
+    fontSize: 12,
   },
 })
 
