@@ -6,7 +6,6 @@ import Navigation from './src/Navigation'
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
       <Header />
       <Navigation />
     </SafeAreaView>
