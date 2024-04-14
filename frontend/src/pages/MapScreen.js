@@ -1,272 +1,318 @@
-import React, { useState } from 'react';
-import { View, Dimensions, TouchableOpacity, Image, Modal, Animated, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react'
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Modal,
+  Vibration,
+  Pressable,
+  StyleSheet,
+} from 'react-native'
+import MapView, { Marker, Polyline } from 'react-native-maps'
 
-// 화면의 너비와 높이를 구합니다.
-const { width, height } = Dimensions.get('window');
+const goPaths = [
+  [
+    { latitude: 37.86602102736735, longitude: 127.7487168858128 },
+    { latitude: 37.86597308488341, longitude: 127.7488935186692 },
+    { latitude: 37.86614964295406, longitude: 127.7490565384393 },
+    { latitude: 37.86678585336956, longitude: 127.7497484741482 },
+    { latitude: 37.8675122104588, longitude: 127.7502192741921 },
+    { latitude: 37.86768578732872, longitude: 127.7505765153803 },
+    { latitude: 37.86782145734462, longitude: 127.7506654307179 },
+    { latitude: 37.86852019855936, longitude: 127.7504131658332 },
+    { latitude: 37.86828592942151, longitude: 127.7493358897203 },
+    { latitude: 37.86829413750795, longitude: 127.7483808023067 },
+    { latitude: 37.86842552417284, longitude: 127.748133972292 },
+    { latitude: 37.8691361100833, longitude: 127.7479906125434 },
+    { latitude: 37.86945696412096, longitude: 127.7477231422472 },
+    { latitude: 37.86974655590431, longitude: 127.7471499915645 },
+    { latitude: 37.86978732532678, longitude: 127.744430111889 },
+    { latitude: 37.87003811140247, longitude: 127.7441808930695 },
+    { latitude: 37.87053268769021, longitude: 127.7440742483129 },
+    { latitude: 37.87080625742522, longitude: 127.7429323847283 },
+    { latitude: 37.86921499456311, longitude: 127.7423346338157 },
+    { latitude: 37.86789606289946, longitude: 127.7401145101411 },
+    { latitude: 37.86660363771815, longitude: 127.7412913576611 },
+    { latitude: 37.86668528877598, longitude: 127.7417594720057 },
+  ],
+]
+const comePaths = [
+  [
+    { latitude: 37.86668528877598, longitude: 127.7417594720057 },
+    { latitude: 37.86697519175282, longitude: 127.7421183688011 },
+    { latitude: 37.86757686408449, longitude: 127.7419640398661 },
+    { latitude: 37.86842978715524, longitude: 127.7412321446482 },
+    { latitude: 37.86913824340649, longitude: 127.7424416865173 },
+    { latitude: 37.8706700980536, longitude: 127.7429948000515 },
+    { latitude: 37.87043666517553, longitude: 127.7439639261447 },
+    { latitude: 37.87000148736363, longitude: 127.7440542486459 },
+    { latitude: 37.86968031855783, longitude: 127.7443934480805 },
+    { latitude: 37.86963159524052, longitude: 127.7471538373186 },
+    { latitude: 37.86938838496117, longitude: 127.7476295124839 },
+    { latitude: 37.8691465521502, longitude: 127.7478483565658 },
+    { latitude: 37.86839857651218, longitude: 127.747993869216 },
+    { latitude: 37.86817916507559, longitude: 127.7484003578467 },
+    { latitude: 37.86817099622093, longitude: 127.7493619124457 },
+    { latitude: 37.86837243808474, longitude: 127.7503169002782 },
+    { latitude: 37.86782919980846, longitude: 127.7505129689854 },
+    { latitude: 37.86774889503635, longitude: 127.7504744051104 },
+    { latitude: 37.8675906313633, longitude: 127.7501590667835 },
+    { latitude: 37.86683477227245, longitude: 127.7496593063718 },
+    { latitude: 37.86625288761761, longitude: 127.7489942393487 },
+    { latitude: 37.86637706417435, longitude: 127.7487638474067 },
+    { latitude: 37.86624257982016, longitude: 127.7485801820109 },
+    { latitude: 37.86607798157161, longitude: 127.7485886996954 },
+  ],
+]
+
+const locations = [
+  {
+    name: 'KNU 미래도서관',
+    image: require('../../assets/public/map/1.jpg'),
+    coords: { latitude: 37.86602102736735, longitude: 127.7487168858128 },
+    color: '#FF2D55',
+  },
+  {
+    name: '동생대2호관',
+    image: require('../../assets/public/map/2.jpg'),
+    coords: { latitude: 37.868289, longitude: 127.749243 },
+    color: '#FF2D55',
+  },
+  {
+    name: '경영대2호관(기숙사행)',
+    image: require('../../assets/public/map/3.jpg'),
+    coords: { latitude: 37.86974, longitude: 127.746166 },
+    color: '#FF2D55',
+  },
+  {
+    name: '미래광장(기숙사행)',
+    image: require('../../assets/public/map/4.jpg'),
+    coords: { latitude: 37.87061, longitude: 127.743802 },
+    color: '#FF2D55',
+  },
+  {
+    name: '백록관',
+    image: require('../../assets/public/map/5.jpg'),
+    coords: { latitude: 37.868834, longitude: 127.741717 },
+    color: '#FF2D55',
+  },
+  {
+    name: '회차',
+    image: require('../../assets/public/map/6.jpg'),
+    coords: { latitude: 37.86668528877598, longitude: 127.7417594720057 },
+    color: '#4A4A4A',
+  },
+  {
+    name: '함인섭광장',
+    image: require('../../assets/public/map/7.jpg'),
+    coords: { latitude: 37.8685755, longitude: 127.74155 },
+    color: '#4A90E2',
+  },
+  {
+    name: '미래광장(미도행)',
+    image: require('../../assets/public/map/8.jpg'),
+    coords: { latitude: 37.8705345, longitude: 127.7434255 },
+    color: '#4A90E2',
+  },
+  {
+    name: '경영대2호관(미도행)',
+    image: require('../../assets/public/map/9.jpg'),
+    coords: { latitude: 37.8696339, longitude: 127.7465747 },
+    color: '#4A90E2',
+  },
+  {
+    name: '의생대',
+    image: require('../../assets/public/map/10.jpg'),
+    coords: { latitude: 37.8682864, longitude: 127.7498744 },
+    color: '#4A90E2',
+  },
+  {
+    name: '운행종료',
+    image: require('../../assets/public/map/11.jpg'),
+    coords: { latitude: 37.86607798157161, longitude: 127.7485886996954 },
+    color: '#4A90E2',
+  },
+]
 
 const MapScreen = () => {
-  const [animation] = React.useState(new Animated.Value(0)); // 애니메이션 값
-  const [showPopup, setShowPopup] = React.useState(false);
-  const [popupImage, setPopupImage] = React.useState(null);
-  const [selectedGroup, setSelectedGroup] = React.useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false)
 
-    // 애니메이션 처리
-    const animate = (isSelected) => {
-      Animated.sequence([
-        Animated.timing(animation, { toValue: 1, duration: 0, useNativeDriver: false }),
-        Animated.timing(animation, { toValue: 0, duration: 500, useNativeDriver: false }),
-      ]).start();
-    };
-  
-  // 그룹 버튼 정보
-  const groupButtons = [
-    {
-      image: require('../../assets/public/미도1.jpg'),
-      group: 'group1',
-      style: { ...styles.group1, top: 379, left: 249 },
-      circleStyle: { ...styles.circle1 },
-    },
-    {
-      image: require('../../assets/public/의생대1.jpg'),
-      group: 'group2',
-      style: { ...styles.group2, top: 310, left: 278 },
-      circleStyle: { ...styles.circle2 },
-    },
-    {
-      image: require('../../assets/public/경영1.jpg'),
-      group: 'group3',
-      style: { ...styles.group3, top: 259, left: 175 },
-      circleStyle: { ...styles.circle3 },
-    },
-    {
-      image: require('../../assets/public/미광1.jpg'),
-      group: 'group4',
-      style: { ...styles.group4, top: 204, left: 60 },
-      circleStyle: { ...styles.circle4 },
-    },
-    {
-      image: require('../../assets/public/백록관1.jpg'),
-      group: 'group5',
-      style: { ...styles.group5, top: 268, left: 20 },
-      circleStyle: { ...styles.circle5 },
-    },
-    {
-      image: require('../../assets/public/함인섭1.jpg'),
-      group: 'group6',
-      style: { ...styles.group6, top: 298, left: 62 },
-      circleStyle: { ...styles.circle6 },
-    },
-    {
-      image: require('../../assets/public/동생대1.jpg'),
-      group: 'group7',
-      style: { ...styles.group7, top: 283, left: 237 },
-      circleStyle: { ...styles.circle7 },
-    },
-    {
-      image: require('../../assets/public/미광2.jpg'),
-      group: 'group8',
-      style: { ...styles.group8, top: 233, left: 114 },
-      circleStyle: { ...styles.circle8 },
-    },
-    {
-      image: require('../../assets/public/경영2.jpg'),
-      group: 'group9',
-      style: { ...styles.group9, top: 230, left: 198 },
-      circleStyle: { ...styles.circle9 },
-    },
-    {
-      image: require('../../assets/public/기숙사1.jpg'),
-      group: 'group10',
-      style: { ...styles.group10, top: 350, left: 20 },
-      circleStyle: { ...styles.circle10 },
-    },
-    {
-      image: require('../../assets/public/미도2.jpg'),
-      group: 'group11',
-      style: { ...styles.group11, top: 349, left: 190 },
-      circleStyle: { ...styles.circle11 },
-    },
-  ];
+  const onButtonPress = (location) => {
+    setSelectedLocation(location)
+    setModalVisible(true)
+    Vibration.vibrate(200)
+  }
 
-  // 그룹 버튼을 눌렀을 때의 처리
-  const handleGroupPress = (image, group) => {
-    const isSelected = selectedGroup === group;
-    setShowPopup(!isSelected || !showPopup);
-    setPopupImage(!isSelected || !showPopup ? image : null);
-    setSelectedGroup(!isSelected || !showPopup ? group : null);
-    animate(isSelected); // 애니메이션 처리
-  };
-
-  // 팝업을 닫습니다.
-  const closePopup = () => {
-    setShowPopup(false);
-    setPopupImage(null); // 팝업 닫을 때 이미지 초기화
-    setSelectedGroup(null); // 선택된 그룹 초기화
-  };
+  const closeModal = () => {
+    setSelectedLocation(null)
+    setModalVisible(false)
+    Vibration.vibrate(50)
+  }
 
   return (
-    <View style={{ flex: 1, width: width, height: height }}>
-      {/* 그룹 버튼 */}
-      {groupButtons.map((button, index) => (
-        <TouchableOpacity
-          key={index}
-          style={{ ...button.style, position: 'absolute', zIndex: 1 }}
-          onPress={() => handleGroupPress(button.image, button.group)}
-        >
-          {/* 작은 동그라미 */}
-          <Animated.View
-            style={{
-              ...button.circleStyle,
-              opacity: animation.interpolate({
-                inputRange: [0, 1],
-                outputRange: selectedGroup === button.group ? [0, 1] : [0, 0],
-              }),
-              transform: [
-                {
-                  scale: animation.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, 3],
-                  }),
-                },
-              ],
-            }}
-          />
-        </TouchableOpacity>
-      ))}
-      {/* 지도 이미지 */}
-        <Image
-        source={require('../../assets/public/Map.png')}
-        style={{ width: '100%', height: '100%', alignSelf: 'center', resizeMode: 'contain', marginTop: 'auto', marginBottom: 'auto' }}
-      />
-
-      {/* 팝업 모달 */}
-      <Modal
-        visible={showPopup}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={closePopup}
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 37.8690771,
+          longitude: 127.7446742,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.0025,
+        }}
       >
-        <TouchableOpacity style={{ flex: 1 }} activeOpacity={1} onPress={closePopup}>
-          <View style={styles.modalContainer}>
-            {/* 팝업 이미지 */}
-            {popupImage && (
-              <Image
-                source={popupImage}
-                style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-              />
-            )}
+        {locations.map((loc) => (
+          <Marker
+            key={loc.name}
+            coordinate={loc.coords}
+            onPress={() => onButtonPress(loc)}
+            pinColor={loc.color}
+          />
+        ))}
+        {goPaths.map((path, index) => (
+          <Polyline
+            key={`goPath-${index}`}
+            coordinates={path}
+            strokeColor="#FF2D55"
+            strokeWidth={6}
+          />
+        ))}
+        {comePaths.map((path, index) => (
+          <Polyline
+            key={`comePath-${index}`}
+            coordinates={path}
+            strokeColor="#4A90E2"
+            strokeWidth={6}
+          />
+        ))}
+      </MapView>
+      <ScrollView horizontal style={styles.scrollView}>
+        {locations.map((loc) => (
+          <TouchableOpacity key={loc.name} onPress={() => onButtonPress(loc)}>
+            <Image source={loc.image} style={styles.buttonImage} />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              {selectedLocation?.name ?? 'Default Name'}
+            </Text>
+            <Image source={selectedLocation?.image} style={styles.modalImage} />
+            <Pressable style={styles.button} onPress={closeModal}>
+              <Text style={styles.buttonText}>Close</Text>
+            </Pressable>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
 
-      {/* 정류장 번호를 누르면 정류장 이미지가 나옵니다.*/}
-      <View style={styles.bottomTextContainer}>
-        <Text style={styles.bottomText}>정류장을 클릭하면 해당 정류장의 이미지가 표시됩니다.</Text>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.bottomText}>
+          정류장을 클릭하면 해당 정류장의 이미지가 표시됩니다.
+        </Text>
       </View>
     </View>
-  );
-};
-const groupStyle = {
-  width : 80,
-  height: 30,
-  backgroundColor : 'transparent',
-}
-
-const circleStyle = {
-  position: 'absolute',
-  width : 5,
-  height : 5,
-  borderRadius: 5,
-  backgroundColor : 'rgba(0, 255, 255, 0.5)',
-  top : 0,
-  left: 0,
+  )
 }
 
 const styles = StyleSheet.create({
-  group1: {...groupStyle},
-  group2: {...groupStyle},
-  group3: {...groupStyle, width:50},
-  group4: {...groupStyle},
-  group5: {...groupStyle, width:50},
-  group6: {...groupStyle},
-  group7: {...groupStyle, width:40},
-  group8: {...groupStyle, width:50},
-  group9: {...groupStyle},
-  group10: {...groupStyle},
-  group11: {...groupStyle}, 
-
-  circle1: {...circleStyle},
-  circle2: {...circleStyle,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)'},
-  circle3: {...circleStyle, 
-    backgroundColor: 'rgba(255, 0, 0, 0.5)',
-    left: 25,
-  },
-  circle4: {
-    ...circleStyle,
-    top: 25, 
-    left: 50, 
-  },
-  circle5: {
-    ...circleStyle,
-    top: 24, 
-    left: 36, 
-  },
-  circle6: {
-    ...circleStyle,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', 
-  },
-  circle7: {
-    ...circleStyle,
-    top: 22, 
-    left: 30, 
-  },
-  circle8: {
-    ...circleStyle,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)',
-  },
-  circle9: {
-    ...circleStyle,
-    top: 25, 
-    left: 7, 
-  },
-  circle10: {
-    ...circleStyle,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-    top: 7, 
-    left: 45, 
-  },
-  circle11: {
-   ...circleStyle,
-    backgroundColor: 'rgba(255, 0, 0, 0.5)', 
-    top: 25, 
-    left: 60, 
-  },
-  // 나머지 그룹들의 스타일 정의
-  modalContainer: {
+  container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  map: {
+    flex: 1,
+  },
+  scrollView: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+  },
+  buttonImage: {
+    width: 80,
+    height: 80,
+    marginRight: 8,
+  },
+
+  // 버튼 --------------------------------------------------------------
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
     justifyContent: 'center',
-    alignItems: 'center',
   },
-  closeButton: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-  },
-  bottomTextContainer: {
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  button: {
+    backgroundColor: '#4A90E2',
+    borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
+    marginLeft: 5,
+    marginRight: 5,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+
+  // 모달
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    alignItems: 'center',
+
+    padding: 20,
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 15,
+    color: '#4A4A4A',
+  },
+  modalImage: {
+    width: 240,
+    height: 320,
+    marginBottom: 20,
     borderRadius: 10,
   },
-  bottomText: {
-    color: '#fff',
-    textAlign: 'center',
-  },
-});
 
-export default MapScreen;
+  // 설명 텍스트
+  bottomContainer: {
+    position: 'absolute',
+    bottom: 130,
+    left: 20,
+    right: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomText: {
+    padding: 5,
+    paddingHorizontal: 10,
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '300',
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+})
+
+export default MapScreen
