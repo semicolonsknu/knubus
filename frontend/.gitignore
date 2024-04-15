@@ -36,3 +36,6 @@ yarn-error.*
 
 #prettierrc
 .prettierrc
+
+#apiKey
+./src/data/apiKey.js
