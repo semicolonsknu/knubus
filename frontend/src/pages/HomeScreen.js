@@ -8,6 +8,7 @@ import {
   Animated,
 } from 'react-native'
 import operation from '../data/operation.json'
+import { apiKey } from '../data/apiKey'
 import Round from '../components/Round'
 
 const HomeScreen = () => {
@@ -90,8 +91,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchHolidays = async () => {
       const { year, month } = formatHoliday(selectedDate)
-      const serviceKey =
-        'ZvYPMHcdP5th36amVoHJGtlGw7hwp%2B8HPSBiZJRe2OzO0t6Bh3iqj5UE15%2Fn5LBpkYYILdb3XQ4ElOFgMWha6A%3D%3D'
+      const serviceKey = apiKey
 
       const holidayUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
       const anniversaryUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
