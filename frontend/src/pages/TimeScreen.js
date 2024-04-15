@@ -22,10 +22,10 @@ const RenderRows = () => (
         key={index}
         data={[round.round, ...Object.values(round.tables)]}
         widthArr={widthArr}
-        style={[
-          styles.row,
-          { backgroundColor: index % 2 ? '#F8F9FA' : 'transparent' },
-        ]}
+        style={{
+          ...styles.row,
+          backgroundColor: index % 2 ? '#F8F9FA' : 'transparent',
+        }}
         textStyle={styles.text}
       />
     ))}

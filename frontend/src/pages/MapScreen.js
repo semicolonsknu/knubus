@@ -69,34 +69,34 @@ const comePaths = [
 
 const locations = [
   {
-    name: 'KNU 미래도서관',
+    name: '미래도서관',
     image: require('../../assets/public/map/1.jpg'),
     coords: { latitude: 37.86602102736735, longitude: 127.7487168858128 },
-    color: '#FF2D55',
+    color: '#FF5757',
   },
   {
     name: '동생대2호관',
     image: require('../../assets/public/map/2.jpg'),
     coords: { latitude: 37.868289, longitude: 127.749243 },
-    color: '#FF2D55',
+    color: '#FF5757',
   },
   {
     name: '경영대2호관(기숙사행)',
     image: require('../../assets/public/map/3.jpg'),
     coords: { latitude: 37.86974, longitude: 127.746166 },
-    color: '#FF2D55',
+    color: '#FF5757',
   },
   {
     name: '미래광장(기숙사행)',
     image: require('../../assets/public/map/4.jpg'),
     coords: { latitude: 37.87061, longitude: 127.743802 },
-    color: '#FF2D55',
+    color: '#FF5757',
   },
   {
     name: '백록관',
     image: require('../../assets/public/map/5.jpg'),
     coords: { latitude: 37.868834, longitude: 127.741717 },
-    color: '#FF2D55',
+    color: '#FF5757',
   },
   {
     name: '회차',
@@ -108,31 +108,31 @@ const locations = [
     name: '함인섭광장',
     image: require('../../assets/public/map/7.jpg'),
     coords: { latitude: 37.8685755, longitude: 127.74155 },
-    color: '#4A90E2',
+    color: '#38B6FF',
   },
   {
     name: '미래광장(미도행)',
     image: require('../../assets/public/map/8.jpg'),
     coords: { latitude: 37.8705345, longitude: 127.7434255 },
-    color: '#4A90E2',
+    color: '#38B6FF',
   },
   {
     name: '경영대2호관(미도행)',
     image: require('../../assets/public/map/9.jpg'),
     coords: { latitude: 37.8696339, longitude: 127.7465747 },
-    color: '#4A90E2',
+    color: '#38B6FF',
   },
   {
     name: '의생대',
     image: require('../../assets/public/map/10.jpg'),
     coords: { latitude: 37.8682864, longitude: 127.7498744 },
-    color: '#4A90E2',
+    color: '#38B6FF',
   },
   {
     name: '운행종료',
     image: require('../../assets/public/map/11.jpg'),
     coords: { latitude: 37.86607798157161, longitude: 127.7485886996954 },
-    color: '#4A90E2',
+    color: '#38B6FF',
   },
 ]
 
@@ -175,7 +175,7 @@ const MapScreen = () => {
           <Polyline
             key={`goPath-${index}`}
             coordinates={path}
-            strokeColor="#FF2D55"
+            strokeColor="#FF5757"
             strokeWidth={6}
           />
         ))}
@@ -183,7 +183,7 @@ const MapScreen = () => {
           <Polyline
             key={`comePath-${index}`}
             coordinates={path}
-            strokeColor="#4A90E2"
+            strokeColor="#38B6FF"
             strokeWidth={6}
           />
         ))}
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
-    backgroundColor: '#4A90E2',
+    backgroundColor: '#38B6FF',
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,

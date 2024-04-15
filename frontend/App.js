@@ -1,20 +1,28 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, StatusBar } from 'react-native'
+import { SafeAreaView, StyleSheet, StatusBar, View } from 'react-native'
 import Header from './src/components/Header' // Adjust the path as necessary
 import Navigation from './src/Navigation'
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Header />
-      <Navigation />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView style={styles.safeArea}>
+        <Header />
+        <Navigation />
+      </SafeAreaView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  safeArea: {
+    flex: 1,
+
+    backgroundColor: 'white',
   },
 })
 

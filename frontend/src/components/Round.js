@@ -32,6 +32,11 @@ const Round = ({ isOperation }) => {
     setCurrentIndex(index)
   }, [currentTime])
 
+  useEffect(() => {
+    const initialIndex = getCurrentIndex()
+    setSelectedIndex(initialIndex)
+  }, [])
+
   // 인덱스 계산 --------------------------------------------------------------
   const getCurrentIndex = () => {
     const currentHour = currentTime.getHours()
