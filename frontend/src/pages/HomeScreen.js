@@ -271,10 +271,10 @@ const styles = StyleSheet.create({
 
   // 색상 --------------------------------------------------------------
   blueText: {
-    color: '#4A90E2',
+    color: '#38B6FF',
   },
   redText: {
-    color: '#FF2D55',
+    color: '#FF5757',
   },
   grayText: {
     color: '#808080',
