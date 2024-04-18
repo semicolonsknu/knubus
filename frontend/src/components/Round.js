@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     marginBottom: 10,
-    justifyContent: 'center',
+    justifyContent: 'left',
   },
   button: {
     backgroundColor: '#4A90E2',
