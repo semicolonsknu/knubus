@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, StatusBar, View } from 'react-native'
-import Header from './src/components/Header' // Adjust the path as necessary
+import Header from './src/components/Header'
 import Navigation from './src/Navigation'
 
 const App = () => {
@@ -21,7 +21,6 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-
     backgroundColor: 'white',
   },
 })

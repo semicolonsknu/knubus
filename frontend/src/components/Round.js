@@ -132,7 +132,7 @@ const Round = ({ isOperation }) => {
       <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
       <Text style={styles.roundText}>{round}</Text>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.stateListContainer}>
         {selectedIndex > 0 && (
           <Pressable onPress={goToPrevious} style={styles.button}>
             <Text style={styles.buttonText}>이전 회차</Text>
@@ -152,19 +152,19 @@ const Round = ({ isOperation }) => {
         )}
       </View>
 
-      <View style={styles.timelineContainer}>
-        <View style={styles.buttonContainer}>
-          <View style={styles.circleContainer}>
-            <View style={[styles.circle, { backgroundColor: '#B0BEC5' }]} />
-            <Text style={styles.circleText}>운영 종료</Text>
+      <View style={styles.roundContainer}>
+        <View style={styles.stateListContainer}>
+          <View style={styles.stateContainer}>
+            <View style={[styles.state, { backgroundColor: '#B0BEC5' }]} />
+            <Text style={styles.stateTexts}>운행 종료</Text>
           </View>
-          <View style={styles.circleContainer}>
-            <View style={[styles.circle, { backgroundColor: '#FF5757' }]} />
-            <Text style={styles.circleText}>현재 운행</Text>
+          <View style={styles.stateContainer}>
+            <View style={[styles.state, { backgroundColor: '#FF5757' }]} />
+            <Text style={styles.stateText}>현재s 운행</Text>
           </View>
-          <View style={styles.circleContainer}>
-            <View style={[styles.circle, { backgroundColor: '#38B6FF' }]} />
-            <Text style={styles.circleText}>운행 예정</Text>
+          <View style={styles.stateContainer}>
+            <View style={[styles.state, { backgroundColor: '#38B6FF' }]} />
+            <Text style={styles.stateText}>운행 예정</Text>
           </View>
         </View>
 
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
 
   // 버튼 --------------------------------------------------------------
-  buttonContainer: {
+  stateListContainer: {
     flexDirection: 'row',
     marginBottom: 10,
     justifyContent: 'center',
@@ -253,29 +253,29 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 
-  // timelineContainer --------------------------------------------------------------
-  timelineContainer: {
+  // roundContainer --------------------------------------------------------------
+  roundContainer: {
     flex: 1,
     marginTop: 5,
     height: '100%',
     width: '100%',
   },
 
-  // timelineContainer --------------------------------------------------------------
-  circleContainer: {
+  // roundContainer --------------------------------------------------------------
+  stateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 5,
     marginRight: 5,
   },
-  circle: {
+  state: {
     width: 10,
     height: 15,
     borderRadius: 10,
     marginHorizontal: 5,
   },
-  circleText: {
+  stateText: {
     marginLeft: 5,
   },
 
