@@ -69,7 +69,7 @@ const comePaths = [
 
 const locations = [
   {
-    name: '미래도서관',
+    name: '운행시작 [미래도서관]',
     image: require('../../assets/public/map/1.jpg'),
     coords: { latitude: 37.86602102736735, longitude: 127.7487168858128 },
     color: '#FF5757',

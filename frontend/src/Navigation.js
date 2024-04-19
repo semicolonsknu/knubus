@@ -1,9 +1,8 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import Icon from 'react-native-vector-icons/Ionicons' // Adjust import as needed for Expo
+import Icon from 'react-native-vector-icons/Ionicons' 
 
-// Import screens
 import HomeScreen from './pages/HomeScreen'
 import MapScreen from './pages/MapScreen'
 import TimeScreen from './pages/TimeScreen'
@@ -28,8 +27,8 @@ const Navigation = () => {
           },
           headerShown: false,
 
-          tabBarActiveTintColor: '#0047bb', // 메인 색상 for active icon
-          tabBarInactiveTintColor: '#0f3c87', // 어두운 색상 for inactive icon
+          tabBarActiveTintColor: '#0047bb', 
+          tabBarInactiveTintColor: '#0f3c87', 
           tabBarLabelStyle: {
             marginBottom: 5,
           },

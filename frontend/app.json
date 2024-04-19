@@ -1,32 +1,31 @@
 {
   "expo": {
+    "version": "1.0.0",
     "name": "KNUBus",
     "slug": "KNUBus",
-    "version": "1.0.0",
+    "owner": "semicolons",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"],
+
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.semicolons.knu",
-      "buildNumber": "1.0.0"
+
+    "web": {
+      "favicon": "./assets/icon.png"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
+      "versionCode": 1,
       "package": "com.semicolons.knu",
-      "versionCode": 1
-    },
-    "web": {
-      "favicon": "./assets/icon.png"
+      "permissions": ["ACCESS_FINE_LOCATION", "INTERNET"]
     }
   }
 }
