@@ -96,8 +96,8 @@ const Timeline = ({ roundData }) => {
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
         {roundData.map((stop, index) => (
-          <View key={index} style={styles.stopContainer}>
-            <View style={styles.line}>
+          <View key={index} style={styles.timelineContainer}>
+            <View style={styles.timeline}>
               <Animated.View
                 style={[
                   styles.circle,
@@ -110,11 +110,11 @@ const Timeline = ({ roundData }) => {
               />
 
               {index == roundData.length - 1 ? (
-                <Animated.View style={[styles.circleLine]} />
+                <Animated.View style={[styles.circleBar]} />
               ) : (
                 <Animated.View
                   style={[
-                    styles.circleLine,
+                    styles.circleBar,
                     isCurrent(stop.time, roundData[index + 1]?.time)
                       ? [styles.current, { opacity: fadeAnim }]
                       : isPast(stop.time)
@@ -161,15 +161,15 @@ const styles = StyleSheet.create({
   },
 
   // stop 컨테이너 --------------------------------------------------------------
-  stopContainer: {
+  timelineContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  line: {
+  timeline: {
     alignItems: 'center',
     marginRight: 16,
   },
-  circleLine: {
+  circleBar: {
     width: 3,
     flex: 1,
   },

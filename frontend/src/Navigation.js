@@ -1,7 +1,8 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import Icon from 'react-native-vector-icons/Ionicons' 
+import Icon from 'react-native-vector-icons/Ionicons'
+import { StyleSheet } from 'react-native'
 
 import HomeScreen from './pages/HomeScreen'
 import MapScreen from './pages/MapScreen'
@@ -26,17 +27,10 @@ const Navigation = () => {
             return <Icon name={iconName} size={size} color={color} />
           },
           headerShown: false,
-
-          tabBarActiveTintColor: '#0047bb', 
-          tabBarInactiveTintColor: '#0f3c87', 
-          tabBarLabelStyle: {
-            marginBottom: 5,
-          },
-          tabBarStyle: {
-            height: 65,
-            paddingVertical: 10, // Increase padding for larger touch area
-            paddingBottom: 5,
-          },
+          tabBarActiveTintColor: styles.activeTab.color,
+          tabBarInactiveTintColor: styles.inactiveTab.color,
+          tabBarLabelStyle: styles.tabBarLabsel,
+          tabBarStyle: styles.tabBar,
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
@@ -46,5 +40,22 @@ const Navigation = () => {
     </NavigationContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    height: 65,
+    paddingVertical: 10,
+    paddingBottom: 5,
+  },
+  tabBarLabel: {
+    marginBottom: 5,
+  },
+  activeTab: {
+    color: '#4A90E2',
+  },
+  inactiveTab: {
+    color: '#4A4A4Ass',
+  },
+})
 
 export default Navigation

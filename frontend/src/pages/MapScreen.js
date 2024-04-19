@@ -3,11 +3,10 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity,
+  Pressable,
   Image,
   Modal,
   Vibration,
-  Pressable,
   StyleSheet,
 } from 'react-native'
 import MapView, { Marker, Polyline } from 'react-native-maps'
@@ -190,9 +189,9 @@ const MapScreen = () => {
       </MapView>
       <ScrollView horizontal style={styles.scrollView}>
         {locations.map((loc) => (
-          <TouchableOpacity key={loc.name} onPress={() => onButtonPress(loc)}>
+          <Pressable key={loc.name} onPress={() => onButtonPress(loc)}>
             <Image source={loc.image} style={styles.buttonImage} />
-          </TouchableOpacity>
+          </Pressable>
         ))}
       </ScrollView>
       <Modal
@@ -215,7 +214,7 @@ const MapScreen = () => {
       </Modal>
 
       <View style={styles.bottomContainer}>
-        <Text style={styles.bottomText}>
+        <Text style={styles.bottom}>
           정류장을 클릭하면 해당 정류장의 이미지가 표시됩니다.
         </Text>
       </View>
@@ -304,7 +303,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bottomText: {
+  bottom: {
     padding: 5,
     paddingHorizontal: 10,
     color: '#FFFFFF',

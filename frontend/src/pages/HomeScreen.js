@@ -186,7 +186,7 @@ const HomeScreen = () => {
 
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={goToPrevious}>
-          <Text style={styles.buttonText}>이전 날짜</Text>
+          <Text style={styles.buttonText}>이전 날짜</Text>ㄴ{' '}
         </Pressable>
 
         {new Date().toDateString() !== selectedDate.toDateString() && (
