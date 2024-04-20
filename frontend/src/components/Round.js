@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: 'contain',
-    width: '100%',
-    height: '100%',
+    width: '40%',
+    height: '40%',
   },
 
   // roundContainer --------------------------------------------------------------

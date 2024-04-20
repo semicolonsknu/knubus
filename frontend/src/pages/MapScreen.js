@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
   Text,
   View,
@@ -139,17 +139,17 @@ const MapScreen = () => {
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
 
-  const onButtonPress = (location) => {
+  const onButtonPress = useCallback((location) => {
     setSelectedLocation(location)
     setModalVisible(true)
     Vibration.vibrate(200)
-  }
+  }, [])
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedLocation(null)
     setModalVisible(false)
     Vibration.vibrate(50)
-  }
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -190,7 +190,11 @@ const MapScreen = () => {
       <ScrollView horizontal style={styles.scrollView}>
         {locations.map((loc) => (
           <Pressable key={loc.name} onPress={() => onButtonPress(loc)}>
-            <Image source={loc.image} style={styles.buttonImage} />
+            <Image
+              source={loc.image}
+              style={styles.buttonImage}
+              onLoad={() => console.log(`${loc.name} image loaded`)}
+            />
           </Pressable>
         ))}
       </ScrollView>
@@ -212,7 +216,6 @@ const MapScreen = () => {
           </View>
         </View>
       </Modal>
-
       <View style={styles.bottomContainer}>
         <Text style={styles.bottom}>
           정류장을 클릭하면 해당 정류장의 이미지가 표시됩니다.

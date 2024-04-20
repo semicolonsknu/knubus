@@ -14,12 +14,15 @@
     },
     "plugins": ["expo-build-properties"],
     "android": {
+      "config": {
+        "googleMaps": {}
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
       "versionCode": 1,
-      "package": "com.semicolons.knu",
+      "package": "com.semicolons.knubus",
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "INTERNET",
