@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     color: '#4A90E2',
   },
   inactiveTab: {
-    color: '#4A4A4Ass',
+    color: '#4A4A4A',
   },
 })
 

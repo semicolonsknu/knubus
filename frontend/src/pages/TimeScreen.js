@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, ScrollView, tableText } from 'react-native'
+import { StyleSheet, View, ScrollView, Text } from 'react-native'
 import { Table, Row } from 'react-native-table-component'
 import scheduleData from '../data/schedule.json'
 
@@ -11,7 +11,7 @@ const RenderHead = () => (
     data={['구분', ...Object.keys(schedule[0].tables)]}
     widthArr={widthArr}
     style={styles.head}
-    tableTextStyle={styles.tableText}
+    textStyle={styles.tableText}
   />
 )
 
@@ -26,7 +26,7 @@ const RenderRows = () => (
           ...styles.row,
           backgroundColor: index % 2 ? '#F8F9FA' : 'transparent',
         }}
-        tableTextStyle={styles.tableText}
+        textStyle={styles.tableText}
       />
     ))}
   </>
@@ -37,7 +37,7 @@ const TimeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <tableText style={styles.header}>운행 시간표</tableText>
+      <Text style={styles.header}>운행 시간표</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={[styles.tableContainer, { minWidth: totalWidth }]}>
           <Table borderStyle={styles.border}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FA',
   },
   tableText: {
-    tableTextAlign: 'center',
+    textAlign: 'center',
     fontSize: 16,
     color: '#4A4A4A',
   },
