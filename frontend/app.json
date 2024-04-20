@@ -6,33 +6,44 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "assetBundlePatterns": ["**/*"],
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "plugins": ["expo-build-properties"],
+    "plugins": [
+      "expo-build-properties",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
     "android": {
       "config": {
-        "googleMaps": {}
+        "googleMaps": {
+          "apiKey": "구글 클라우드 서비스키"
+        }
       },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "versionCode": 1,
       "package": "com.semicolons.knubus",
       "permissions": [
-        "ACCESS_FINE_LOCATION",
         "INTERNET",
         "ACCESS_NETWORK_STATE",
-        "WAKE_LOCK"
+        "ACCESS_COARSE_LOCATION"
       ]
     },
     "extra": {
       "eas": {
-        "projectId": "a9be998e-d71b-4525-8067-882f52d013f0"
+        "projectId": "프로젝트 아이디"
       }
     }
   }

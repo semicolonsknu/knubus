@@ -222,12 +222,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 5,
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
   dateNameText: {
     fontSize: 23,
     fontWeight: '700',
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
 
   // 버튼 --------------------------------------------------------------
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     color: '#808080',
   },
   defaultText: {
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
 
   // roundContainer --------------------------------------------------------------

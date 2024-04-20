@@ -1,5 +1,12 @@
 import React from 'react'
-import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Animated,
+} from 'react-native'
 import { Table, Row } from 'react-native-table-component'
 import scheduleData from '../data/schedule.json'
 
@@ -11,26 +18,57 @@ const RenderHead = () => (
     data={['구분', ...Object.keys(schedule[0].tables)]}
     widthArr={widthArr}
     style={styles.head}
-    textStyle={styles.tableText}
+    textStyle={styles.headText}
   />
 )
 
 const RenderRows = () => (
   <>
     {schedule.map((round, index) => (
-      <Row
-        key={index}
-        data={[round.round, ...Object.values(round.tables)]}
-        widthArr={widthArr}
-        style={{
-          ...styles.row,
-          backgroundColor: index % 2 ? '#F8F9FA' : 'transparent',
-        }}
-        textStyle={styles.tableText}
-      />
+      <AnimatedRow key={index} round={round} index={index} />
     ))}
   </>
 )
+
+const AnimatedRow = ({ round, index }) => {
+  const [scale] = React.useState(new Animated.Value(1))
+
+  const handlePress = () => {
+    Animated.sequence([
+      Animated.timing(scale, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scale, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start()
+    console.log('Row pressed', round.round)
+  }
+
+  return (
+    <TouchableOpacity activeOpacity={1} onPress={handlePress}>
+      <Animated.View
+        style={{
+          transform: [{ scale }],
+        }}
+      >
+        <Row
+          data={[round.round, ...Object.values(round.tables)]}
+          widthArr={widthArr}
+          style={[
+            styles.row,
+            { backgroundColor: index % 2 ? '#f4f4f8' : 'white' },
+          ]}
+          textStyle={styles.tableText}
+        />
+      </Animated.View>
+    </TouchableOpacity>
+  )
+}
 
 const TimeScreen = () => {
   const totalWidth = widthArr.reduce((acc, cur) => acc + cur, 0)
@@ -60,10 +98,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   header: {
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: '600',
     marginBottom: 20,
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
   tableContainer: {
     flex: 1,
@@ -71,23 +109,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     width: '100%',
     overflow: 'hidden',
+    borderRadius: 8,
   },
   border: {
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
+    borderWidth: 0.5,
+    borderColor: '#E0E0E0',
   },
   head: {
     height: 50,
-    backgroundColor: '#38B6FF',
+    backgroundColor: '#4A90E2',
+    borderRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+  },
+  headText: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
   row: {
     height: 40,
-    backgroundColor: '#F8F9FA',
+    borderRadius: 8,
   },
   tableText: {
     textAlign: 'center',
     fontSize: 16,
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
 })
 
