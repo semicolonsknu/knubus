@@ -1,31 +1,50 @@
 {
   "expo": {
     "version": "1.0.0",
-    "name": "KNUBus",
-    "slug": "KNUBus",
-    "owner": "semicolons",
+    "name": "강원대버스",
+    "slug": "knu-bus",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "assetBundlePatterns": ["**/*"],
-
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
-    "web": {
-      "favicon": "./assets/icon.png"
-    },
+    "plugins": [
+      "expo-build-properties",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "구글 클라우드 서비스키"
+        }
+      },
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "versionCode": 1,
-      "package": "com.semicolons.knu",
-      "permissions": ["ACCESS_FINE_LOCATION", "INTERNET"]
+      "package": "com.semicolons.knubus",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "프로젝트 아이디"
+      }
     }
   }
 }

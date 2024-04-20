@@ -8,7 +8,7 @@ import {
   Animated,
 } from 'react-native'
 import operation from '../data/operation.json'
-import { apiKey } from '../data/apiKey'
+import { dateApiKey } from '../data/apiKey'
 import Round from '../components/Round'
 
 const HomeScreen = () => {
@@ -91,7 +91,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchHolidays = async () => {
       const { year, month } = formatHoliday(selectedDate)
-      const serviceKey = apiKey
+      const serviceKey = dateApiKey
 
       const holidayUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
       const anniversaryUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getAnniversaryInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
@@ -186,7 +186,7 @@ const HomeScreen = () => {
 
       <View style={styles.buttonContainer}>
         <Pressable style={styles.button} onPress={goToPrevious}>
-          <Text style={styles.buttonText}>이전 날짜</Text>ㄴ{' '}
+          <Text style={styles.buttonText}>이전 날짜</Text>
         </Pressable>
 
         {new Date().toDateString() !== selectedDate.toDateString() && (
@@ -222,12 +222,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     marginBottom: 5,
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
   dateNameText: {
     fontSize: 23,
     fontWeight: '700',
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
 
   // 버튼 --------------------------------------------------------------
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     color: '#808080',
   },
   defaultText: {
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
 
   // roundContainer --------------------------------------------------------------

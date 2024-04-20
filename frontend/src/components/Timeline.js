@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   stopName: {
     fontSize: 16,
     fontWeight: 'normal',
-    color: '#4A4A4A',
+    color: '#2c3e50',
     marginBottom: 15,
   },
 

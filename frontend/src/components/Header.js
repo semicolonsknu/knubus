@@ -2,13 +2,13 @@ import React from 'react'
 import { View, Image, StyleSheet, Pressable, Linking } from 'react-native'
 
 const Header = () => {
-  const handleLogoPress = () => {
+  const handlePress = () => {
     Linking.openURL('https://wwwk.kangwon.ac.kr/www/contents.do?key=2414&')
   }
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={handleLogoPress}>
+      <Pressable onPress={handlePress}>
         <Image
           source={require('../../assets/KNUB.png')}
           resizeMode="contain"

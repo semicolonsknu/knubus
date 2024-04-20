@@ -3,6 +3,7 @@ import {
   View,
   Text,
   Pressable,
+  TouchableOpacity,
   StyleSheet,
   Image,
   Vibration,
@@ -34,7 +35,9 @@ const Round = ({ isOperation }) => {
 
   useEffect(() => {
     const initialIndex = getCurrentIndex()
-    setSelectedIndex(initialIndex)
+    if (initialIndex !== -1) {
+      setSelectedIndex(initialIndex)
+    }
   }, [])
 
   // 인덱스 계산 --------------------------------------------------------------
@@ -113,13 +116,24 @@ const Round = ({ isOperation }) => {
   }, [selectedIndex, fadeAnim])
 
   // !isOperation --------------------------------------------------------------
+  const [toggle, setToggle] = useState(false)
+
+  const toggleImage = () => {
+    setToggle(!toggle)
+  }
   if (!isOperation) {
     return (
       <View style={styles.container}>
-        <Image
-          source={require('../../assets/public/Mascot.png')}
-          style={styles.image}
-        />
+        <TouchableOpacity onPress={toggleImage} style={styles.imageContainer}>
+          <Image
+            source={
+              toggle
+                ? require('../../assets/public/Mascot1.png')
+                : require('../../assets/public/Mascot0.png')
+            }
+            style={styles.image}
+          />
+        </TouchableOpacity>
       </View>
     )
   }
@@ -198,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     marginBottom: 3,
-    color: '#4A4A4A',
+    color: '#2c3e50',
   },
   roundText: {
     fontSize: 25,
@@ -246,11 +260,16 @@ const styles = StyleSheet.create({
   },
 
   // 이미지 --------------------------------------------------------------
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 200,
+    height: 200,
+  },
   image: {
     flex: 1,
     resizeMode: 'contain',
     width: '100%',
-    height: '100%',
   },
 
   // roundContainer --------------------------------------------------------------
@@ -289,7 +308,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   infoText: {
-    color: '#4A4A4A',
+    color: '#2c3e50',
     fontSize: 12,
   },
 })
