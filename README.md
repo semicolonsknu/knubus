@@ -1,8 +1,10 @@
 # KNUBus - 강원대학교 순환버스 정보 어플리케이션
 
+
 - FE project
 - **version** : `1.0.0`
-- **배포일** : `2024-04-25`
+- **배포일** : `2024-04-23`
+- [강원대버스(KNUBus) 다운로드](https://drive.google.com/drive/u/0/folders/1_o6j5WT7CQi0I9ueeRkC3BMNlh-aK_iZ)
   - `Android` 우선 배포.
   - 순환버스 운행 기간인 `2024-033-04`부터 `2024-06-24`에 따름.
 
@@ -17,6 +19,14 @@
 - 현재 날짜와 해당 날짜의 휴일 여부를 표시하고, 해당하는 회차 정보를 표시함.
 - 순환버스의 전체 노선도를 지도 상에 표시함.
 - 순환버스의 전체 운행 시간표를 표시함.
+
+## 배포
+
+- Expo를 사용하여 개발되었으며, Expo를 통해 배포합니다.
+- Google Cloud Platform의 API를 활용합니다.
+- 안드로이드 앱은 Google Play 콘솔을 통해 업로드합니다.
+  - [강원대버스(KNUBus) 다운로드](https://drive.google.com/drive/u/0/folders/1_o6j5WT7CQi0I9ueeRkC3BMNlh-aK_iZ)
+
 
 ## 팀원
 
@@ -156,14 +166,6 @@
 3. **Table** : 'react-native-table-component'에서 제공하는 `Table` 컴포넌트를 사용합니다.
 4. **Row (RenderHead)** : 테이블의 Head를 구성하는 컴포넌트로, 각 열의 제목을 표시합니다.
 5. **Row (RenderRows)** : 테이블의 Rows를 구성하는 컴포넌트로, 각 행을 동적으로 생성하여 표시합니다.
-
----
-
-## 배포
-
-- Expo를 사용하여 개발되었으며, Expo를 통해 배포합니다.
-- Google Cloud Platform의 API를 활용합니다.
-- 안드로이드 앱은 Google Play 콘솔을 통해 업로드합니다.
 
 ---
 
