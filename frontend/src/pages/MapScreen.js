@@ -7,10 +7,14 @@ import {
   Image,
   Modal,
   Vibration,
+  Dimensions,
   StyleSheet,
 } from 'react-native'
-import MapView, { Marker, Polyline } from 'react-native-maps'
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import { goPaths, comePaths, locations } from '../data/locations'
+
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
 
 const MapScreen = () => {
   const [selectedLocation, setSelectedLocation] = useState(null)
@@ -32,6 +36,7 @@ const MapScreen = () => {
     <View style={styles.container}>
       <MapView
         style={styles.map}
+        provider={PROVIDER_GOOGLE} // Google 지도를 사용하도록 설정
         initialRegion={{
           latitude: 37.8690771,
           longitude: 127.7446742,
@@ -108,53 +113,48 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   map: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
   },
-
-  // 스크롤뷰 ---------------------------------------------
   scrollView: {
     position: 'absolute',
-    bottom: 32,
-    left: 15,
-    right: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    borderRadius: 10,
+    bottom: scale(35),
+    left: scale(15),
+    right: scale(15),
+    paddingVertical: scale(10),
+    paddingHorizontal: scale(10),
+    borderRadius: scale(10),
     backgroundColor: '#FFFFFF',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: { width: 0, height: scale(6) },
     shadowOpacity: 0.1,
-    shadowRadius: 10,
+    shadowRadius: scale(10),
     elevation: 3,
   },
   scrollImage: {
-    width: 100,
-    height: 110,
-    marginRight: 10,
-    borderRadius: 10,
+    width: scale(90),
+    height: scale(100),
+    marginRight: scale(10),
+    borderRadius: scale(10),
   },
-
-  // 버튼 ---------------------------------------------
   button: {
     backgroundColor: '#4A90E2',
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 5,
-    marginRight: 5,
+    borderRadius: scale(20),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(20),
+    marginLeft: scale(5),
+    marginRight: scale(5),
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scale(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: scale(2),
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: scale(15),
     fontWeight: '600',
   },
-
-  // 모달 창 ---------------------------------------------
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -163,40 +163,38 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: '#F5F5F5',
-    borderRadius: 15,
+    borderRadius: scale(15),
     alignItems: 'center',
-    padding: 25,
+    padding: scale(25),
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   },
   modalText: {
-    fontSize: 20,
+    fontSize: scale(20),
     fontWeight: '700',
     color: '#2C3E50',
-    marginBottom: 15,
+    marginBottom: scale(15),
   },
   modalImage: {
-    width: 280,
-    height: 340,
-    borderRadius: 15,
-    marginBottom: 22,
+    width: scale(260),
+    height: scale(340),
+    borderRadius: scale(15),
+    marginBottom: scale(22),
   },
-
-  // 텍스트 ---------------------------------------------
   topContainer: {
     position: 'absolute',
-    top: 40,
-    left: 20,
-    right: 20,
+    top: scale(40),
+    left: scale(30),
+    right: scale(30),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: scale(10),
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   topText: {
-    padding: 10,
-    paddingHorizontal: 20,
+    padding: scale(10),
+    paddingHorizontal: scale(20),
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: scale(13),
     fontWeight: '400',
   },
 })

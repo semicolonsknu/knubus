@@ -8,9 +8,13 @@ import {
   Image,
   Vibration,
   Animated,
+  Dimensions,
 } from 'react-native'
 import scheduleData from '../data/schedule.json'
 import Timeline from './Timeline'
+
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
 
 const Round = ({ isOperation }) => {
   // 현재 시간과 인덱스 관리 --------------------------------------------------------------
@@ -170,11 +174,11 @@ const Round = ({ isOperation }) => {
         <View style={styles.stateListContainer}>
           <View style={styles.stateContainer}>
             <View style={[styles.state, { backgroundColor: '#B0BEC5' }]} />
-            <Text style={styles.stateTexts}>운행 종료</Text>
+            <Text style={styles.stateText}>운행 종료</Text>
           </View>
           <View style={styles.stateContainer}>
             <View style={[styles.state, { backgroundColor: '#FF5757' }]} />
-            <Text style={styles.stateText}>현재s 운행</Text>
+            <Text style={styles.stateText}>현재 운행</Text>
           </View>
           <View style={styles.stateContainer}>
             <View style={[styles.state, { backgroundColor: '#38B6FF' }]} />
@@ -198,118 +202,107 @@ const Round = ({ isOperation }) => {
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ffffff',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingHorizontal: scale(20),
+    paddingVertical: scale(15),
   },
   timeText: {
-    fontSize: 15,
+    fontSize: scale(15),
     fontWeight: '500',
-    marginBottom: 3,
+    marginBottom: scale(3),
     color: '#2c3e50',
   },
   roundText: {
-    fontSize: 25,
+    fontSize: scale(25),
     fontWeight: '700',
-    marginBottom: 15,
+    marginBottom: scale(10),
     color: '#4A90E2',
   },
-
-  // 버튼 --------------------------------------------------------------
   stateListContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: scale(10),
     justifyContent: 'center',
   },
   button: {
     backgroundColor: '#4A90E2',
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 5,
-    marginRight: 5,
+    borderRadius: scale(20),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(20),
+    marginLeft: scale(5),
+    marginRight: scale(5),
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scale(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: scale(2),
   },
   buttonTo: {
     backgroundColor: '#50E3C2',
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 5,
-    marginRight: 5,
+    borderRadius: scale(20),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(20),
+    marginLeft: scale(5),
+    marginRight: scale(5),
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scale(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: scale(2),
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: scale(16),
     fontWeight: 'bold',
   },
-
-  // 이미지 --------------------------------------------------------------
   imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 200,
-    height: 200,
+    width: scale(200),
+    height: scale(200),
   },
   image: {
     flex: 1,
     resizeMode: 'contain',
     width: '100%',
   },
-
-  // roundContainer --------------------------------------------------------------
   roundContainer: {
     flex: 1,
-    marginTop: 5,
+    marginTop: scale(5),
     height: '100%',
     width: '100%',
   },
-
-  // roundContainer --------------------------------------------------------------
   stateContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: scale(5),
+    marginRight: scale(5),
   },
   state: {
-    width: 10,
-    height: 15,
-    borderRadius: 10,
-    marginHorizontal: 5,
+    width: scale(10),
+    height: scale(15),
+    borderRadius: scale(10),
+    marginHorizontal: scale(5),
   },
   stateText: {
-    marginLeft: 5,
+    marginLeft: scale(5),
   },
-
-  // 안내 문구 --------------------------------------------------------------
   infoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f2f2f2',
-    padding: 7,
-    borderRadius: 5,
-    marginBottom: 5,
+    padding: scale(7),
+    borderRadius: scale(5),
+    marginBottom: scale(15),
   },
   infoText: {
     color: '#2c3e50',
-    fontSize: 12,
+    fontSize: scale(12),
   },
 })
 

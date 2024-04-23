@@ -6,10 +6,14 @@ import {
   StyleSheet,
   Vibration,
   Animated,
+  Dimensions,
 } from 'react-native'
 import operation from '../data/operation.json'
 import { dateApiKey } from '../data/apiKey'
 import Round from '../components/Round'
+
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
 
 const HomeScreen = () => {
   // 선택한 날짜를 관리 --------------------------------------------------------------
@@ -209,67 +213,62 @@ const HomeScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  // 컨테이너 --------------------------------------------------------------
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F5F5',
-    paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingHorizontal: scale(30),
+    paddingVertical: scale(18),
   },
   dateText: {
-    fontSize: 18,
+    fontSize: scale(18),
     fontWeight: '500',
-    marginBottom: 5,
+    marginBottom: scale(5),
     color: '#2c3e50',
   },
   dateNameText: {
-    fontSize: 23,
+    fontSize: scale(23),
     fontWeight: '700',
     color: '#2c3e50',
   },
-
-  // 버튼 --------------------------------------------------------------
   buttonContainer: {
     flexDirection: 'row',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: scale(10),
+    marginBottom: scale(5),
     justifyContent: 'center',
   },
   button: {
     backgroundColor: '#4A90E2',
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 5,
-    marginRight: 5,
+    borderRadius: scale(20),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(20),
+    marginLeft: scale(5),
+    marginRight: scale(5),
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scale(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: scale(2),
   },
   buttonTo: {
     backgroundColor: '#50E3C2',
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 5,
-    marginRight: 5,
+    borderRadius: scale(20),
+    paddingVertical: scale(8),
+    paddingHorizontal: scale(20),
+    marginLeft: scale(5),
+    marginRight: scale(5),
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scale(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: scale(2),
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: scale(16),
     fontWeight: 'bold',
   },
-
-  // 색상 --------------------------------------------------------------
   blueText: {
     color: '#38B6FF',
   },
@@ -282,11 +281,9 @@ const styles = StyleSheet.create({
   defaultText: {
     color: '#2c3e50',
   },
-
-  // roundContainer --------------------------------------------------------------
   roundContainer: {
     flex: 1,
-    marginTop: 10,
+    marginTop: scale(10),
     width: '100%',
   },
 })

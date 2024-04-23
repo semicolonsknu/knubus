@@ -5,71 +5,69 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  Animated,
+  Dimensions,
 } from 'react-native'
-import { Table, Row } from 'react-native-table-component'
 import scheduleData from '../data/schedule.json'
 
-const widthArr = [60, 80, 80, 85, 85, 85, 85, 85, 85, 85, 85, 75, 85]
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
+
+// 고정된 헤더 너비 배열
+const widthArr = [70, 80, 80, 85, 85, 85, 85, 85, 85, 85, 85, 75, 85]
+
+// 데이터 및 구성 요소
 const { schedule } = scheduleData
 
+// 각 라운드의 테이블 헤더를 렌더링
 const RenderHead = () => (
-  <Row
-    data={['구분', ...Object.keys(schedule[0].tables)]}
-    widthArr={widthArr}
-    style={styles.head}
-    textStyle={styles.headText}
-  />
+  <View style={styles.head}>
+    {['구분', ...Object.keys(schedule[0].tables)].map((header, index) => (
+      <Text key={index} style={[styles.headText, { width: widthArr[index] }]}>
+        {header}
+      </Text>
+    ))}
+  </View>
 )
 
+// 각 라운드의 행을 렌더링
 const RenderRows = () => (
   <>
     {schedule.map((round, index) => (
-      <AnimatedRow key={index} round={round} index={index} />
+      <Row key={index} round={round} index={index} />
     ))}
   </>
 )
 
-const AnimatedRow = ({ round, index }) => {
-  const [scale] = React.useState(new Animated.Value(1))
-
+// 개별 행 컴포넌트
+const Row = ({ round, index }) => {
   const handlePress = () => {
-    Animated.sequence([
-      Animated.timing(scale, {
-        toValue: 0.95,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start()
     console.log('Row pressed', round.round)
   }
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={handlePress}>
-      <Animated.View
-        style={{
-          transform: [{ scale }],
-        }}
+      <View
+        style={[
+          styles.row,
+          { backgroundColor: index % 2 ? '#f4f4f8' : 'white' },
+        ]}
       >
-        <Row
-          data={[round.round, ...Object.values(round.tables)]}
-          widthArr={widthArr}
-          style={[
-            styles.row,
-            { backgroundColor: index % 2 ? '#f4f4f8' : 'white' },
-          ]}
-          textStyle={styles.tableText}
-        />
-      </Animated.View>
+        {[round.round, ...Object.values(round.tables)].map(
+          (cell, cellIndex) => (
+            <Text
+              key={cellIndex}
+              style={[styles.tableText, { width: widthArr[cellIndex] }]}
+            >
+              {cell}
+            </Text>
+          )
+        )}
+      </View>
     </TouchableOpacity>
   )
 }
 
+// 메인 컴포넌트
 const TimeScreen = () => {
   const totalWidth = widthArr.reduce((acc, cur) => acc + cur, 0)
 
@@ -78,10 +76,8 @@ const TimeScreen = () => {
       <Text style={styles.header}>운행 시간표</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={[styles.tableContainer, { minWidth: totalWidth }]}>
-          <Table borderStyle={styles.border}>
-            <RenderHead />
-            <RenderRows />
-          </Table>
+          <RenderHead />
+          <RenderRows />
         </View>
       </ScrollView>
     </View>
@@ -94,48 +90,48 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F5F5',
-    paddingHorizontal: 15,
-    paddingVertical: 20,
+    paddingHorizontal: scale(15),
+    paddingVertical: scale(20),
   },
   header: {
-    fontSize: 24,
+    fontSize: scale(24),
     fontWeight: '600',
-    marginBottom: 20,
+    marginBottom: scale(20),
     color: '#2c3e50',
   },
   tableContainer: {
     flex: 1,
-    marginTop: 10,
-    paddingHorizontal: 20,
+    marginTop: scale(10),
+    paddingHorizontal: scale(20),
     width: '100%',
     overflow: 'hidden',
-    borderRadius: 8,
-  },
-  border: {
-    borderWidth: 0.5,
-    borderColor: '#E0E0E0',
+    borderRadius: scale(8),
   },
   head: {
-    height: 50,
+    flexDirection: 'row',
+    height: scale(50),
     backgroundColor: '#4A90E2',
-    borderRadius: 8,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderRadius: scale(8),
+    borderTopLeftRadius: scale(8),
+    borderTopRightRadius: scale(8),
   },
   headText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: scale(16),
     fontWeight: '600',
     color: '#FFFFFF',
+    paddingVertical: scale(15),
   },
   row: {
-    height: 40,
-    borderRadius: 8,
+    flexDirection: 'row',
+    height: scale(40),
+    borderRadius: scale(8),
   },
   tableText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: scale(16),
     color: '#2c3e50',
+    paddingVertical: scale(10),
   },
 })
 
