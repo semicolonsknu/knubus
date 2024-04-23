@@ -1,5 +1,15 @@
 import React from 'react'
-import { View, Image, StyleSheet, Pressable, Linking } from 'react-native'
+import {
+  View,
+  Image,
+  StyleSheet,
+  Pressable,
+  Linking,
+  Dimensions,
+} from 'react-native'
+
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
 
 const Header = () => {
   const handlePress = () => {
@@ -22,13 +32,13 @@ const Header = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 50,
+    height: scale(50),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
   },
   logo: {
-    width: 100,
+    width: scale(100),
     height: '100%',
   },
 })

@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, ScrollView, StyleSheet, Animated } from 'react-native'
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Animated,
+  Dimensions,
+} from 'react-native'
+
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
 
 const Timeline = ({ roundData }) => {
   // 시간 파싱 --------------------------------------------------------------
@@ -157,7 +167,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginTop: 24,
   },
 
   // stop 컨테이너 --------------------------------------------------------------
@@ -167,16 +176,16 @@ const styles = StyleSheet.create({
   },
   timeline: {
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: scale(13),
   },
   circleBar: {
-    width: 3,
+    width: scale(3),
     flex: 1,
   },
   circle: {
-    width: 12,
-    height: 14,
-    borderRadius: 10,
+    width: scale(12),
+    height: scale(14),
+    borderRadius: scale(10),
   },
 
   stopInfo: {
@@ -184,15 +193,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stopTime: {
-    fontSize: 18,
+    fontSize: scale(18),
     fontWeight: 'bold',
-    marginBottom: 2,
+    marginTop: scale(8),
+    marginBottom: scale(2),
   },
   stopName: {
-    fontSize: 16,
+    fontSize: scale(15),
     fontWeight: 'normal',
     color: '#2c3e50',
-    marginBottom: 15,
+    marginLeft: scale(10),
+    marginBottom: scale(8),
   },
 
   // 색상 --------------------------------------------------------------
