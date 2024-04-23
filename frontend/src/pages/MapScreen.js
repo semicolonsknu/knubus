@@ -100,7 +100,7 @@ const MapScreen = () => {
       </Modal>
       <View style={styles.topContainer}>
         <Text style={styles.topText}>
-          정류장을 클릭하면 해당 정류장의 이미지가 표시됩니다.
+          정류장을 클릭하면, 이미지가 표시됩니다.
         </Text>
       </View>
     </View>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A90E2',
     borderRadius: scale(20),
     paddingVertical: scale(8),
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(18),
     marginLeft: scale(5),
     marginRight: scale(5),
     elevation: 2,
@@ -152,8 +152,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: scale(15),
-    fontWeight: '600',
+    fontSize: scale(13),
+    fontWeight: 'bold',
   },
   modalContainer: {
     flex: 1,
@@ -183,16 +183,15 @@ const styles = StyleSheet.create({
   topContainer: {
     position: 'absolute',
     top: scale(40),
-    left: scale(30),
-    right: scale(30),
-    alignItems: 'center',
-    justifyContent: 'center',
+    left: 40,
+    right: 40,
     borderRadius: scale(10),
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   topText: {
+    textAlign: 'center',
     padding: scale(10),
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(10),
     color: '#FFFFFF',
     fontSize: scale(13),
     fontWeight: '400',

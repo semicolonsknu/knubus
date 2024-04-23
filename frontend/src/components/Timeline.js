@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   circle: {
-    width: scale(12),
-    height: scale(14),
+    width: scale(10),
+    height: scale(12),
     borderRadius: scale(10),
   },
 
@@ -193,17 +193,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stopTime: {
-    fontSize: scale(18),
+    fontSize: scale(17),
     fontWeight: 'bold',
-    marginTop: scale(8),
+    marginTop: scale(2),
     marginBottom: scale(2),
   },
   stopName: {
-    fontSize: scale(15),
+    fontSize: scale(13),
     fontWeight: 'normal',
     color: '#2c3e50',
     marginLeft: scale(10),
-    marginBottom: scale(8),
+    marginBottom: scale(13),
   },
 
   // 색상 --------------------------------------------------------------

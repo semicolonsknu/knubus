@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     color: '#2c3e50',
   },
   dateNameText: {
-    fontSize: scale(23),
+    fontSize: scale(20),
     fontWeight: '700',
     color: '#2c3e50',
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A90E2',
     borderRadius: scale(20),
     paddingVertical: scale(8),
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(18),
     marginLeft: scale(5),
     marginRight: scale(5),
     elevation: 2,
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#50E3C2',
     borderRadius: scale(20),
     paddingVertical: scale(8),
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(18),
     marginLeft: scale(5),
     marginRight: scale(5),
     elevation: 2,
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: scale(16),
+    fontSize: scale(13),
     fontWeight: 'bold',
   },
   blueText: {
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     color: '#FF5757',
   },
   grayText: {
-    color: '#808080',
+    color: '#B0BEC5',
   },
   defaultText: {
     color: '#2c3e50',
