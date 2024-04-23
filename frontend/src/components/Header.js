@@ -22,7 +22,7 @@ const Header = () => {
   }
 
   // D-Day Calculation
-  const targetDate = new Date(2024, 4, 24) // Note: Month is 0-indexed in JavaScript
+  const targetDate = new Date(2024, 5, 24) // Note: Month is 0-indexed in JavaScript
   const currentDate = new Date()
   const diff = targetDate - currentDate
   const day = Math.ceil(diff / (1000 * 60 * 60 * 24))
