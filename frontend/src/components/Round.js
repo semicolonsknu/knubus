@@ -148,6 +148,7 @@ const Round = ({ isOperation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
+        <Text style={styles.wText}>222222</Text>
         <Text style={styles.roundText}>{round}</Text>
         <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
       </View>
@@ -219,19 +220,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: scale(10),
   },
+  wText: {
+    fontSize: scale(20),
+    fontWeight: '700',
+    marginRight: scale(5),
+    color: '#ffffff',
+  },
   roundText: {
-    fontSize: scale(25),
+    fontSize: scale(20),
     fontWeight: '700',
     marginRight: scale(5),
     color: '#4A90E2',
   },
   timeText: {
-    fontSize: scale(15),
+    fontSize: scale(12),
     fontWeight: '500',
     color: '#B0BEC5',
-    marginTop: scale(8),
+    marginTop: scale(7),
   },
-
   stateListContainer: {
     flexDirection: 'row',
     marginBottom: scale(10),
@@ -240,10 +246,10 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#4A90E2',
     borderRadius: scale(20),
-    paddingVertical: scale(8),
-    paddingHorizontal: scale(18),
-    marginLeft: scale(5),
-    marginRight: scale(5),
+    paddingVertical: scale(7),
+    paddingHorizontal: scale(15),
+    marginLeft: scale(4),
+    marginRight: scale(4),
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: scale(2) },
@@ -253,10 +259,10 @@ const styles = StyleSheet.create({
   buttonTo: {
     backgroundColor: '#50E3C2',
     borderRadius: scale(20),
-    paddingVertical: scale(8),
-    paddingHorizontal: scale(18),
-    marginLeft: scale(5),
-    marginRight: scale(5),
+    paddingVertical: scale(7),
+    paddingHorizontal: scale(15),
+    marginLeft: scale(4),
+    marginRight: scale(4),
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: scale(2) },
@@ -265,7 +271,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: scale(13),
+    fontSize: scale(12),
     fontWeight: 'bold',
   },
   imageContainer: {
@@ -281,7 +287,7 @@ const styles = StyleSheet.create({
   },
   roundContainer: {
     flex: 1,
-    marginTop: scale(5),
+    marginTop: scale(3),
     height: '100%',
     width: '100%',
   },
@@ -293,19 +299,21 @@ const styles = StyleSheet.create({
     marginRight: scale(5),
   },
   state: {
-    width: scale(10),
-    height: scale(15),
+    width: scale(9),
+    height: scale(12),
     borderRadius: scale(10),
-    marginHorizontal: scale(5),
+    marginHorizontal: scale(3),
+    marginTop: scale(2),
   },
   stateText: {
-    marginLeft: scale(5),
+    marginLeft: scale(2),
+    fontSize: scale(12),
   },
   infoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#f2f2f2',
-    padding: scale(7),
+    padding: scale(6),
     borderRadius: scale(5),
     marginBottom: scale(15),
   },

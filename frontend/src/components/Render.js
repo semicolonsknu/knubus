@@ -1,5 +1,14 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from 'react-native'
+
+const { width, height } = Dimensions.get('window')
+const scale = (size) => (width / 375) * size
 
 const Row = ({ round, index, widthArr, handlePress }) => (
   <TouchableOpacity activeOpacity={1} onPress={handlePress}>
@@ -12,7 +21,7 @@ const Row = ({ round, index, widthArr, handlePress }) => (
       {[round.round, ...Object.values(round.tables)].map((cell, cellIndex) => (
         <Text
           key={cellIndex}
-          style={[rowStyles.tableText, { width: widthArr[cellIndex] }]}
+          style={[rowStyles.tableText, { width: scale(widthArr[cellIndex]) }]}
         >
           {cell}
         </Text>
@@ -26,7 +35,7 @@ const RenderHead = ({ schedule, widthArr }) => (
     {['구분', ...Object.keys(schedule[0].tables)].map((header, index) => (
       <Text
         key={index}
-        style={[rowStyles.headText, { width: widthArr[index] }]}
+        style={[rowStyles.headText, { width: scale(widthArr[index]) }]}
       >
         {header}
       </Text>
@@ -37,29 +46,26 @@ const RenderHead = ({ schedule, widthArr }) => (
 const rowStyles = StyleSheet.create({
   head: {
     flexDirection: 'row',
-    height: 50,
+    height: scale(50),
     backgroundColor: '#4A90E2',
-    borderRadius: 8,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderRadius: scale(7),
   },
   headText: {
     textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: scale(14),
+    fontWeight: '500',
     color: '#FFFFFF',
-    paddingVertical: 15,
+    paddingVertical: scale(15),
   },
   row: {
     flexDirection: 'row',
-    height: 40,
-    borderRadius: 8,
+    borderRadius: scale(7),
   },
   tableText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: scale(13),
     color: '#2c3e50',
-    paddingVertical: 10,
+    paddingVertical: scale(10),
   },
 })
 
