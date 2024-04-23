@@ -140,12 +140,75 @@ const HomeScreen = () => {
       setDateName(holiday ? holiday.dateName : '')
       setIsHoliday(holiday ? holiday.isHoliday : '')
 
+      if (formatDate == 19990730) {
+        setDateName('윤수생일')
+      }
+      if (formatDate == 20240304) {
+        setDateName('1학기 개강')
+      }
+      if (
+        formatDate == 20240306 ||
+        formatDate == 20240307 ||
+        formatDate == 20240308
+      ) {
+        setDateName('1학기 수강신청 변경')
+      }
+      if (formatDate == 20240405) {
+        setDateName('수업일수 1/3선')
+      }
+      if (
+        formatDate == 20240415 ||
+        formatDate == 20240416 ||
+        formatDate == 20240417 ||
+        formatDate == 20240418 ||
+        formatDate == 20240419
+      ) {
+        setDateName('1학기 중간 수업평가')
+      }
+      if (formatDate == 20240425) {
+        setDateName('수업일수 1/2선')
+      }
+      if (
+        formatDate == 20240508 ||
+        formatDate == 20240509 ||
+        formatDate == 20240510
+      ) {
+        setDateName('계절학기 수강신청')
+      }
+      if (formatDate == 20240513) {
+        setDateName('1학기 부·복수전공 이수신청')
+      }
+      if (
+        formatDate == 20240521 ||
+        formatDate == 20240522 ||
+        formatDate == 20240523
+      ) {
+        setDateName('계절학기 수강료 납부')
+      }
+      if (formatDate == 20240610) {
+        setDateName('1학기 기말 수업평가')
+      }
       if (formatDate == 20240614) {
         setDateName('개교개념일')
         setIsHoliday('Y')
       }
-      if (formatDate == 19990730) {
-        setDateName('윤수생일')
+      if (formatDate == 20240617) {
+        setDateName('강의보충기간(5/6, 어린이날)')
+      }
+      if (formatDate == 20240618) {
+        setDateName('강의보충기간(5/1, 근로자의날)')
+      }
+      if (formatDate == 20240619) {
+        setDateName('강의보충기간(4/10, 제22대 국회의원 선거)')
+      }
+      if (formatDate == 20240620) {
+        setDateName('강의보충기간(6/6, 현충일)')
+      }
+      if (formatDate == 20240621) {
+        setDateName('강의보충기간(6/14, 개교기념일)')
+      }
+      if (formatDate == 20240624) {
+        setDateName('💙종강💙 순환버스는 떠납니다...⭐')
       }
     }
 
@@ -218,17 +281,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#F5F5F5',
-    paddingHorizontal: scale(30),
+    paddingHorizontal: scale(25),
     paddingVertical: scale(18),
   },
   dateText: {
-    fontSize: scale(18),
+    fontSize: scale(16),
     fontWeight: '500',
-    marginBottom: scale(5),
+    marginBottom: scale(4),
     color: '#2c3e50',
   },
   dateNameText: {
-    fontSize: scale(20),
+    fontSize: scale(17),
     fontWeight: '700',
     color: '#2c3e50',
   },
@@ -241,10 +304,10 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#4A90E2',
     borderRadius: scale(20),
-    paddingVertical: scale(8),
-    paddingHorizontal: scale(18),
-    marginLeft: scale(5),
-    marginRight: scale(5),
+    paddingVertical: scale(7),
+    paddingHorizontal: scale(15),
+    marginLeft: scale(4),
+    marginRight: scale(4),
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: scale(2) },
@@ -254,10 +317,10 @@ const styles = StyleSheet.create({
   buttonTo: {
     backgroundColor: '#50E3C2',
     borderRadius: scale(20),
-    paddingVertical: scale(8),
-    paddingHorizontal: scale(18),
-    marginLeft: scale(5),
-    marginRight: scale(5),
+    paddingVertical: scale(7),
+    paddingHorizontal: scale(15),
+    marginLeft: scale(4),
+    marginRight: scale(4),
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: scale(2) },
@@ -266,7 +329,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: scale(13),
+    fontSize: scale(12),
     fontWeight: 'bold',
   },
   blueText: {

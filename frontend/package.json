@@ -21,6 +21,7 @@
     "@rneui/base": "^0.0.0-edge.2",
     "@rneui/themed": "^0.0.0-edge.2",
     "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
     "expo": "~50.0.15",
     "expo-permissions": "^14.4.0",
     "expo-status-bar": "~1.11.1",
