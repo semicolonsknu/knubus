@@ -147,8 +147,10 @@ const Round = ({ isOperation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
-      <Text style={styles.roundText}>{round}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.roundText}>{round}</Text>
+        <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
+      </View>
 
       <View style={styles.stateListContainer}>
         {selectedIndex > 0 && (
@@ -211,18 +213,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(20),
     paddingVertical: scale(15),
   },
-  timeText: {
-    fontSize: scale(15),
-    fontWeight: '500',
-    marginBottom: scale(3),
-    color: '#2c3e50',
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: scale(10),
   },
   roundText: {
     fontSize: scale(25),
     fontWeight: '700',
-    marginBottom: scale(10),
+    marginRight: scale(5),
     color: '#4A90E2',
   },
+  timeText: {
+    fontSize: scale(15),
+    fontWeight: '500',
+    color: '#B0BEC5',
+    marginTop: scale(8),
+  },
+
   stateListContainer: {
     flexDirection: 'row',
     marginBottom: scale(10),
@@ -232,7 +241,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A90E2',
     borderRadius: scale(20),
     paddingVertical: scale(8),
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(18),
     marginLeft: scale(5),
     marginRight: scale(5),
     elevation: 2,
@@ -245,7 +254,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#50E3C2',
     borderRadius: scale(20),
     paddingVertical: scale(8),
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(18),
     marginLeft: scale(5),
     marginRight: scale(5),
     elevation: 2,
@@ -256,7 +265,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: scale(16),
+    fontSize: scale(13),
     fontWeight: 'bold',
   },
   imageContainer: {
