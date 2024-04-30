@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from 'react-native'
 import { dateApiKey } from '../data/apiKey'
+import { formatOperation, formatHoliday } from '../utils/dateUtils'
 import operation from '../data/operation.json'
 import knuEvent from '../data/knuEvent.json'
 import Round from '../components/Round'
@@ -19,13 +20,6 @@ const scale = (size) => (width / 375) * size
 const HomeScreen = () => {
   // 선택한 날짜를 관리 --------------------------------------------------------------
   const [selectedDate, setSelectedDate] = useState(new Date())
-
-  const formatOperation = (date) => {
-    const year = date.getFullYear()
-    const month = `0${date.getMonth() + 1}`.slice(-2)
-    const day = `0${date.getDate()}`.slice(-2)
-    return `${year}-${month}-${day}`
-  }
 
   const isOperation = operation.operations.includes(
     formatOperation(selectedDate)
@@ -87,12 +81,6 @@ const HomeScreen = () => {
   const [dateName, setDateName] = useState('')
   const [isHoliday, setIsHoliday] = useState('N')
   const [isKNU, setIsKNU] = useState('N')
-
-  const formatHoliday = (date) => {
-    const year = date.getFullYear()
-    const month = `0${date.getMonth() + 1}`.slice(-2)
-    return { year, month }
-  }
 
   useEffect(() => {
     const fetchHolidays = async () => {
