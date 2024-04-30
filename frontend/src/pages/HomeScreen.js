@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native'
 import { dateApiKey } from '../data/apiKey'
-import { formatOperation, formatHoliday } from '../utils/dateUtils'
+import { formatOperation, formatHoliday, formatDate } from '../utils/dateUtils'
 import operation from '../data/operation.json'
 import knuEvent from '../data/knuEvent.json'
 import Round from '../components/Round'
@@ -143,17 +143,6 @@ const HomeScreen = () => {
     checkHoliday()
   }, [selectedDate, holidays])
 
-  // 요일 계산 --------------------------------------------------------------
-  const formatDate = (date) => {
-    const weekDays = ['일', '월', '화', '수', '목', '금', '토']
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    const weekDay = weekDays[date.getDay()]
-
-    return `${year}년 ${month}월 ${day}일 (${weekDay})`
-  }
-
   const dateColor = () => {
     const weekDay = selectedDate.getDay()
     return weekDay === 6
@@ -273,9 +262,6 @@ const styles = StyleSheet.create({
     color: '#B0BEC5',
   },
   knuText: {
-    color: '#2c3e50',
-  },
-  defaultText: {
     color: '#2c3e50',
   },
   roundContainer: {
