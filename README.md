@@ -1,8 +1,8 @@
 # 강원대버스(KNUBus) - 강원대학교 실시간 순환버스 정보 제공 애플리케이션
 
-- **version** : `1.0.1` (비공개 테스트)
+- **version** : `1.0.2` 
 - **배포일** : `2024-04-23`
-- [강원대버스(KNUBus) ver 1 - Google-Drive 다운로드](https://drive.google.com/drive/u/0/folders/1_o6j5WT7CQi0I9ueeRkC3BMNlh-aK_iZ)
+- [강원대버스(KNUBus) ver 1](https://docs.google.com/forms/d/e/1FAIpQLScovIwwOCwImf6KGCJAqXIUHwiJiPYa8jm9kxldXz3_KpqxHg/viewform)
   - `Android` 우선 배포.
   - 순환버스 운행 기간인 `2024-033-04`부터 `2024-06-24`에 따름.
 
@@ -29,7 +29,7 @@
 - Expo를 사용하여 개발되었으며, Expo를 통해 배포합니다.
 - Google Cloud Platform의 API를 활용합니다.
 - 안드로이드 앱은 Google Play 콘솔을 통해 업로드합니다.
-  - [강원대버스(KNUBus) ver 1 - Google-Drive 다운로드](https://drive.google.com/drive/u/0/folders/1_o6j5WT7CQi0I9ueeRkC3BMNlh-aK_iZ)
+  - [강원대버스(KNUBus) ver 1](https://docs.google.com/forms/d/e/1FAIpQLScovIwwOCwImf6KGCJAqXIUHwiJiPYa8jm9kxldXz3_KpqxHg/viewform)
 
 ## 팀원
 

@@ -8,8 +8,10 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
-import operation from '../data/operation.json'
 import { dateApiKey } from '../data/apiKey'
+import { formatOperation, formatHoliday, formatDate } from '../utils/dateUtils'
+import operation from '../data/operation.json'
+import knuEvent from '../data/knuEvent.json'
 import Round from '../components/Round'
 
 const { width, height } = Dimensions.get('window')
@@ -18,13 +20,6 @@ const scale = (size) => (width / 375) * size
 const HomeScreen = () => {
   // 선택한 날짜를 관리 --------------------------------------------------------------
   const [selectedDate, setSelectedDate] = useState(new Date())
-
-  const formatOperation = (date) => {
-    const year = date.getFullYear()
-    const month = `0${date.getMonth() + 1}`.slice(-2)
-    const day = `0${date.getDate()}`.slice(-2)
-    return `${year}-${month}-${day}`
-  }
 
   const isOperation = operation.operations.includes(
     formatOperation(selectedDate)
@@ -84,13 +79,8 @@ const HomeScreen = () => {
   // 휴일 정보 --------------------------------------------------------------
   const [holidays, setHolidays] = useState([])
   const [dateName, setDateName] = useState('')
-  const [isHoliday, setIsHoliday] = useState('')
-
-  const formatHoliday = (date) => {
-    const year = date.getFullYear()
-    const month = `0${date.getMonth() + 1}`.slice(-2)
-    return { year, month }
-  }
+  const [isHoliday, setIsHoliday] = useState('N')
+  const [isKNU, setIsKNU] = useState('N')
 
   useEffect(() => {
     const fetchHolidays = async () => {
@@ -131,100 +121,27 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const checkHoliday = () => {
-      const formatDate = selectedDate
-        .toISOString()
-        .split('T')[0]
-        .replace(/-/g, '')
+      let newDate = new Date(selectedDate)
+      newDate.setDate(newDate.getDate() + 1)
+      const formatDate = newDate.toISOString().split('T')[0].replace(/-/g, '')
 
       const holiday = holidays.find((holiday) => holiday.locdate == formatDate)
       setDateName(holiday ? holiday.dateName : '')
       setIsHoliday(holiday ? holiday.isHoliday : '')
 
-      if (formatDate == 19990730) {
-        setDateName('윤수생일')
-      }
-      if (formatDate == 20240304) {
-        setDateName('1학기 개강')
-      }
-      if (
-        formatDate == 20240306 ||
-        formatDate == 20240307 ||
-        formatDate == 20240308
-      ) {
-        setDateName('1학기 수강신청 변경')
-      }
-      if (formatDate == 20240405) {
-        setDateName('수업일수 1/3선')
-      }
-      if (
-        formatDate == 20240415 ||
-        formatDate == 20240416 ||
-        formatDate == 20240417 ||
-        formatDate == 20240418 ||
-        formatDate == 20240419
-      ) {
-        setDateName('1학기 중간 수업평가')
-      }
-      if (formatDate == 20240425) {
-        setDateName('수업일수 1/2선')
-      }
-      if (
-        formatDate == 20240508 ||
-        formatDate == 20240509 ||
-        formatDate == 20240510
-      ) {
-        setDateName('계절학기 수강신청')
-      }
-      if (formatDate == 20240513) {
-        setDateName('1학기 부·복수전공 이수신청')
-      }
-      if (
-        formatDate == 20240521 ||
-        formatDate == 20240522 ||
-        formatDate == 20240523
-      ) {
-        setDateName('계절학기 수강료 납부')
-      }
-      if (formatDate == 20240610) {
-        setDateName('1학기 기말 수업평가')
-      }
-      if (formatDate == 20240614) {
-        setDateName('개교개념일')
-        setIsHoliday('Y')
-      }
-      if (formatDate == 20240617) {
-        setDateName('강의보충기간(5/6, 어린이날)')
-      }
-      if (formatDate == 20240618) {
-        setDateName('강의보충기간(5/1, 근로자의날)')
-      }
-      if (formatDate == 20240619) {
-        setDateName('강의보충기간(4/10, 제22대 국회의원 선거)')
-      }
-      if (formatDate == 20240620) {
-        setDateName('강의보충기간(6/6, 현충일)')
-      }
-      if (formatDate == 20240621) {
-        setDateName('강의보충기간(6/14, 개교기념일)')
-      }
-      if (formatDate == 20240624) {
-        setDateName('💙종강💙 순환버스는 떠납니다...⭐')
+      const event = knuEvent.events.find(
+        (event) => event.date.replace(/-/g, '') === formatDate
+      )
+      if (event) {
+        setDateName(event.name)
+        setIsHoliday(event.holiday ? 'Y' : '')
+        setIsKNU('Y')
+      } else {
+        setIsKNU('N')
       }
     }
-
     checkHoliday()
   }, [selectedDate, holidays])
-
-  // 요일 계산 --------------------------------------------------------------
-  const formatDate = (date) => {
-    const weekDays = ['일', '월', '화', '수', '목', '금', '토']
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    const weekDay = weekDays[date.getDay()]
-
-    return `${year}년 ${month}월 ${day}일 (${weekDay})`
-  }
 
   const dateColor = () => {
     const weekDay = selectedDate.getDay()
@@ -232,12 +149,17 @@ const HomeScreen = () => {
       ? styles.blueText
       : weekDay === 0 || isHoliday == 'Y'
       ? styles.redText
-      : styles.defaultText
+      : styles.grayText
   }
 
   const textColor = () => {
-    const weekDay = selectedDate.getDay()
-    return isHoliday == 'Y' ? styles.redText : styles.defaultText
+    if (isHoliday === 'Y') {
+      return styles.redText
+    } else if (isKNU === 'Y') {
+      return styles.knuText
+    } else {
+      return styles.grayText
+    }
   }
 
   return (
@@ -288,12 +210,10 @@ const styles = StyleSheet.create({
     fontSize: scale(16),
     fontWeight: '500',
     marginBottom: scale(4),
-    color: '#2c3e50',
   },
   dateNameText: {
     fontSize: scale(17),
     fontWeight: '700',
-    color: '#2c3e50',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -341,7 +261,7 @@ const styles = StyleSheet.create({
   grayText: {
     color: '#B0BEC5',
   },
-  defaultText: {
+  knuText: {
     color: '#2c3e50',
   },
   roundContainer: {
