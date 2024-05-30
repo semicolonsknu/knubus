@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native'
 import { scale } from '../utils/dimensionsUtils'
 
+const commonTextStyles = {
+  fontSize: scale(13),
+  fontWeight: '500',
+  color: '#B0BEC5',
+}
+
 export const headerStyles = StyleSheet.create({
   container: {
     width: '100%',
@@ -10,23 +16,14 @@ export const headerStyles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  dDayText: {
-    fontSize: scale(13),
-    fontWeight: '500',
-    color: '#B0BEC5',
+  text: {
+    ...commonTextStyles,
   },
 })
 
 export const buttonStyles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: scale(10),
-  },
-  buttonText: {
-    fontSize: scale(13),
-    fontWeight: '500',
-    color: '#B0BEC5',
+  text: {
+    ...commonTextStyles,
   },
   logo: {
     width: scale(100),

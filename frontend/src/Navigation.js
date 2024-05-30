@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import ErrorBoundary from './ErrorBoundary'
 import HomeScreen from './components/Home/HomeScreen'
 import MapScreen from './components/Map/MapScreen'
-import TimeScreen from './components/Time/TimeScreen'
+import Timetable from './components/BusTime/Timetable'
 
 const Tab = createBottomTabNavigator()
 
@@ -36,7 +36,7 @@ const Navigation = () => {
         >
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="운행노선도" component={MapScreen} />
-          <Tab.Screen name="운행시간표" component={TimeScreen} />
+          <Tab.Screen name="운행시간표" component={Timetable} />
         </Tab.Navigator>
       </NavigationContainer>
     </ErrorBoundary>
