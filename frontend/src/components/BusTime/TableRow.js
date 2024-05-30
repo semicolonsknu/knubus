@@ -5,6 +5,10 @@ import { scale } from '../../utils/dimensionsUtils'
 
 const TableRow = ({ round, index, widthArr, handlePress }) => {
   const cells = useMemo(() => {
+    if (!round?.tables || !Array.isArray(widthArr)) {
+      return null
+    }
+
     return [round.round, ...Object.values(round.tables)].map(
       (cell, cellIndex) => (
         <Text
@@ -19,6 +23,10 @@ const TableRow = ({ round, index, widthArr, handlePress }) => {
       )
     )
   }, [round, widthArr])
+
+  if (!cells) {
+    return null
+  }
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={handlePress}>

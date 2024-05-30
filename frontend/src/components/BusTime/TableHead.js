@@ -2,19 +2,33 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { tableHeadStyles } from '../../styles/busTimeStyles'
 import { scale } from '../../utils/dimensionsUtils'
+import { getTableHeader } from '../../utils/tableUtils'
 
-const TableHead = ({ schedule, widthArr }) => {
-  const tableHeaders = ['구분', ...Object.keys(schedule[0].tables)]
+const TableHead = ({ timetable, widthArr, heightArr }) => {
+  if (
+    !timetable?.length ||
+    !Array.isArray(widthArr) ||
+    !Array.isArray(heightArr)
+  ) {
+    return null
+  }
+
+  const tableHeaders = getTableHeader(timetable)
 
   return (
-    <View style={tableHeadStyles.container}>
+    <View style={[tableHeadStyles.container, { flexDirection: 'row' }]}>
       {tableHeaders.map((header, index) => (
-        <Text
+        <View
           key={index}
-          style={[tableHeadStyles.tableText, { width: scale(widthArr[index]) }]}
+          style={{
+            width: scale(widthArr[index]),
+            height: heightArr[index],
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-          {header}
-        </Text>
+          <Text style={tableHeadStyles.tableText}>{header}</Text>
+        </View>
       ))}
     </View>
   )

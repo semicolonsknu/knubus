@@ -1,25 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import KNUBus_Timetable from '../../data/KNUBus_Timetable.json'
 import TableHead from './TableHead'
 import TableBody from './TableBody'
 import { timetableStyles } from '../../styles/busTimeStyles'
-import { calculateTotalWidth } from '../../utils/tableUtils'
-
-const widthArr = [65, 65, 65, 80, 80, 65, 65, 80, 75, 65, 80, 60, 65]
-const { timetable } = KNUBus_Timetable
+import {
+  calculateTotalWidth,
+  calculateWidth,
+  calculateHeight,
+  calculateTotalHeight,
+} from '../../utils/tableUtils'
+import ErrorMessage from './ErrorMessage'
 
 const Timetable = () => {
+  const [widthArr, setWidthArr] = useState([])
+  const [heightArr, setHeightArr] = useState([])
+  const { timetable } = KNUBus_Timetable
+
+  useEffect(() => {
+    if (timetable?.length) {
+      setWidthArr(calculateWidth(timetable))
+      setHeightArr(calculateHeight(timetable))
+    }
+  }, [timetable])
+
+  if (!timetable?.length || !widthArr.length || !heightArr.length) {
+    return <ErrorMessage />
+  }
+
   const totalWidth = calculateTotalWidth(widthArr)
+  const totalHeight = calculateTotalHeight(heightArr)
 
   return (
     <View style={timetableStyles.container}>
-      <Text style={timetableStyles.header}>운행 시간표</Text>
+      <Text style={timetableStyles.title}>운행 시간표</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View
-          style={[timetableStyles.tableContainer, { minWidth: totalWidth }]}
+          style={[
+            timetableStyles.tableContainer,
+            { minWidth: totalWidth, minHeight: totalHeight },
+          ]}
         >
-          <TableHead schedule={timetable} widthArr={widthArr} />
+          <TableHead
+            timetable={timetable}
+            widthArr={widthArr}
+            heightArr={heightArr}
+          />
           <TableBody timetable={timetable} widthArr={widthArr} />
         </View>
       </ScrollView>
