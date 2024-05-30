@@ -117,8 +117,9 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const checkHoliday = () => {
-      let newDate = new Date(selectedDate)
-      newDate.setDate(newDate.getDate() + 1)
+      // Create a new date and adjust to Korean Standard Time
+      let newDate = new Date(selectedDate.getTime() + 9 * 60 * 60 * 1000) // KST is UTC+9
+
       const formattedDate = newDate
         .toISOString()
         .split('T')[0]
