@@ -13,9 +13,7 @@ import { formatYMD, getYearMonth, formatFullDate } from '../../utils/dateUtils'
 import KNUBus_Schedule from '../../data/KNUBus_Schedule.json'
 import KNU_Event from '../../data/KNU_Event.json'
 import Round from './Round'
-
-const { width, height } = Dimensions.get('window')
-const scale = (size) => (width / 375) * size
+import { homeScreenStyles } from '../../styles/HomeStyles'
 
 const HomeScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -148,129 +146,59 @@ const HomeScreen = () => {
   const dateColor = () => {
     const weekDay = selectedDate.getDay()
     return weekDay === 6
-      ? styles.blueText
+      ? homeScreenStyles.blueText
       : weekDay === 0 || isHoliday == 'Y'
-      ? styles.redText
-      : styles.grayText
+      ? homeScreenStyles.redText
+      : homeScreenStyles.grayText
   }
 
   const textColor = () => {
     if (isHoliday === 'Y') {
-      return styles.redText
+      return homeScreenStyles.redText
     } else if (isKNU === 'Y') {
-      return styles.knuText
+      return homeScreenStyles.knuText
     } else {
-      return styles.grayText
+      return homeScreenStyles.grayText
     }
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.dateText, dateColor()]}>
+    <View style={homeScreenStyles.container}>
+      <Text style={[homeScreenStyles.dateText, dateColor()]}>
         {formatFullDate(selectedDate)}
       </Text>
       {dateName ? (
-        <Text style={[styles.dateNameText, textColor()]}>{dateName}</Text>
+        <Text style={[homeScreenStyles.dateNameText, textColor()]}>
+          {dateName}
+        </Text>
       ) : (
         ''
       )}
 
-      <View style={styles.buttonContainer}>
-        <Pressable style={styles.button} onPress={goToPrevious}>
-          <Text style={styles.buttonText}>이전 날짜</Text>
+      <View style={homeScreenStyles.buttonContainer}>
+        <Pressable style={homeScreenStyles.button} onPress={goToPrevious}>
+          <Text style={homeScreenStyles.buttonText}>이전 날짜</Text>
         </Pressable>
 
         {new Date().toDateString() !== selectedDate.toDateString() && (
-          <Animated.View style={[styles.buttonTo, { opacity: fadeAnim }]}>
+          <Animated.View
+            style={[homeScreenStyles.buttonTo, { opacity: fadeAnim }]}
+          >
             <Pressable onPress={goToNow}>
-              <Text style={styles.buttonText}>오늘 날짜로</Text>
+              <Text style={homeScreenStyles.buttonText}>오늘 날짜로</Text>
             </Pressable>
           </Animated.View>
         )}
 
-        <Pressable style={styles.button} onPress={goToNext}>
-          <Text style={styles.buttonText}>다음 날짜</Text>
+        <Pressable style={homeScreenStyles.button} onPress={goToNext}>
+          <Text style={homeScreenStyles.buttonText}>다음 날짜</Text>
         </Pressable>
       </View>
-      <View style={styles.roundContainer}>
+      <View style={homeScreenStyles.roundContainer}>
         <Round isOperation={isOperation} />
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F5F5F5',
-    paddingHorizontal: scale(25),
-    paddingVertical: scale(18),
-  },
-  dateText: {
-    fontSize: scale(16),
-    fontWeight: '500',
-    marginBottom: scale(4),
-  },
-  dateNameText: {
-    fontSize: scale(17),
-    fontWeight: '700',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginTop: scale(10),
-    marginBottom: scale(5),
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: '#4A90E2',
-    borderRadius: scale(20),
-    paddingVertical: scale(7),
-    paddingHorizontal: scale(15),
-    marginLeft: scale(4),
-    marginRight: scale(4),
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: scale(2) },
-    shadowOpacity: 0.1,
-    shadowRadius: scale(2),
-  },
-  buttonTo: {
-    backgroundColor: '#50E3C2',
-    borderRadius: scale(20),
-    paddingVertical: scale(7),
-    paddingHorizontal: scale(15),
-    marginLeft: scale(4),
-    marginRight: scale(4),
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: scale(2) },
-    shadowOpacity: 0.1,
-    shadowRadius: scale(2),
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: scale(12),
-    fontWeight: 'bold',
-  },
-  blueText: {
-    color: '#38B6FF',
-  },
-  redText: {
-    color: '#FF5757',
-  },
-  grayText: {
-    color: '#B0BEC5',
-  },
-  knuText: {
-    color: '#2c3e50',
-  },
-  roundContainer: {
-    flex: 1,
-    marginTop: scale(10),
-    width: '100%',
-  },
-})
 
 export default HomeScreen

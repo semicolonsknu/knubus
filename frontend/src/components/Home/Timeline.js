@@ -8,8 +8,7 @@ import {
   Dimensions,
 } from 'react-native'
 
-const { width, height } = Dimensions.get('window')
-const scale = (size) => (width / 375) * size
+import { timelineStyles } from '../../styles/HomeStyles'
 
 const Timeline = ({ roundData }) => {
   // 시간 파싱 --------------------------------------------------------------
@@ -103,52 +102,52 @@ const Timeline = ({ roundData }) => {
   // 움직임 효과 --------------------------------------------------------------
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <View style={styles.container}>
+    <ScrollView contentContainerStyle={timelineStyles.scrollViewContainer}>
+      <View style={timelineStyles.container}>
         {roundData.map((stop, index) => (
-          <View key={index} style={styles.timelineContainer}>
-            <View style={styles.timeline}>
+          <View key={index} style={timelineStyles.timelineContainer}>
+            <View style={timelineStyles.timeline}>
               <Animated.View
                 style={[
-                  styles.circle,
+                  timelineStyles.circle,
                   isCurrent(stop.time, roundData[index + 1]?.time)
-                    ? [styles.current, { opacity: fadeAnim }]
+                    ? [timelineStyles.current, { opacity: fadeAnim }]
                     : isPast(stop.time)
-                    ? styles.past
-                    : styles.future,
+                    ? timelineStyles.past
+                    : timelineStyles.future,
                 ]}
               />
 
               {index == roundData.length - 1 ? (
-                <Animated.View style={[styles.circleBar]} />
+                <Animated.View style={[timelineStyles.circleBar]} />
               ) : (
                 <Animated.View
                   style={[
-                    styles.circleBar,
+                    timelineStyles.circleBar,
                     isCurrent(stop.time, roundData[index + 1]?.time)
-                      ? [styles.current, { opacity: fadeAnim }]
+                      ? [timelineStyles.current, { opacity: fadeAnim }]
                       : isPast(stop.time)
-                      ? styles.past
-                      : styles.future,
+                      ? timelineStyles.past
+                      : timelineStyles.future,
                   ]}
                 />
               )}
             </View>
 
-            <View style={styles.stopInfo}>
+            <View style={timelineStyles.stopInfo}>
               <Text
                 style={[
-                  styles.stopTime,
+                  timelineStyles.stopTime,
                   isCurrent(stop.time, roundData[index + 1]?.time)
-                    ? styles.currentTime
+                    ? timelineStyles.currentTime
                     : isPast(stop.time)
-                    ? styles.pastText
-                    : styles.futureText,
+                    ? timelineStyles.pastText
+                    : timelineStyles.futureText,
                 ]}
               >
                 {stop.time}
               </Text>
-              <Text style={styles.stopName}>{stop.name}</Text>
+              <Text style={timelineStyles.stopName}>{stop.name}</Text>
             </View>
           </View>
         ))}
@@ -156,78 +155,5 @@ const Timeline = ({ roundData }) => {
     </ScrollView>
   )
 }
-
-const styles = StyleSheet.create({
-  // 컨테이너 --------------------------------------------------------------
-  scrollViewContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-
-  // stop 컨테이너 --------------------------------------------------------------
-  timelineContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  timeline: {
-    alignItems: 'center',
-    marginRight: scale(13),
-  },
-  circleBar: {
-    width: scale(3),
-    flex: 1,
-  },
-  circle: {
-    width: scale(10),
-    height: scale(12),
-    borderRadius: scale(10),
-  },
-
-  stopInfo: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  stopTime: {
-    fontSize: scale(17),
-    fontWeight: 'bold',
-    marginTop: scale(2),
-    marginBottom: scale(2),
-  },
-  stopName: {
-    fontSize: scale(13),
-    fontWeight: 'normal',
-    color: '#2c3e50',
-    marginLeft: scale(10),
-    marginBottom: scale(13),
-  },
-
-  // 색상 --------------------------------------------------------------
-  past: {
-    backgroundColor: '#B0BEC5',
-  },
-  current: {
-    backgroundColor: '#FF5757',
-  },
-  future: {
-    backgroundColor: '#38B6FF',
-  },
-  pastText: {
-    color: '#B0BEC5',
-    fontWeight: 'bold',
-  },
-  currentTime: {
-    color: '#FF5757',
-    fontWeight: 'bold',
-  },
-  futureText: {
-    color: '#38B6FF',
-    fontWeight: 'bold',
-  },
-})
 
 export default Timeline

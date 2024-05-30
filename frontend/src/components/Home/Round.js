@@ -12,9 +12,7 @@ import {
 } from 'react-native'
 import KNUBus_Timetable from '../../data/KNUBus_Timetable.json'
 import Timeline from './Timeline'
-
-const { width, height } = Dimensions.get('window')
-const scale = (size) => (width / 375) * size
+import { roundStyles } from '../../styles/HomeStyles'
 
 const Round = ({ isOperation }) => {
   // 현재 시간과 인덱스 관리 --------------------------------------------------------------
@@ -127,15 +125,18 @@ const Round = ({ isOperation }) => {
   }
   if (!isOperation) {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={toggleImage} style={styles.imageContainer}>
+      <View style={roundStyles.container}>
+        <TouchableOpacity
+          onPress={toggleImage}
+          style={roundStyles.imageContainer}
+        >
           <Image
             source={
               toggle
                 ? require('../../../assets/public/Mascot1.png')
                 : require('../../../assets/public/Mascot0.png')
             }
-            style={styles.image}
+            style={roundStyles.image}
           />
         </TouchableOpacity>
       </View>
@@ -146,51 +147,53 @@ const Round = ({ isOperation }) => {
   const { round, tables } = currentRound
 
   return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.wText}>222222</Text>
-        <Text style={styles.roundText}>{round}</Text>
-        <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
+    <View style={roundStyles.container}>
+      <View style={roundStyles.textContainer}>
+        <Text style={roundStyles.wText}>222222</Text>
+        <Text style={roundStyles.roundText}>{round}</Text>
+        <Text style={roundStyles.timeText}>
+          {currentTime.toLocaleTimeString()}
+        </Text>
       </View>
 
-      <View style={styles.stateListContainer}>
+      <View style={roundStyles.stateListContainer}>
         {selectedIndex > 0 && (
-          <Pressable onPress={goToPrevious} style={styles.button}>
-            <Text style={styles.buttonText}>이전 회차</Text>
+          <Pressable onPress={goToPrevious} style={roundStyles.button}>
+            <Text style={roundStyles.buttonText}>이전 회차</Text>
           </Pressable>
         )}
         {selectedIndex !== currentIndex && (
-          <Animated.View style={[styles.buttonTo, { opacity: fadeAnim }]}>
+          <Animated.View style={[roundStyles.buttonTo, { opacity: fadeAnim }]}>
             <Pressable onPress={goToNow}>
-              <Text style={styles.buttonText}>현재 회차로</Text>
+              <Text style={roundStyles.buttonText}>현재 회차로</Text>
             </Pressable>
           </Animated.View>
         )}
         {selectedIndex < KNUBus_Timetable.timetable.length - 1 && (
-          <Pressable onPress={goToNext} style={styles.button}>
-            <Text style={styles.buttonText}>다음 회차</Text>
+          <Pressable onPress={goToNext} style={roundStyles.button}>
+            <Text style={roundStyles.buttonText}>다음 회차</Text>
           </Pressable>
         )}
       </View>
 
-      <View style={styles.roundContainer}>
-        <View style={styles.stateListContainer}>
-          <View style={styles.stateContainer}>
-            <View style={[styles.state, { backgroundColor: '#B0BEC5' }]} />
-            <Text style={styles.stateText}>운행 종료</Text>
+      <View style={roundStyles.roundContainer}>
+        <View style={roundStyles.stateListContainer}>
+          <View style={roundStyles.stateContainer}>
+            <View style={[roundStyles.state, { backgroundColor: '#B0BEC5' }]} />
+            <Text style={roundStyles.stateText}>운행 종료</Text>
           </View>
-          <View style={styles.stateContainer}>
-            <View style={[styles.state, { backgroundColor: '#FF5757' }]} />
-            <Text style={styles.stateText}>현재 운행</Text>
+          <View style={roundStyles.stateContainer}>
+            <View style={[roundStyles.state, { backgroundColor: '#FF5757' }]} />
+            <Text style={roundStyles.stateText}>현재 운행</Text>
           </View>
-          <View style={styles.stateContainer}>
-            <View style={[styles.state, { backgroundColor: '#38B6FF' }]} />
-            <Text style={styles.stateText}>운행 예정</Text>
+          <View style={roundStyles.stateContainer}>
+            <View style={[roundStyles.state, { backgroundColor: '#38B6FF' }]} />
+            <Text style={roundStyles.stateText}>운행 예정</Text>
           </View>
         </View>
 
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>
+        <View style={roundStyles.infoContainer}>
+          <Text style={roundStyles.infoText}>
             실제 운행과 약간의 오차가 존재 할 수 있음
           </Text>
         </View>
@@ -205,122 +208,5 @@ const Round = ({ isOperation }) => {
     </View>
   )
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
-    paddingHorizontal: scale(20),
-    paddingVertical: scale(15),
-  },
-  textContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: scale(10),
-  },
-  wText: {
-    fontSize: scale(20),
-    fontWeight: '700',
-    marginRight: scale(5),
-    color: '#ffffff',
-  },
-  roundText: {
-    fontSize: scale(20),
-    fontWeight: '700',
-    marginRight: scale(5),
-    color: '#4A90E2',
-  },
-  timeText: {
-    fontSize: scale(12),
-    fontWeight: '500',
-    color: '#B0BEC5',
-    marginTop: scale(7),
-  },
-  stateListContainer: {
-    flexDirection: 'row',
-    marginBottom: scale(10),
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: '#4A90E2',
-    borderRadius: scale(20),
-    paddingVertical: scale(7),
-    paddingHorizontal: scale(15),
-    marginLeft: scale(4),
-    marginRight: scale(4),
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: scale(2) },
-    shadowOpacity: 0.1,
-    shadowRadius: scale(2),
-  },
-  buttonTo: {
-    backgroundColor: '#50E3C2',
-    borderRadius: scale(20),
-    paddingVertical: scale(7),
-    paddingHorizontal: scale(15),
-    marginLeft: scale(4),
-    marginRight: scale(4),
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: scale(2) },
-    shadowOpacity: 0.1,
-    shadowRadius: scale(2),
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: scale(12),
-    fontWeight: 'bold',
-  },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: scale(200),
-    height: scale(200),
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'contain',
-    width: '100%',
-  },
-  roundContainer: {
-    flex: 1,
-    marginTop: scale(3),
-    height: '100%',
-    width: '100%',
-  },
-  stateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: scale(5),
-    marginRight: scale(5),
-  },
-  state: {
-    width: scale(9),
-    height: scale(12),
-    borderRadius: scale(10),
-    marginHorizontal: scale(3),
-    marginTop: scale(2),
-  },
-  stateText: {
-    marginLeft: scale(2),
-    fontSize: scale(12),
-  },
-  infoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
-    padding: scale(6),
-    borderRadius: scale(5),
-    marginBottom: scale(15),
-  },
-  infoText: {
-    color: '#2c3e50',
-    fontSize: scale(12),
-  },
-})
 
 export default Round
