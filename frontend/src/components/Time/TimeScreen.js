@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native'
-import KNUBus_Timetable from '../data/KNUBus_Timetable.json'
-import { Row, RenderHead } from '../components/Render'
+import KNUBus_Timetable from '../../data/KNUBus_Timetable.json'
+import { Row, RenderHead } from './Render'
 
 const { width, height } = Dimensions.get('window')
 const scale = (size) => (width / 375) * size

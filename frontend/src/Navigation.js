@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/Ionicons'
 import ErrorBoundary from './ErrorBoundary'
-import HomeScreen from './pages/HomeScreen'
-import MapScreen from './pages/MapScreen'
-import TimeScreen from './pages/TimeScreen'
+import HomeScreen from './components/Home/HomeScreen'
+import MapScreen from './components/Map/MapScreen'
+import TimeScreen from './components/Time/TimeScreen'
 
 const Tab = createBottomTabNavigator()
 

@@ -8,11 +8,11 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
-import { dateApiKey } from '../data/apiKey'
-import { formatOperation, formatHoliday, formatDate } from '../utils/dateUtils'
-import KNUBus_Schedule from '../data/KNUBus_Schedule.json'
-import KNU_Event from '../data/KNU_Event.json'
-import Round from '../components/Round'
+import { dateApiKey } from '../../data/apiKey'
+import { formatYMD, getYearMonth, formatFullDate } from '../../utils/dateUtils'
+import KNUBus_Schedule from '../../data/KNUBus_Schedule.json'
+import KNU_Event from '../../data/KNU_Event.json'
+import Round from './Round'
 
 const { width, height } = Dimensions.get('window')
 const scale = (size) => (width / 375) * size
@@ -21,7 +21,7 @@ const HomeScreen = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   const isOperation = KNUBus_Schedule.schedule.operating.includes(
-    formatOperation(selectedDate)
+    formatYMD(selectedDate)
   )
 
   const goToPrevious = () => {
@@ -80,7 +80,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fetchHolidays = async () => {
-      const { year, month } = formatHoliday(selectedDate)
+      const { year, month } = getYearMonth(selectedDate)
       const serviceKey = dateApiKey
 
       const holidayUrl = `http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?solYear=${year}&solMonth=${month}&ServiceKey=${serviceKey}&_type=json`
@@ -167,7 +167,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={[styles.dateText, dateColor()]}>
-        {formatDate(selectedDate)}
+        {formatFullDate(selectedDate)}
       </Text>
       {dateName ? (
         <Text style={[styles.dateNameText, textColor()]}>{dateName}</Text>

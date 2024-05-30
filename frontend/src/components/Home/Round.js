@@ -10,7 +10,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
-import KNUBus_Timetable from '../data/KNUBus_Timetable.json'
+import KNUBus_Timetable from '../../data/KNUBus_Timetable.json'
 import Timeline from './Timeline'
 
 const { width, height } = Dimensions.get('window')
@@ -132,8 +132,8 @@ const Round = ({ isOperation }) => {
           <Image
             source={
               toggle
-                ? require('../../assets/public/Mascot1.png')
-                : require('../../assets/public/Mascot0.png')
+                ? require('../../../assets/public/Mascot1.png')
+                : require('../../../assets/public/Mascot0.png')
             }
             style={styles.image}
           />

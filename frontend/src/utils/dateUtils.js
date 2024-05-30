@@ -28,7 +28,7 @@ export const formatFullDate = (date) => {
 }
 
 // 목표 날짜까지 남은 일수를 계산하고 메시지 반환
-export const getDay = (targetDate) => {
+export const getdDay = (targetDate) => {
   const currentDate = new Date()
   const diff = targetDate - currentDate
   const day = Math.ceil(diff / (1000 * 60 * 60 * 24))
