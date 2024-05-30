@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { tableHeadStyles } from '../../styles/TimeStyles'
+import { tableHeadStyles } from '../../styles/busTimeStyles'
 import { scale } from '../../utils/dimensionsUtils'
 
 const TableHead = ({ schedule, widthArr }) => {

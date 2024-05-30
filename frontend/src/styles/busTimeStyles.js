@@ -1,7 +1,19 @@
 import { StyleSheet } from 'react-native'
 import { scale } from '../utils/dimensionsUtils'
 
-export const timeScreenStyles = StyleSheet.create({
+const commonTextStyles = {
+  textAlign: 'center',
+  color: '#2c3e50',
+  paddingVertical: scale(10),
+}
+
+const commonContainerStyles = {
+  borderRadius: scale(7),
+  flexDirection: 'row',
+  fontSize: scale(13),
+}
+
+export const timetableStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -28,14 +40,12 @@ export const timeScreenStyles = StyleSheet.create({
 
 export const tableHeadStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    ...commonContainerStyles,
     height: scale(50),
     backgroundColor: '#4A90E2',
-    borderRadius: scale(7),
   },
   tableText: {
-    textAlign: 'center',
-    fontSize: scale(14),
+    ...commonTextStyles,
     fontWeight: '500',
     color: '#FFFFFF',
     paddingVertical: scale(15),
@@ -44,13 +54,9 @@ export const tableHeadStyles = StyleSheet.create({
 
 export const tableRowStyles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    borderRadius: scale(7),
+    ...commonContainerStyles,
   },
   tableText: {
-    textAlign: 'center',
-    fontSize: scale(13),
-    color: '#2c3e50',
-    paddingVertical: scale(10),
+    ...commonTextStyles,
   },
 })

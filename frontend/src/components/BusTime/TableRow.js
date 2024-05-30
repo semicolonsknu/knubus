@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { tableRowStyles } from '../../styles/TimeStyles'
+import { tableRowStyles } from '../../styles/busTimeStyles'
 import { scale } from '../../utils/dimensionsUtils'
 
 const TableRow = ({ round, index, widthArr, handlePress }) => {
-  const renderCells = () => {
+  const cells = useMemo(() => {
     return [round.round, ...Object.values(round.tables)].map(
       (cell, cellIndex) => (
         <Text
@@ -18,7 +18,7 @@ const TableRow = ({ round, index, widthArr, handlePress }) => {
         </Text>
       )
     )
-  }
+  }, [round, widthArr])
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={handlePress}>
@@ -28,7 +28,7 @@ const TableRow = ({ round, index, widthArr, handlePress }) => {
           { backgroundColor: index % 2 ? '#f4f4f8' : 'white' },
         ]}
       >
-        {renderCells()}
+        {cells}
       </View>
     </TouchableOpacity>
   )
