@@ -1,34 +1,26 @@
 import React from 'react'
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
-import KNUBus_Route from '../../data/KNUBus_Route.json'
+import MapView, { Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
+import MarkerComponent from './MarkerComponent'
+import KNUBusRoute from '../../data/KNUBus_Route.json'
+import { initialRegion, polylineColors } from './MapConfig'
 
 const MapViewComponent = ({ stations, handlePress }) => (
   <MapView
-    style={{ width: '100%', height: '100%' }}
+    style={{ flex: 1 }}
     provider={PROVIDER_GOOGLE}
-    initialRegion={{
-      latitude: 37.8673971,
-      longitude: 127.7456842,
-      latitudeDelta: 0.013,
-      longitudeDelta: 0.0025,
-    }}
+    initialRegion={initialRegion}
   >
     {stations.map((loc) => (
-      <Marker
-        key={loc.name}
-        coordinate={loc.coords}
-        onPress={() => handlePress(loc)}
-        pinColor={loc.color}
-      />
+      <MarkerComponent key={loc.name} loc={loc} handlePress={handlePress} />
     ))}
     <Polyline
-      coordinates={KNUBus_Route.route.go}
-      strokeColor="#FF5757"
+      coordinates={KNUBusRoute.route.go}
+      strokeColor={polylineColors.go}
       strokeWidth={6}
     />
     <Polyline
-      coordinates={KNUBus_Route.route.come}
-      strokeColor="#38B6FF"
+      coordinates={KNUBusRoute.route.come}
+      strokeColor={polylineColors.come}
       strokeWidth={6}
     />
   </MapView>
