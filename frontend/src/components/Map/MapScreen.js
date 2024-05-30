@@ -14,7 +14,7 @@ import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import KNUBus_Route from '../../data/KNUBus_Route.json'
 import KNUBus_Station from '../../data/KNUBus_Station.json'
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 const scale = (size) => (width / 375) * size
 
 const imageMap = {
@@ -31,7 +31,7 @@ const imageMap = {
   'map/11.jpg': require('../../../assets/public/map/11.jpg'),
 }
 
-const station = KNUBus_Station.station.map((location) => ({
+const stations = KNUBus_Station.station.map((location) => ({
   ...location,
   image: imageMap[location.image],
 }))
@@ -40,13 +40,13 @@ const MapScreen = () => {
   const [selectedLocation, setSelectedLocation] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
 
-  const onButtonPress = useCallback((location) => {
+  const handlePress = useCallback((location) => {
     setSelectedLocation(location)
     setModalVisible(true)
     Vibration.vibrate(200)
   }, [])
 
-  const closeModal = useCallback(() => {
+  const handleCloseModal = useCallback(() => {
     setSelectedLocation(null)
     setModalVisible(false)
     Vibration.vibrate(50)
@@ -56,7 +56,7 @@ const MapScreen = () => {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        provider={PROVIDER_GOOGLE} // Google 지도를 사용하도록 설정
+        provider={PROVIDER_GOOGLE}
         initialRegion={{
           latitude: 37.8673971,
           longitude: 127.7456842,
@@ -64,11 +64,11 @@ const MapScreen = () => {
           longitudeDelta: 0.0025,
         }}
       >
-        {station.map((loc) => (
+        {stations.map((loc) => (
           <Marker
             key={loc.name}
             coordinate={loc.coords}
-            onPress={() => onButtonPress(loc)}
+            onPress={() => handlePress(loc)}
             pinColor={loc.color}
           />
         ))}
@@ -83,22 +83,24 @@ const MapScreen = () => {
           strokeWidth={6}
         />
       </MapView>
+
       <ScrollView
         horizontal
         style={styles.scrollView}
         showsHorizontalScrollIndicator={false}
       >
-        {station.map((loc) => (
-          <Pressable key={loc.name} onPress={() => onButtonPress(loc)}>
+        {stations.map((loc) => (
+          <Pressable key={loc.name} onPress={() => handlePress(loc)}>
             <Image source={loc.image} style={styles.scrollImage} />
           </Pressable>
         ))}
       </ScrollView>
+
       <Modal
         animationType="slide"
         transparent
         visible={modalVisible}
-        onRequestClose={closeModal}
+        onRequestClose={handleCloseModal}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -106,12 +108,13 @@ const MapScreen = () => {
               {selectedLocation?.name ?? 'Select Location'}
             </Text>
             <Image source={selectedLocation?.image} style={styles.modalImage} />
-            <Pressable style={styles.button} onPress={closeModal}>
+            <Pressable style={styles.button} onPress={handleCloseModal}>
               <Text style={styles.buttonText}>돌아가기</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
+
       <View style={styles.topContainer}>
         <Text style={styles.topText}>
           정류장을 클릭하면, 이미지가 표시됩니다.
@@ -197,8 +200,8 @@ const styles = StyleSheet.create({
   topContainer: {
     position: 'absolute',
     top: scale(40),
-    left: 40,
-    right: 40,
+    left: scale(40),
+    right: scale(40),
     borderRadius: scale(7),
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
