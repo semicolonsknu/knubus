@@ -10,22 +10,20 @@ import {
 } from 'react-native'
 import { dateApiKey } from '../data/apiKey'
 import { formatOperation, formatHoliday, formatDate } from '../utils/dateUtils'
-import operation from '../data/operation.json'
-import knuEvent from '../data/knuEvent.json'
+import KNUBus_Schedule from '../data/KNUBus_Schedule.json'
+import KNU_Event from '../data/KNU_Event.json'
 import Round from '../components/Round'
 
 const { width, height } = Dimensions.get('window')
 const scale = (size) => (width / 375) * size
 
 const HomeScreen = () => {
-  // 선택한 날짜를 관리 --------------------------------------------------------------
   const [selectedDate, setSelectedDate] = useState(new Date())
 
-  const isOperation = operation.operations.includes(
+  const isOperation = KNUBus_Schedule.schedule.operating.includes(
     formatOperation(selectedDate)
   )
 
-  // 버튼 --------------------------------------------------------------
   const goToPrevious = () => {
     Vibration.vibrate(100)
     let prevDay = new Date(selectedDate)
@@ -45,7 +43,6 @@ const HomeScreen = () => {
     setSelectedDate(new Date())
   }
 
-  // 깜빡임 효과 --------------------------------------------------------------
   const [fadeAnim] = useState(new Animated.Value(0.5))
 
   useEffect(() => {
@@ -76,7 +73,6 @@ const HomeScreen = () => {
     }
   }, [selectedDate, fadeAnim])
 
-  // 휴일 정보 --------------------------------------------------------------
   const [holidays, setHolidays] = useState([])
   const [dateName, setDateName] = useState('')
   const [isHoliday, setIsHoliday] = useState('N')
@@ -123,14 +119,19 @@ const HomeScreen = () => {
     const checkHoliday = () => {
       let newDate = new Date(selectedDate)
       newDate.setDate(newDate.getDate() + 1)
-      const formatDate = newDate.toISOString().split('T')[0].replace(/-/g, '')
+      const formattedDate = newDate
+        .toISOString()
+        .split('T')[0]
+        .replace(/-/g, '')
 
-      const holiday = holidays.find((holiday) => holiday.locdate == formatDate)
+      const holiday = holidays.find(
+        (holiday) => holiday.locdate == formattedDate
+      )
       setDateName(holiday ? holiday.dateName : '')
       setIsHoliday(holiday ? holiday.isHoliday : '')
 
-      const event = knuEvent.events.find(
-        (event) => event.date.replace(/-/g, '') === formatDate
+      const event = KNU_Event.event.find(
+        (event) => event.date && event.date.replace(/-/g, '') === formattedDate
       )
       if (event) {
         setDateName(event.name)

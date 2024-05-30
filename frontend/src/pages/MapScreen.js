@@ -11,10 +11,30 @@ import {
   StyleSheet,
 } from 'react-native'
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
-import { goPaths, comePaths, locations } from '../data/locations'
+import KNUBus_Route from '../data/KNUBus_Route.json'
+import KNUBus_Station from '../data/KNUBus_Station.json'
 
 const { width, height } = Dimensions.get('window')
 const scale = (size) => (width / 375) * size
+
+const imageMap = {
+  'map/1.jpg': require('../../assets/public/map/1.jpg'),
+  'map/2.jpg': require('../../assets/public/map/2.jpg'),
+  'map/3.jpg': require('../../assets/public/map/3.jpg'),
+  'map/4.jpg': require('../../assets/public/map/4.jpg'),
+  'map/5.jpg': require('../../assets/public/map/5.jpg'),
+  'map/6.jpg': require('../../assets/public/map/6.jpg'),
+  'map/7.jpg': require('../../assets/public/map/7.jpg'),
+  'map/8.jpg': require('../../assets/public/map/8.jpg'),
+  'map/9.jpg': require('../../assets/public/map/9.jpg'),
+  'map/10.jpg': require('../../assets/public/map/10.jpg'),
+  'map/11.jpg': require('../../assets/public/map/11.jpg'),
+}
+
+const station = KNUBus_Station.station.map((location) => ({
+  ...location,
+  image: imageMap[location.image],
+}))
 
 const MapScreen = () => {
   const [selectedLocation, setSelectedLocation] = useState(null)
@@ -44,7 +64,7 @@ const MapScreen = () => {
           longitudeDelta: 0.0025,
         }}
       >
-        {locations.map((loc) => (
+        {station.map((loc) => (
           <Marker
             key={loc.name}
             coordinate={loc.coords}
@@ -52,29 +72,23 @@ const MapScreen = () => {
             pinColor={loc.color}
           />
         ))}
-        {goPaths.map((path, index) => (
-          <Polyline
-            key={`goPath-${index}`}
-            coordinates={path}
-            strokeColor="#FF5757"
-            strokeWidth={6}
-          />
-        ))}
-        {comePaths.map((path, index) => (
-          <Polyline
-            key={`comePath-${index}`}
-            coordinates={path}
-            strokeColor="#38B6FF"
-            strokeWidth={6}
-          />
-        ))}
+        <Polyline
+          coordinates={KNUBus_Route.route.go}
+          strokeColor="#FF5757"
+          strokeWidth={6}
+        />
+        <Polyline
+          coordinates={KNUBus_Route.route.come}
+          strokeColor="#38B6FF"
+          strokeWidth={6}
+        />
       </MapView>
       <ScrollView
         horizontal
         style={styles.scrollView}
         showsHorizontalScrollIndicator={false}
       >
-        {locations.map((loc) => (
+        {station.map((loc) => (
           <Pressable key={loc.name} onPress={() => onButtonPress(loc)}>
             <Image source={loc.image} style={styles.scrollImage} />
           </Pressable>

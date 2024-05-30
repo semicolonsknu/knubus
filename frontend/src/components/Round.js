@@ -10,7 +10,7 @@ import {
   Animated,
   Dimensions,
 } from 'react-native'
-import scheduleData from '../data/schedule.json'
+import KNUBus_Timetable from '../data/KNUBus_Timetable.json'
 import Timeline from './Timeline'
 
 const { width, height } = Dimensions.get('window')
@@ -49,8 +49,8 @@ const Round = ({ isOperation }) => {
     const currentHour = currentTime.getHours()
     const currentMinute = currentTime.getMinutes()
 
-    for (let i = 0; i < scheduleData.schedule.length; i++) {
-      const { tables } = scheduleData.schedule[i]
+    for (let i = 0; i < KNUBus_Timetable.timetable.length; i++) {
+      const { tables } = KNUBus_Timetable.timetable[i]
 
       const startHour = parseInt(tables['운행예정'].split(':')[0])
       const startMinute = parseInt(tables['운행예정'].split(':')[1])
@@ -79,7 +79,7 @@ const Round = ({ isOperation }) => {
   const goToNext = () => {
     Vibration.vibrate(50)
     setSelectedIndex((prevIndex) =>
-      Math.min(scheduleData.schedule.length - 1, prevIndex + 1)
+      Math.min(KNUBus_Timetable.timetable.length - 1, prevIndex + 1)
     )
   }
 
@@ -142,7 +142,7 @@ const Round = ({ isOperation }) => {
     )
   }
 
-  const currentRound = scheduleData.schedule[selectedIndex]
+  const currentRound = KNUBus_Timetable.timetable[selectedIndex]
   const { round, tables } = currentRound
 
   return (
@@ -166,7 +166,7 @@ const Round = ({ isOperation }) => {
             </Pressable>
           </Animated.View>
         )}
-        {selectedIndex < scheduleData.schedule.length - 1 && (
+        {selectedIndex < KNUBus_Timetable.timetable.length - 1 && (
           <Pressable onPress={goToNext} style={styles.button}>
             <Text style={styles.buttonText}>다음 회차</Text>
           </Pressable>
