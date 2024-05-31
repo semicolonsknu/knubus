@@ -1,21 +1,11 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { formatFullDate } from '../../utils/dateUtils'
-import { homeScreenStyles } from '../../styles/HomeStyles'
-import Round from './Round'
-import Homeontrols from './Homeontrols'
+import { View } from 'react-native'
+import { homeScreenStyles } from '../../styles/homeScreenStyles'
 import { useDate } from '../../hooks/useDate'
-
-const DateText = ({ selectedDate, dateColor }) => (
-  <Text style={[homeScreenStyles.dateText, dateColor()]}>
-    {formatFullDate(selectedDate)}
-  </Text>
-)
-
-const DateNameText = ({ dateName, textColor }) =>
-  dateName ? (
-    <Text style={[homeScreenStyles.dateNameText, textColor()]}>{dateName}</Text>
-  ) : null
+import DateText from './DateText'
+import DateNameText from './DateNameText'
+import HomeControls from './HomeControls'
+import Round from './Round'
 
 const HomeScreen = () => {
   const {
@@ -34,7 +24,7 @@ const HomeScreen = () => {
     <View style={homeScreenStyles.container}>
       <DateText selectedDate={selectedDate} dateColor={dateColor} />
       <DateNameText dateName={dateName} textColor={textColor} />
-      <Homeontrols
+      <HomeControls
         goToPrevious={goToPrevious}
         goToNext={goToNext}
         goToNow={goToNow}

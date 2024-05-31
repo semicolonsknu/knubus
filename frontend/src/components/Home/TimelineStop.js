@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Animated } from 'react-native'
-import { timelineStyles } from '../../styles/HomeStyles'
+import { timelineStyles } from '../../styles/timelineStyles'
 import TimelineCircle from './TimelineCircle'
 
 const TimelineStop = ({

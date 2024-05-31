@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, ScrollView } from 'react-native'
-import { timelineStyles } from '../../styles/HomeStyles'
+import { timelineStyles } from '../../styles/timelineStyles'
 import { useAnimation } from '../../hooks/useAnimation'
 import { isPast, isCurrent } from '../../utils/timeUtils'
 import TimelineStop from './TimelineStop'

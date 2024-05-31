@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
-import { roundStyles } from '../../styles/HomeStyles'
+import { roundStyles } from '../../styles/roundStyles'
 
 const MascotImage = () => {
   const [toggle, setToggle] = useState(false)

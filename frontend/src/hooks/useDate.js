@@ -1,15 +1,16 @@
+// useDate.js
 import { useState, useEffect } from 'react'
-import { Vibration, Animated } from 'react-native'
+import { Vibration } from 'react-native'
 import { dateApiKey } from '../data/apiKey'
-
 import { formatYMD, getYearMonth } from '../utils/dateUtils'
 import KNUBus_Schedule from '../data/KNUBus_Schedule.json'
 import KNU_Event from '../data/KNU_Event.json'
-import { homeScreenStyles } from '../styles/HomeStyles'
+import { homeScreenStyles } from '../styles/homeScreenStyles'
+import { useAnimation } from './useAnimation'
 
 export const useDate = () => {
   const [selectedDate, setSelectedDate] = useState(new Date())
-  const [fadeAnim] = useState(new Animated.Value(0.5))
+  const fadeAnim = useAnimation(0.5, 1, 600)
   const [holidays, setHolidays] = useState([])
   const [dateName, setDateName] = useState('')
   const [isHoliday, setIsHoliday] = useState('N')
@@ -21,50 +22,26 @@ export const useDate = () => {
 
   const goToPrevious = () => {
     Vibration.vibrate(100)
-    let prevDay = new Date(selectedDate)
-    prevDay.setDate(prevDay.getDate() - 1)
-    setSelectedDate(prevDay)
+    setSelectedDate((prevDate) => {
+      const newDate = new Date(prevDate)
+      newDate.setDate(newDate.getDate() - 1)
+      return newDate
+    })
   }
 
   const goToNext = () => {
     Vibration.vibrate(100)
-    let nextDay = new Date(selectedDate)
-    nextDay.setDate(nextDay.getDate() + 1)
-    setSelectedDate(nextDay)
+    setSelectedDate((prevDate) => {
+      const newDate = new Date(prevDate)
+      newDate.setDate(newDate.getDate() + 1)
+      return newDate
+    })
   }
 
   const goToNow = () => {
     Vibration.vibrate(300)
     setSelectedDate(new Date())
   }
-
-  useEffect(() => {
-    let animation
-
-    if (new Date().toDateString() !== selectedDate.toDateString()) {
-      animation = Animated.loop(
-        Animated.sequence([
-          Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 600,
-            useNativeDriver: true,
-          }),
-          Animated.timing(fadeAnim, {
-            toValue: 0.5,
-            duration: 600,
-            useNativeDriver: true,
-          }),
-        ])
-      )
-      animation.start()
-    }
-
-    return () => {
-      if (animation) {
-        animation.stop()
-      }
-    }
-  }, [selectedDate, fadeAnim])
 
   useEffect(() => {
     const fetchHolidays = async () => {
@@ -106,7 +83,6 @@ export const useDate = () => {
   useEffect(() => {
     const checkHoliday = () => {
       let newDate = new Date(selectedDate.getTime() + 9 * 60 * 60 * 1000) // KST is UTC+9
-
       const formattedDate = newDate
         .toISOString()
         .split('T')[0]
