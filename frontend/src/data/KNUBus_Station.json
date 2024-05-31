@@ -1,0 +1,79 @@
+{
+  "station": [
+    {
+      "name": "운행시작 [미래도서관]",
+      "image": "map/1.jpg",
+      "coords": {
+        "latitude": 37.86602102736735,
+        "longitude": 127.7487168858128
+      },
+      "color": "#FF5757"
+    },
+    {
+      "name": "동생대2호관",
+      "image": "map/2.jpg",
+      "coords": { "latitude": 37.868289, "longitude": 127.749243 },
+      "color": "#FF5757"
+    },
+    {
+      "name": "경영대2호관(기숙사행)",
+      "image": "map/3.jpg",
+      "coords": { "latitude": 37.86974, "longitude": 127.746166 },
+      "color": "#FF5757"
+    },
+    {
+      "name": "미래광장(기숙사행)",
+      "image": "map/4.jpg",
+      "coords": { "latitude": 37.87061, "longitude": 127.743802 },
+      "color": "#FF5757"
+    },
+    {
+      "name": "백록관",
+      "image": "map/5.jpg",
+      "coords": { "latitude": 37.868834, "longitude": 127.741717 },
+      "color": "#FF5757"
+    },
+    {
+      "name": "회차",
+      "image": "map/6.jpg",
+      "coords": {
+        "latitude": 37.86668528877598,
+        "longitude": 127.7417594720057
+      },
+      "color": "#2c3e50"
+    },
+    {
+      "name": "함인섭광장",
+      "image": "map/7.jpg",
+      "coords": { "latitude": 37.8685755, "longitude": 127.74155 },
+      "color": "#38B6FF"
+    },
+    {
+      "name": "미래광장(미도행)",
+      "image": "map/8.jpg",
+      "coords": { "latitude": 37.8705345, "longitude": 127.7434255 },
+      "color": "#38B6FF"
+    },
+    {
+      "name": "경영대2호관(미도행)",
+      "image": "map/9.jpg",
+      "coords": { "latitude": 37.8696339, "longitude": 127.7465747 },
+      "color": "#38B6FF"
+    },
+    {
+      "name": "의생대",
+      "image": "map/10.jpg",
+      "coords": { "latitude": 37.8682864, "longitude": 127.7498744 },
+      "color": "#38B6FF"
+    },
+    {
+      "name": "운행종료",
+      "image": "map/11.jpg",
+      "coords": {
+        "latitude": 37.86607798157161,
+        "longitude": 127.7485886996954
+      },
+      "color": "#38B6FF"
+    }
+  ]
+}
